@@ -6,8 +6,7 @@ spring:
     driver-class-name: org.postgresql.Driver
 
   jpa:
-    open-in-view: false
-#    properties:
+    properties:
 #      jakarta:
 #        persistence:
 #          schema-generation:
@@ -15,8 +14,8 @@ spring:
 #            scripts:
 #              action: create
 #              create-target: src/main/resources/scripts/create.sql
-#      hibernate:
-#        default_schema: shop1
+      hibernate:
+        default_schema: dev_schema
     show-sql: true
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
