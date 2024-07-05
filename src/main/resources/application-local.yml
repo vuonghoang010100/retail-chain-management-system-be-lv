@@ -19,4 +19,4 @@ spring:
 #        default_schema: shop1
     show-sql: true
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: none

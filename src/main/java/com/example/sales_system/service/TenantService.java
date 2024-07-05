@@ -1,6 +1,5 @@
 package com.example.sales_system.service;
 
-import com.example.sales_system.configuration.multitenant.TenantIdentifierResolver;
 import com.example.sales_system.entity.Tenant;
 import com.example.sales_system.repository.TenantRepository;
 import jakarta.persistence.EntityManager;
@@ -23,11 +22,10 @@ import javax.sql.DataSource;
 @Slf4j
 public class TenantService {
     TenantRepository tenantRepository;
-    TenantIdentifierResolver tenantIdentifierResolver;
     DataSource dataSource;
     EntityManager entityManager;
 
-    public Tenant addTenantAndSchema(String tenantId) {
+    public Tenant createTenantAndSchema(String tenantId) {
         Tenant tenant = this.createTenant(tenantId);
         this.createSchemaForTenant(tenantId);
 
@@ -52,7 +50,6 @@ public class TenantService {
         // Init schema
         entityManager.createNativeQuery("CREATE SCHEMA %s".formatted(tenantId)).executeUpdate();
         // change schema
-//        tenantIdentifierResolver.setCurrentTenant(tenantId);
         entityManager.createNativeQuery("SET SCHEMA '%s'".formatted(tenantId)).executeUpdate();
 
         // Init schema tables

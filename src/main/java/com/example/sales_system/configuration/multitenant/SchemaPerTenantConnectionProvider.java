@@ -1,12 +1,10 @@
 package com.example.sales_system.configuration.multitenant;
 
 
-import lombok.AccessLevel;
+import io.micrometer.common.lang.NonNull;
 import lombok.RequiredArgsConstructor;
-import lombok.experimental.FieldDefaults;
 import org.hibernate.cfg.AvailableSettings;
 import org.hibernate.engine.jdbc.connections.spi.MultiTenantConnectionProvider;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.orm.jpa.HibernatePropertiesCustomizer;
 import org.springframework.stereotype.Component;
 
@@ -17,10 +15,10 @@ import java.util.Map;
 
 
 @Component
+@RequiredArgsConstructor
 public class SchemaPerTenantConnectionProvider implements MultiTenantConnectionProvider<String>, HibernatePropertiesCustomizer {
 
-    @Autowired
-    private DataSource dataSource;
+    private final DataSource dataSource;
 
     @Override
     public Connection getAnyConnection() throws SQLException {
@@ -41,6 +39,7 @@ public class SchemaPerTenantConnectionProvider implements MultiTenantConnectionP
 
     @Override
     public void releaseConnection(String schema, Connection connection) throws SQLException {
+        connection.setSchema(TenantIdentifierResolver.DEFAULT_TENANT);
         connection.close();
     }
 
@@ -50,12 +49,12 @@ public class SchemaPerTenantConnectionProvider implements MultiTenantConnectionP
     }
 
     @Override
-    public boolean isUnwrappableAs(Class<?> aClass) {
+    public boolean isUnwrappableAs(@NonNull Class<?> aClass) {
         return false;
     }
 
     @Override
-    public <T> T unwrap(Class<T> aClass) {
+    public <T> T unwrap(@NonNull Class<T> aClass) {
         throw new UnsupportedOperationException("Can't unwrap this.");
     }
 

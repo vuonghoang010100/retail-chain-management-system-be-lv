@@ -8,6 +8,7 @@ import com.example.sales_system.entity.Employee;
 import com.example.sales_system.entity.Tenant;
 import com.example.sales_system.service.EmployeeService;
 import com.example.sales_system.service.TenantService;
+import jakarta.persistence.EntityManager;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -15,11 +16,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
-@Controller
+@RestController
 @RequestMapping("/tenants")
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.*;
 public class TenantController {
     TenantService tenantService;
     EmployeeService employeeService;
+    EntityManager entityManager;
 
     TenantIdentifierResolver tenantIdentifierResolver;
 
@@ -34,15 +35,15 @@ public class TenantController {
     @Transactional
     @Modifying
     public ResponseEntity<TenantCreateResponse> createTenantWithAdminUser(@RequestBody TenantCreateRequest request) {
-        // create tenant
-        tenantIdentifierResolver.setCurrentTenant(TenantIdentifierResolver.DEFAULT_TENANT);
-
+//        tenantIdentifierResolver.setCurrentTenant(TenantIdentifierResolver.DEFAULT_TENANT);
+        entityManager
+                .createNativeQuery("SET SCHEMA '%s'".formatted(TenantIdentifierResolver.DEFAULT_TENANT))
+                .executeUpdate();
 
         Tenant tenant;
         try {
-            tenant = tenantService.addTenantAndSchema(request.getTenantId());
-        }
-        catch (RuntimeException ignored) {
+            tenant = tenantService.createTenantAndSchema(request.getTenantId());
+        } catch (RuntimeException ignored) {
             log.error(ignored.getMessage());
             return ResponseEntity.badRequest().build();
         }
@@ -56,13 +57,6 @@ public class TenantController {
                         .username(employee.getUsername())
                         .build()
         );
-    }
-
-    @GetMapping("/{tenantId}")
-    @ResponseStatus(HttpStatus.OK)
-    public void test(@PathVariable String tenantId) {
-        tenantIdentifierResolver.setCurrentTenant(tenantId);
-        tenantService.createTenant(tenantId);
     }
 
 }

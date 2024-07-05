@@ -1,6 +1,7 @@
 package com.example.sales_system.service;
 
 
+import com.example.sales_system.dto.request.EmployeeCreateRequest;
 import com.example.sales_system.entity.Employee;
 import com.example.sales_system.repository.EmployeeRepository;
 import lombok.AccessLevel;
@@ -9,12 +10,18 @@ import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @Slf4j
 public class EmployeeService {
     EmployeeRepository employeeRepository;
+
+    public List<Employee> getAllEmployees() {
+        return employeeRepository.findAll();
+    }
 
     public Employee createAdminEmployee(String username, String password) {
         Employee employee = Employee.builder()
@@ -24,4 +31,11 @@ public class EmployeeService {
         return employeeRepository.save(employee);
     }
 
+    public Employee createEmployee(EmployeeCreateRequest request) {
+        Employee employee = Employee.builder()
+                .username(request.getUsername())
+                .password(request.getPassword())
+                .build();
+        return employeeRepository.save(employee);
+    }
 }
