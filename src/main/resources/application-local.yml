@@ -1,0 +1,23 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://192.168.216.191:5432/salesystem
+    username: postgres
+    password: 1234
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    properties:
+      javax:
+        persistence:
+          schema-generation:
+            create-source: metadata
+            scripts:
+              action: create
+              create-target: src/main/resources/scripts/create.sql
+      hibernate:
+        hbm2ddl:
+          auto: update
+        default_schema: test
+    show-sql: true
+
+

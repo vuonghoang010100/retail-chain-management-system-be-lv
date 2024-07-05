@@ -32,3 +32,9 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Enviroment files ###
+.env
+
+### INIT SQL  test ###
+src/main/resources/scripts/create.sql
