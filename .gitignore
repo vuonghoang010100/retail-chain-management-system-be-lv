@@ -40,4 +40,4 @@ build/
 src/main/resources/scripts/create.sql
 
 ### Dev changes frequently ###
-src/main/resources/application-local.yml
+/src/main/resources/application-local.yml
