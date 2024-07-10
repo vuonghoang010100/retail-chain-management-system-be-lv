@@ -1,7 +1,7 @@
-package com.example.sales_system.repository;
+package com.example.sales_system.repository.master;
 
 
-import com.example.sales_system.entity.Tenant;
+import com.example.sales_system.entity.master.Tenant;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 

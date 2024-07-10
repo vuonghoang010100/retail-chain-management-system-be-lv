@@ -1,28 +1,28 @@
-package com.example.sales_system.configuration.multitenant;
-
+package com.example.sales_system.configuration;
 
 import io.micrometer.common.lang.NonNull;
-import lombok.RequiredArgsConstructor;
-import org.hibernate.cfg.AvailableSettings;
+import lombok.extern.slf4j.Slf4j;
 import org.hibernate.engine.jdbc.connections.spi.MultiTenantConnectionProvider;
-import org.springframework.boot.autoconfigure.orm.jpa.HibernatePropertiesCustomizer;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.Map;
 
-
+@Slf4j
 @Component
-@RequiredArgsConstructor
-public class SchemaPerTenantConnectionProvider implements MultiTenantConnectionProvider<String>, HibernatePropertiesCustomizer {
+public class MultiTenantConnectionProviderImpl implements MultiTenantConnectionProvider<String> {
 
-    private final DataSource dataSource;
+    private final DataSource tenantDataSource;
+
+    public MultiTenantConnectionProviderImpl(@Qualifier("tenantDataSource") DataSource tenantDataSource) {
+        this.tenantDataSource = tenantDataSource;
+    }
 
     @Override
     public Connection getAnyConnection() throws SQLException {
-        return getConnection(TenantIdentifierResolver.DEFAULT_TENANT);
+        return getConnection(CurrentTenantIdentifierResolverImpl.DEFAULT_TENANT_ID);
     }
 
     @Override
@@ -32,14 +32,14 @@ public class SchemaPerTenantConnectionProvider implements MultiTenantConnectionP
 
     @Override
     public Connection getConnection(String schema) throws SQLException {
-        final Connection connection = dataSource.getConnection();
+        log.debug("Getting connection for schema {}", schema);
+        final Connection connection = tenantDataSource.getConnection();
         connection.setSchema(schema);
         return connection;
     }
 
     @Override
     public void releaseConnection(String schema, Connection connection) throws SQLException {
-        connection.setSchema(TenantIdentifierResolver.DEFAULT_TENANT);
         connection.close();
     }
 
@@ -56,10 +56,5 @@ public class SchemaPerTenantConnectionProvider implements MultiTenantConnectionP
     @Override
     public <T> T unwrap(@NonNull Class<T> aClass) {
         throw new UnsupportedOperationException("Can't unwrap this.");
-    }
-
-    @Override
-    public void customize(Map<String, Object> hibernateProperties) {
-        hibernateProperties.put(AvailableSettings.MULTI_TENANT_CONNECTION_PROVIDER, this);
     }
 }

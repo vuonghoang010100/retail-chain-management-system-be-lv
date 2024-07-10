@@ -1,23 +1,25 @@
 package com.example.sales_system.controller;
 
 
-import com.example.sales_system.configuration.multitenant.TenantIdentifierResolver;
 import com.example.sales_system.dto.request.TenantCreateRequest;
 import com.example.sales_system.dto.response.TenantCreateResponse;
-import com.example.sales_system.entity.Employee;
-import com.example.sales_system.entity.Tenant;
+import com.example.sales_system.entity.master.Tenant;
+import com.example.sales_system.entity.tenant.Employee;
 import com.example.sales_system.service.EmployeeService;
 import com.example.sales_system.service.TenantService;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/tenants")
@@ -27,9 +29,9 @@ import org.springframework.web.bind.annotation.*;
 public class TenantController {
     TenantService tenantService;
     EmployeeService employeeService;
-    EntityManager entityManager;
 
-    TenantIdentifierResolver tenantIdentifierResolver;
+    @PersistenceContext(unitName = "tenant")
+    EntityManager entityManager;
 
     @PostMapping("/regis")
     @Transactional
@@ -37,7 +39,7 @@ public class TenantController {
     public ResponseEntity<TenantCreateResponse> createTenantWithAdminUser(@RequestBody TenantCreateRequest request) {
 //        tenantIdentifierResolver.setCurrentTenant(TenantIdentifierResolver.DEFAULT_TENANT);
         entityManager
-                .createNativeQuery("SET SCHEMA '%s'".formatted(TenantIdentifierResolver.DEFAULT_TENANT))
+                .createNativeQuery("SET SCHEMA '%s'".formatted("master"))
                 .executeUpdate();
 
         Tenant tenant;

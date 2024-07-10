@@ -1,5 +1,4 @@
-package com.example.sales_system.entity;
-
+package com.example.sales_system.entity.tenant;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -12,13 +11,14 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Tenant {
+public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
     @Column(nullable = false, unique = true)
-    String tenantId;
+    String username;
 
-    boolean initState;
+    @Column(nullable = false)
+    String password;
 }
