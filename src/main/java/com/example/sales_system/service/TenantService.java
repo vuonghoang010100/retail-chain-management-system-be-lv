@@ -1,7 +1,7 @@
 package com.example.sales_system.service;
 
-import com.example.sales_system.entity.Tenant;
-import com.example.sales_system.repository.TenantRepository;
+import com.example.sales_system.entity.master.Tenant;
+import com.example.sales_system.repository.master.TenantRepository;
 import jakarta.persistence.EntityManager;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;

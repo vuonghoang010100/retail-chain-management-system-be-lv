@@ -2,8 +2,8 @@ package com.example.sales_system.service;
 
 
 import com.example.sales_system.dto.request.EmployeeCreateRequest;
-import com.example.sales_system.entity.Employee;
-import com.example.sales_system.repository.EmployeeRepository;
+import com.example.sales_system.entity.tenant.Employee;
+import com.example.sales_system.repository.tenant.EmployeeRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;

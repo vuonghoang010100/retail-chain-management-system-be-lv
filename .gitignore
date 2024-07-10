@@ -41,3 +41,6 @@ src/main/resources/scripts/create.sql
 
 ### Dev changes frequently ###
 /src/main/resources/application-local.yml
+
+### error file ###
+error.txt
