@@ -9,7 +9,6 @@ import org.springframework.util.StringUtils;
 @Component
 public class CurrentTenantIdentifierResolverImpl implements CurrentTenantIdentifierResolver<String> {
 
-    // TODO: refator this const to another class
     public static final String DEFAULT_TENANT_ID = "test";
 
     @Override

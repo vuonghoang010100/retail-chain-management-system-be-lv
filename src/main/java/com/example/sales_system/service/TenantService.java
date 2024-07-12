@@ -3,6 +3,7 @@ package com.example.sales_system.service;
 import com.example.sales_system.entity.master.Tenant;
 import com.example.sales_system.repository.master.TenantRepository;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -13,6 +14,7 @@ import org.springframework.jdbc.datasource.init.DatabasePopulator;
 import org.springframework.jdbc.datasource.init.DatabasePopulatorUtils;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.sql.DataSource;
 
@@ -23,12 +25,12 @@ import javax.sql.DataSource;
 public class TenantService {
     TenantRepository tenantRepository;
     DataSource dataSource;
+    @PersistenceContext(unitName = "tenant")
     EntityManager entityManager;
 
     public Tenant createTenantAndSchema(String tenantId) {
         Tenant tenant = this.createTenant(tenantId);
         this.createSchemaForTenant(tenantId);
-
         return tenant;
     }
 
@@ -45,8 +47,7 @@ public class TenantService {
         return tenantRepository.save(tenant);
     }
 
-    protected void createSchemaForTenant(String tenantId) {
-        // TODO: change to JPQL
+    public void createSchemaForTenant(String tenantId) {
         // Init schema
         entityManager.createNativeQuery("CREATE SCHEMA %s".formatted(tenantId)).executeUpdate();
         // change schema
@@ -56,6 +57,11 @@ public class TenantService {
         Resource initSchemaScript = new ClassPathResource("scripts/schema.sql");
         DatabasePopulator databasePopulator = new ResourceDatabasePopulator(initSchemaScript);
         DatabasePopulatorUtils.execute(databasePopulator, dataSource);
+    }
+
+    @Transactional(transactionManager = "tenantTransactionManager")
+    public int createSchema(String tenantId) {
+        return entityManager.createNativeQuery("CREATE SCHEMA %s".formatted(tenantId)).executeUpdate();
     }
 
 }

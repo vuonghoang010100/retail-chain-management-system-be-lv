@@ -7,19 +7,22 @@ import com.example.sales_system.entity.master.Tenant;
 import com.example.sales_system.entity.tenant.Employee;
 import com.example.sales_system.service.EmployeeService;
 import com.example.sales_system.service.TenantService;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.http.ResponseEntity;
+import org.springframework.jdbc.datasource.init.DatabasePopulator;
+import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.sql.DataSource;
+import java.sql.Connection;
+import java.sql.SQLException;
 
 @RestController
 @RequestMapping("/tenants")
@@ -29,20 +32,47 @@ import org.springframework.web.bind.annotation.RestController;
 public class TenantController {
     TenantService tenantService;
     EmployeeService employeeService;
+    DataSource tenantDataSource;
 
-    @PersistenceContext(unitName = "tenant")
-    EntityManager entityManager;
+
+    @GetMapping("/create")
+//    @Transactional(transactionManager = "tenantTransactionManager")
+//    @Modifying
+    public ResponseEntity<Boolean> createTenant(@RequestParam String tenantId) {
+//        TenantContext.setTenantId(tenantId);
+
+        // TODO: move to DatabaseService
+        tenantService.createSchema(tenantId);
+
+        Resource initSchemaScript = new ClassPathResource("scripts/schema.sql");
+        DatabasePopulator databasePopulator = new ResourceDatabasePopulator(initSchemaScript);
+        try {
+            Connection connection = tenantDataSource.getConnection();
+            connection.setSchema(tenantId);
+            databasePopulator.populate(connection);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        // DatabasePopulatorUtils.execute(databasePopulator, dataSource);
+
+        // PSQLException: ERROR: schema "ttest1" already exists
+        // PSQLException: ERROR: relation "employee" already exists
+        // PSQLException: ERROR: no schema has been selected to create in
+
+        // TransactionRequiredException: Executing an update/delete query
+
+        return ResponseEntity.ok(true);
+    }
+
 
     @PostMapping("/regis")
     @Transactional
     @Modifying
     public ResponseEntity<TenantCreateResponse> createTenantWithAdminUser(@RequestBody TenantCreateRequest request) {
-//        tenantIdentifierResolver.setCurrentTenant(TenantIdentifierResolver.DEFAULT_TENANT);
-        entityManager
-                .createNativeQuery("SET SCHEMA '%s'".formatted("master"))
-                .executeUpdate();
 
         Tenant tenant;
+
         try {
             tenant = tenantService.createTenantAndSchema(request.getTenantId());
         } catch (RuntimeException ignored) {
@@ -60,5 +90,6 @@ public class TenantController {
                         .build()
         );
     }
+
 
 }
