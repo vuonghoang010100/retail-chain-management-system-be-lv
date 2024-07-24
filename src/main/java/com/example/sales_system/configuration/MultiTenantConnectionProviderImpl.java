@@ -32,7 +32,7 @@ public class MultiTenantConnectionProviderImpl implements MultiTenantConnectionP
 
     @Override
     public Connection getConnection(String schema) throws SQLException {
-        log.info("Getting connection for schema {}", schema);
+        log.debug("Getting connection for schema: '{}'", schema);
         final Connection connection = tenantDataSource.getConnection();
         connection.setSchema(schema);
         return connection;
@@ -40,7 +40,7 @@ public class MultiTenantConnectionProviderImpl implements MultiTenantConnectionP
 
     @Override
     public void releaseConnection(String schema, Connection connection) throws SQLException {
-        log.info("Release connection for schema {}", schema);
+        log.debug("Release connection for schema '{}'", schema);
         connection.close();
     }
 

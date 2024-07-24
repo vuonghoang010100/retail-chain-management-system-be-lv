@@ -70,7 +70,6 @@ public class TenantController {
     @Transactional
     @Modifying
     public ResponseEntity<TenantCreateResponse> createTenantWithAdminUser(@RequestBody TenantCreateRequest request) {
-
         Tenant tenant;
 
         try {
