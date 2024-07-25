@@ -34,8 +34,8 @@ public class Tenant extends AbstractTimestampEntity {
     String BusinessLicenseUrl;
 
     @Column(name = "init_status")
-    boolean initStatus;
-    boolean active;
+    Boolean initStatus;
+    Boolean active;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(

@@ -25,7 +25,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 @RestController
-@RequestMapping("/tenants")
+@RequestMapping("/tenants1")
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @Slf4j
