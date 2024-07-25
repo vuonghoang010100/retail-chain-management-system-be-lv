@@ -1,6 +1,5 @@
 package com.example.sales_system.dto.request;
 
-
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -9,8 +8,7 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class TenantCreateRequest {
-    String tenantId;
+public class EmployeeCreateRequest1 {
     String username;
     String password;
 }

@@ -18,10 +18,9 @@ import java.util.Set;
 public class User extends AbstractTimestampEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(nullable = false)
     Long id;
 
-    @Column(name = "full_name")
+    @Column(name = "full_name", nullable = false)
     String fullName;
     LocalDate dob;
     String gender;
@@ -42,6 +41,6 @@ public class User extends AbstractTimestampEntity {
     Set<Role> roles;
 
     @OneToOne(mappedBy = "user")
-    private Tenant tenant;
+    Tenant tenant;
 
 }

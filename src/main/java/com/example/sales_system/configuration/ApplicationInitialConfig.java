@@ -40,8 +40,8 @@ public class ApplicationInitialConfig {
     ApplicationRunner applicationRunner() {
         return args -> {
             // Init Master Database
-            //// Create default roles
             if (!masterRoleRepository.existsById(AppRole.SYSTEM_ADMIN.name())) {
+                // create roles
                 Role master_admin = new Role(
                         AppRole.SYSTEM_ADMIN.name(),
                         "Master admin role");
@@ -50,45 +50,45 @@ public class ApplicationInitialConfig {
                         "Tenant admin role");
                 masterRoleRepository.save(master_admin);
                 masterRoleRepository.save(tenant_admin);
+
+                // Create system admin
+                if (!userRepository.existsByEmail(adminEmail)) {
+                    Set<Role> adminRoles = new HashSet<>();
+                    adminRoles.add(master_admin);
+                    User user = User.builder()
+                            .fullName("admin")
+                            .email(adminEmail)
+                            .password(adminPassword)
+                            .roles(adminRoles)
+                            .build();
+                    userRepository.save(user);
+                }
+
+                // Create default tenant
+                final String DEFAULT_TENANT = CurrentTenantIdentifierResolverImpl.DEFAULT_TENANT_ID;
+                if (!tenantRepository.existsByName(DEFAULT_TENANT)) {
+                    Set<Role> userRoles = new HashSet<>();
+                    userRoles.add(tenant_admin);
+
+                    User user = User.builder()
+                            .fullName("test")
+                            .email("test@test.com")
+                            .password("test")
+                            .roles(userRoles)
+                            .build();
+                    userRepository.save(user);
+
+                    Tenant tenant = Tenant.builder().name(DEFAULT_TENANT)
+                            .initStatus(false)
+                            .active(true)
+                            .user(user)
+                            .build();
+                    tenantRepository.save(tenant);
+                }
             }
-            //// Create system admin
-            if (!userRepository.existsByEmail(adminEmail)) {
-                Role role = masterRoleRepository.findById(AppRole.SYSTEM_ADMIN.name()).get();
-                Set<Role> adminRoles = new HashSet<Role>();
-                adminRoles.add(role);
-                User user = User.builder()
-                        .fullName("admin")
-                        .email(adminEmail)
-                        .password(adminPassword)
-                        .roles(adminRoles)
-                        .build();
-                userRepository.save(user);
-            }
 
-            //// Create default tenant
-            final String DEFAULT_TENANT = CurrentTenantIdentifierResolverImpl.DEFAULT_TENANT_ID;
-            if (!tenantRepository.existsByName(DEFAULT_TENANT)) {
-                Role role = masterRoleRepository.findById(AppRole.TENANT_ADMIN.name()).get();
-                Set<Role> userRoles = new HashSet<Role>();
-                userRoles.add(role);
+            // Init Default Tenant Database
 
-                User user = User.builder()
-                        .fullName("test")
-                        .email("test@test.com")
-                        .password("test")
-                        .roles(userRoles)
-                        .build();
-                userRepository.save(user);
-
-                Tenant tenant = Tenant.builder().name(DEFAULT_TENANT)
-                        .initStatus(false)
-                        .active(true)
-                        .user(user)
-                        .build();
-                tenantRepository.save(tenant);
-            }
-
-            // Init Tenant Database
 
             // More actions ...
 

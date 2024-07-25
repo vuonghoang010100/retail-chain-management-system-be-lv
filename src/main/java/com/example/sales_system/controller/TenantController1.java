@@ -1,12 +1,12 @@
 package com.example.sales_system.controller;
 
 
-import com.example.sales_system.dto.request.TenantCreateRequest;
-import com.example.sales_system.dto.response.TenantCreateResponse;
+import com.example.sales_system.dto.request.TenantCreateRequest1;
+import com.example.sales_system.dto.response.TenantCreateResponse1;
 import com.example.sales_system.entity.master.Tenant;
 import com.example.sales_system.entity.tenant.Employee;
-import com.example.sales_system.service.EmployeeService;
-import com.example.sales_system.service.TenantService;
+import com.example.sales_system.service.EmployeeService1;
+import com.example.sales_system.service.TenantService1;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -29,9 +29,9 @@ import java.sql.SQLException;
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @Slf4j
-public class TenantController {
-    TenantService tenantService;
-    EmployeeService employeeService;
+public class TenantController1 {
+    TenantService1 tenantService;
+    EmployeeService1 employeeService;
     DataSource tenantDataSource;
 
 
@@ -69,7 +69,7 @@ public class TenantController {
     @PostMapping("/regis")
     @Transactional
     @Modifying
-    public ResponseEntity<TenantCreateResponse> createTenantWithAdminUser(@RequestBody TenantCreateRequest request) {
+    public ResponseEntity<TenantCreateResponse1> createTenantWithAdminUser(@RequestBody TenantCreateRequest1 request) {
         Tenant tenant;
 
         try {
@@ -83,9 +83,9 @@ public class TenantController {
         Employee employee = employeeService.createAdminEmployee(request.getUsername(), request.getPassword());
 
         return ResponseEntity.ok().body(
-                TenantCreateResponse.builder()
+                TenantCreateResponse1.builder()
                         .tenantId(tenant.getName())
-                        .username(employee.getUsername())
+                        .username(employee.getEmail())
                         .build()
         );
     }

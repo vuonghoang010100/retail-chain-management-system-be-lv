@@ -1,7 +1,7 @@
 package com.example.sales_system.service;
 
 
-import com.example.sales_system.dto.request.EmployeeCreateRequest;
+import com.example.sales_system.dto.request.EmployeeCreateRequest1;
 import com.example.sales_system.entity.tenant.Employee;
 import com.example.sales_system.repository.tenant.EmployeeRepository;
 import lombok.AccessLevel;
@@ -16,7 +16,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @Slf4j
-public class EmployeeService {
+public class EmployeeService1 {
     EmployeeRepository employeeRepository;
 
     public List<Employee> getAllEmployees() {
@@ -25,15 +25,15 @@ public class EmployeeService {
 
     public Employee createAdminEmployee(String username, String password) {
         Employee employee = Employee.builder()
-                .username(username)
+                .email(username)
                 .password(password)
                 .build();
         return employeeRepository.save(employee);
     }
 
-    public Employee createEmployee(EmployeeCreateRequest request) {
+    public Employee createEmployee(EmployeeCreateRequest1 request) {
         Employee employee = Employee.builder()
-                .username(request.getUsername())
+                .email(request.getUsername())
                 .password(request.getPassword())
                 .build();
         return employeeRepository.save(employee);

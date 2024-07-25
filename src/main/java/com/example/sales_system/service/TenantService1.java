@@ -22,7 +22,7 @@ import javax.sql.DataSource;
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @Slf4j
-public class TenantService {
+public class TenantService1 {
     TenantRepository tenantRepository;
     @PersistenceContext(unitName = "tenant")
     EntityManager entityManager;
