@@ -1,7 +1,6 @@
 package com.example.sales_system.dto.response;
 
 
-import com.example.sales_system.exception.AppStatusCode;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 import lombok.experimental.FieldDefaults;

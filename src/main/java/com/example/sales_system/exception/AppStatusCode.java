@@ -8,7 +8,7 @@ import org.springframework.http.HttpStatusCode;
 @Getter
 public enum AppStatusCode {
     // Success status
-    OK(0, "", HttpStatus.OK),
+    OK(0, null, HttpStatus.OK),
 
     // Uncatch status
     UNCATEGORIZED_ERROR(-100, "Uncategorized error", HttpStatus.INTERNAL_SERVER_ERROR),

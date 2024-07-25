@@ -84,7 +84,7 @@ public class TenantController {
 
         return ResponseEntity.ok().body(
                 TenantCreateResponse.builder()
-                        .tenantId(tenant.getTenantId())
+                        .tenantId(tenant.getName())
                         .username(employee.getUsername())
                         .build()
         );

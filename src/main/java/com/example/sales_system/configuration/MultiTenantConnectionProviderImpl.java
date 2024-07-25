@@ -34,7 +34,7 @@ public class MultiTenantConnectionProviderImpl implements MultiTenantConnectionP
     public Connection getConnection(String schema) throws SQLException {
         log.debug("Getting connection for schema: '{}'", schema);
         final Connection connection = tenantDataSource.getConnection();
-        connection.setSchema(schema);
+        connection.setSchema("t_" + schema);
         return connection;
     }
 

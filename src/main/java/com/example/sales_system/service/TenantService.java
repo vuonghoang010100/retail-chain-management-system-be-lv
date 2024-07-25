@@ -24,9 +24,9 @@ import javax.sql.DataSource;
 @Slf4j
 public class TenantService {
     TenantRepository tenantRepository;
-    DataSource dataSource;
     @PersistenceContext(unitName = "tenant")
     EntityManager entityManager;
+    DataSource dataSource;
 
     public Tenant createTenantAndSchema(String tenantId) {
         Tenant tenant = this.createTenant(tenantId);
@@ -35,13 +35,13 @@ public class TenantService {
     }
 
     public Tenant createTenant(String tenantId) {
-        if (tenantRepository.existsByTenantId(tenantId))
-            // TODO: New exception class - enums
-            throw new RuntimeException("TENANT_EXISTED");
+//        if (tenantRepository.existsByName(tenantId))
+//            // TODO: New exception class - enums
+//            throw new RuntimeException("TENANT_EXISTED");
 
         Tenant tenant = Tenant.builder()
-                .tenantId(tenantId)
-                .initState(false)
+                .name(tenantId)
+                .initStatus(false)
                 .build();
 
         return tenantRepository.save(tenant);
@@ -49,9 +49,9 @@ public class TenantService {
 
     public void createSchemaForTenant(String tenantId) {
         // Init schema
-        entityManager.createNativeQuery("CREATE SCHEMA %s".formatted(tenantId)).executeUpdate();
+        entityManager.createNativeQuery("CREATE SCHEMA t_%s".formatted(tenantId)).executeUpdate();
         // change schema
-        entityManager.createNativeQuery("SET SCHEMA '%s'".formatted(tenantId)).executeUpdate();
+        entityManager.createNativeQuery("SET SCHEMA 't_%s'".formatted(tenantId)).executeUpdate();
 
         // Init schema tables
         Resource initSchemaScript = new ClassPathResource("scripts/schema.sql");
@@ -61,7 +61,7 @@ public class TenantService {
 
     @Transactional(transactionManager = "tenantTransactionManager")
     public int createSchema(String tenantId) {
-        return entityManager.createNativeQuery("CREATE SCHEMA %s".formatted(tenantId)).executeUpdate();
+        return entityManager.createNativeQuery("CREATE SCHEMA t_%s".formatted(tenantId)).executeUpdate();
     }
 
 }
