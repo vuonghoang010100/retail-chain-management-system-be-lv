@@ -10,32 +10,48 @@ public enum AppStatusCode {
     // Success status
     OK(0, null, HttpStatus.OK),
 
-    // Uncatch status
-    UNCATEGORIZED_ERROR(-100, "Uncategorized error", HttpStatus.INTERNAL_SERVER_ERROR),
-    // TODO invalid key
+    // Error
+    // General server error
+    UNCATEGORIZED_ERROR(-1, "Uncategorized error", HttpStatus.INTERNAL_SERVER_ERROR),
+    INVALID_KEY(-2, "Invalid argument", HttpStatus.INTERNAL_SERVER_ERROR),
 
-    // Error status:
-    // 1. Authenticated + Authorized error
-    UNAUTHENTICATED(-200, "Unauthenticated", HttpStatus.UNAUTHORIZED),
-    UNAUTHORIZED(-201, "Unauthorized", HttpStatus.UNAUTHORIZED),
-    FORBIDDEN(-202, "Forbidden", HttpStatus.FORBIDDEN),
-    // 2. Multitenant API error
+    // Authenticated + Authorized error
+    UNAUTHENTICATED(-100, "Unauthenticated", HttpStatus.UNAUTHORIZED),
+    UNAUTHORIZED(-101, "Unauthorized", HttpStatus.UNAUTHORIZED),
+    FORBIDDEN(-102, "Forbidden", HttpStatus.FORBIDDEN),
 
-    // 3. Master Managerment API error
+    // Argument contraits
+    INVALID_ARGUMENT(-201, "Invalid argument", HttpStatus.BAD_REQUEST),
+    INVALID_DATE(-202, "Invalid date", HttpStatus.BAD_REQUEST),
+    INVALID_TIME(-203, "Invalid time", HttpStatus.BAD_REQUEST),
+    INVALID_EMAIL(-204, "Invalid email", HttpStatus.BAD_REQUEST),
 
-    // 4. Products API error
+    // Unique Contraits
+    EMAIL_ALREADY_EXISTED(-300, "Email already existed", HttpStatus.BAD_REQUEST),
+    PHONE_ALREADY_EXISTED(-301, "Phone already existed", HttpStatus.BAD_REQUEST),
 
-    // 5. Categories API error
+    // Validate contraits
+    FULLNAME_IS_REQUIRED(-400, "Fullname is required", HttpStatus.BAD_REQUEST),
+    EMAIL_IS_REQUIRED(-401, "Email is required", HttpStatus.BAD_REQUEST),
+    PHONE_IS_REQUIRED(-402, "Phone is required", HttpStatus.BAD_REQUEST),
+    PASSWORD_IS_REQUIRED(-403, "Password is required", HttpStatus.BAD_REQUEST),
 
-    // 6. Orders API error
+    // Multitenant API error
 
-    // 7. Invoices API error
+    // Master Managerment API error
 
-    // 8. x API error
+    // Empoloyees API error
+    EMPLOYEE_NOT_FOUND(-500, "Employee not found", HttpStatus.NOT_FOUND),
 
-    // 9. x API error
 
-    // 10. x API error
+    // Roles API error
+    ROLE_NOT_FOUND(-600, "Role not found", HttpStatus.NOT_FOUND),
+
+    // Permissions API error
+
+    // Invoices API error
+
+    // x API error
 
 
     ;
@@ -47,9 +63,5 @@ public enum AppStatusCode {
         this.code = code;
         this.message = message;
         this.httpStatusCode = httpStatusCode;
-    }
-
-    AppStatusCode(int code, String message) {
-        this(code, message, HttpStatus.BAD_REQUEST);
     }
 }

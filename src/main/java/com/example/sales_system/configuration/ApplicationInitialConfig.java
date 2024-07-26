@@ -47,8 +47,7 @@ public class ApplicationInitialConfig {
             UserRepository userRepository,
             EmployeeRepository employeeRepository,
             RoleRepository roleRepository,
-            PermissionRepository permissionRepository)
-    {
+            PermissionRepository permissionRepository) {
         this.tenantRepository = tenantRepository;
         this.masterRoleRepository = masterRoleRepository;
         this.userRepository = userRepository;
@@ -112,9 +111,7 @@ public class ApplicationInitialConfig {
             // Init Default Tenant Database
             if (!employeeRepository.existsByEmail("test@test.com")) {
                 // Create default permissions
-                Arrays.stream(TenantPermission.values()).forEach(permission -> {
-                    permissionRepository.save(new Permission(permission.getName(), permission.getDescription()));
-                });
+                Arrays.stream(TenantPermission.values()).forEach(permission -> permissionRepository.save(new Permission(permission.getName(), permission.getDescription())));
                 // Create tenant admin role
                 var role = roleRepository.save(com.example.sales_system.entity.tenant.Role.builder()
                         .name(AppRole.TENANT_ADMIN.name())

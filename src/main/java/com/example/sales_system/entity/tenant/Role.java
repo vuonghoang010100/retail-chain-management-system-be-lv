@@ -8,6 +8,9 @@ import lombok.experimental.FieldDefaults;
 import java.util.Set;
 
 @Entity
+@Table(name = "role", uniqueConstraints = {
+        @UniqueConstraint(name = "uc_role_name", columnNames = {"name"})
+})
 @Getter
 @Setter
 @Builder

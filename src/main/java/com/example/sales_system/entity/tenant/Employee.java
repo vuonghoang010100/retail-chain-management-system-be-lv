@@ -9,6 +9,7 @@ import java.time.LocalDate;
 import java.util.Set;
 
 @Entity
+@Table(name = "employee")
 @Getter
 @Setter
 @Builder
@@ -22,8 +23,10 @@ public class Employee extends AbstractTimestampEntity {
 
     @Column(name = "full_name", nullable = false)
     String fullName;
+
+    @Temporal(TemporalType.DATE)
     LocalDate dob;
-    String gender;
+    String gender; // enums
 
     @Column(unique = true, nullable = false)
     String email;
@@ -42,8 +45,10 @@ public class Employee extends AbstractTimestampEntity {
     @ManyToMany
     @JoinTable(name = "employee_roles",
             joinColumns = @JoinColumn(name = "employee_id"),
-            inverseJoinColumns = @JoinColumn(name = "roles_id"))
+            inverseJoinColumns = @JoinColumn(name = "roles_id"),
+            foreignKey = @ForeignKey(name = "fk_employee_roles_on_employee"),
+            inverseForeignKey = @ForeignKey(name = "fk_employee_roles_on_role")
+    )
     private Set<Role> roles;
-
     // store
 }
