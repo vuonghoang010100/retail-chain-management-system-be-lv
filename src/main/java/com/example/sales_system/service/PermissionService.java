@@ -2,6 +2,7 @@ package com.example.sales_system.service;
 
 import com.example.sales_system.dto.response.PermissionResponse;
 import com.example.sales_system.entity.tenant.Permission;
+import com.example.sales_system.enums.TenantPermission;
 import com.example.sales_system.mapper.PermissionMapper;
 import com.example.sales_system.repository.tenant.PermissionRepository;
 import lombok.AccessLevel;
@@ -10,6 +11,7 @@ import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -30,5 +32,12 @@ public class PermissionService {
                 .stream()
                 .map(permissionMapper::toPermissionResponse)
                 .toList();
+    }
+
+    public void generatePermission() {
+        Arrays.stream(TenantPermission.values())
+                .forEach(permission ->
+                        permissionRepository.save(new Permission(permission.getName(), permission.getDescription()))
+                );
     }
 }

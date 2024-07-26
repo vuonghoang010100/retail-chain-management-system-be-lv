@@ -3,10 +3,7 @@ package com.example.sales_system.configuration;
 import com.example.sales_system.entity.master.Role;
 import com.example.sales_system.entity.master.Tenant;
 import com.example.sales_system.entity.master.User;
-import com.example.sales_system.entity.tenant.Employee;
-import com.example.sales_system.entity.tenant.Permission;
 import com.example.sales_system.enums.AppRole;
-import com.example.sales_system.enums.TenantPermission;
 import com.example.sales_system.repository.master.MasterRoleRepository;
 import com.example.sales_system.repository.master.TenantRepository;
 import com.example.sales_system.repository.master.UserRepository;
@@ -20,9 +17,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
-import java.util.Arrays;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Configuration
@@ -101,7 +96,8 @@ public class ApplicationInitialConfig {
 
                     Tenant tenant = Tenant.builder().name(DEFAULT_TENANT)
                             .initStatus(false)
-                            .active(true)
+                            .active(false)
+                            .initStatus(false)
                             .user(user)
                             .build();
                     tenantRepository.save(tenant);
@@ -109,25 +105,25 @@ public class ApplicationInitialConfig {
             }
 
             // Init Default Tenant Database
-            if (!employeeRepository.existsByEmail("test@test.com")) {
-                // Create default permissions
-                Arrays.stream(TenantPermission.values()).forEach(permission -> permissionRepository.save(new Permission(permission.getName(), permission.getDescription())));
-                // Create tenant admin role
-                var role = roleRepository.save(com.example.sales_system.entity.tenant.Role.builder()
-                        .name(AppRole.TENANT_ADMIN.name())
-                        .build());
-                // Create tenant admin
-
-                Employee employee = Employee.builder()
-                        .fullName("test")
-                        .email("test@test.com")
-                        .password("test")
-                        .roles(new HashSet<>(List.of(role)))
-                        .active(true)
-                        .build();
-
-                employeeRepository.save(employee);
-            }
+//            if (!employeeRepository.existsByEmail("test@test.com")) {
+//                // Create default permissions
+//                Arrays.stream(TenantPermission.values()).forEach(permission -> permissionRepository.save(new Permission(permission.getName(), permission.getDescription())));
+//                // Create tenant admin role
+//                var role = roleRepository.save(com.example.sales_system.entity.tenant.Role.builder()
+//                        .name(AppRole.TENANT_ADMIN.name())
+//                        .build());
+//                // Create tenant admin
+//
+//                Employee employee = Employee.builder()
+//                        .fullName("test")
+//                        .email("test@test.com")
+//                        .password("test")
+//                        .roles(new HashSet<>(List.of(role)))
+//                        .active(true)
+//                        .build();
+//
+//                employeeRepository.save(employee);
+//            }
 
             // More actions ...
 

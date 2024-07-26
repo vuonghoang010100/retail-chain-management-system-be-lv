@@ -37,15 +37,16 @@ public enum AppStatusCode {
     PASSWORD_IS_REQUIRED(-403, "Password is required", HttpStatus.BAD_REQUEST),
 
     // Multitenant API error
+    TENANT_NOT_FOUND(-500, "Tenant not found", HttpStatus.NOT_FOUND),
 
     // Master Managerment API error
 
     // Empoloyees API error
-    EMPLOYEE_NOT_FOUND(-500, "Employee not found", HttpStatus.NOT_FOUND),
+    EMPLOYEE_NOT_FOUND(-700, "Employee not found", HttpStatus.NOT_FOUND),
 
 
     // Roles API error
-    ROLE_NOT_FOUND(-600, "Role not found", HttpStatus.NOT_FOUND),
+    ROLE_NOT_FOUND(-800, "Role not found", HttpStatus.NOT_FOUND),
 
     // Permissions API error
 

@@ -87,7 +87,7 @@ public class EmployeeService {
                 .orElseThrow(() -> new AppException(AppStatusCode.EMPLOYEE_NOT_FOUND));
     }
 
-    private Employee saveEmployee(Employee employee) {
+    public Employee saveEmployee(Employee employee) {
         try {
             employee = employeeRepository.save(employee);
         } catch (DataIntegrityViolationException exception) {

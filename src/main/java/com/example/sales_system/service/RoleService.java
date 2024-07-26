@@ -5,6 +5,7 @@ import com.example.sales_system.dto.request.RoleUpdateRequest;
 import com.example.sales_system.dto.response.RoleResponse;
 import com.example.sales_system.entity.tenant.Permission;
 import com.example.sales_system.entity.tenant.Role;
+import com.example.sales_system.enums.AppRole;
 import com.example.sales_system.exception.AppException;
 import com.example.sales_system.exception.AppStatusCode;
 import com.example.sales_system.mapper.RoleMapper;
@@ -66,10 +67,18 @@ public class RoleService {
 
     /* Helper functions */
 
-    private Role getRoleById(Long id) {
+    public Role getRoleById(Long id) {
         return roleRepository.findById(id)
                 .orElseThrow(() -> new AppException(AppStatusCode.ROLE_NOT_FOUND));
     }
 
+    /* System admin functions */
 
+    public Role createAdminRole() {
+        Role role = Role.builder()
+                .name(AppRole.TENANT_ADMIN.name())
+                .description("Admin")
+                .build();
+        return roleRepository.save(role);
+    }
 }
