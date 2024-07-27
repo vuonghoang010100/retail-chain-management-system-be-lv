@@ -17,8 +17,8 @@ public enum AppStatusCode {
 
     // Authenticated + Authorized error
     UNAUTHENTICATED(-100, "Unauthenticated", HttpStatus.UNAUTHORIZED),
-    UNAUTHORIZED(-101, "Unauthorized", HttpStatus.UNAUTHORIZED),
-    FORBIDDEN(-102, "Forbidden", HttpStatus.FORBIDDEN),
+    UNAUTHORIZED(-101, "Unauthorized", HttpStatus.FORBIDDEN),
+
     EMAIL_NOT_FOUND(-103, "Email not found", HttpStatus.NOT_FOUND),
 
     // Argument contraits
