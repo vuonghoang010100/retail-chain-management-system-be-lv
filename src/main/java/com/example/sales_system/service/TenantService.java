@@ -61,6 +61,12 @@ public class TenantService {
                 .orElseThrow(() -> new AppException(AppStatusCode.TENANT_NOT_FOUND));
     }
 
+    public Tenant getTenantByName(String name) {
+        return tenantRepository.findByName(name)
+                .orElseThrow(() -> new AppException(AppStatusCode.TENANT_NOT_FOUND));
+
+    }
+
     /* Tenant database functions */
 
     @Transactional(transactionManager = "tenantTransactionManager", propagation = Propagation.REQUIRES_NEW)

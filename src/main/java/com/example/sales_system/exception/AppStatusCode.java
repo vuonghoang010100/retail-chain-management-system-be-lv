@@ -19,6 +19,7 @@ public enum AppStatusCode {
     UNAUTHENTICATED(-100, "Unauthenticated", HttpStatus.UNAUTHORIZED),
     UNAUTHORIZED(-101, "Unauthorized", HttpStatus.UNAUTHORIZED),
     FORBIDDEN(-102, "Forbidden", HttpStatus.FORBIDDEN),
+    EMAIL_NOT_FOUND(-103, "Email not found", HttpStatus.NOT_FOUND),
 
     // Argument contraits
     INVALID_ARGUMENT(-201, "Invalid argument", HttpStatus.BAD_REQUEST),
@@ -38,8 +39,10 @@ public enum AppStatusCode {
 
     // Multitenant API error
     TENANT_NOT_FOUND(-500, "Tenant not found", HttpStatus.NOT_FOUND),
+    TENANT_INACTIVE(-501, "Tenant inactived", HttpStatus.BAD_REQUEST),
 
     // Master Managerment API error
+
 
     // Empoloyees API error
     EMPLOYEE_NOT_FOUND(-700, "Employee not found", HttpStatus.NOT_FOUND),

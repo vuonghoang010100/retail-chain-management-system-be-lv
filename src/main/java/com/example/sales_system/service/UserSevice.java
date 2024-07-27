@@ -13,6 +13,7 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -28,8 +29,11 @@ public class UserSevice {
     MasterRoleRepository masterRoleRepository;
     TenantRepository tenantRepository;
 
+    PasswordEncoder passwordEncoder;
+
     public UserWithTenantResponse createUser(UserCreateResquest resquest) {
         User user = userMapper.toUser(resquest);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         var role = masterRoleRepository.findById(AppRole.TENANT_ADMIN.name());
         if (role.isPresent()) {
             user.setRoles(new HashSet<>(Collections.singleton(role.get())));

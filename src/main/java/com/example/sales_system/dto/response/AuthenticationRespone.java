@@ -4,11 +4,10 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class TenantCreateResponse1 {
-    String tenantId;
-    String username;
+public class AuthenticationRespone {
+    String token;
 }

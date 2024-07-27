@@ -3,7 +3,10 @@ package com.example.sales_system.configuration;
 import com.example.sales_system.entity.master.Role;
 import com.example.sales_system.entity.master.Tenant;
 import com.example.sales_system.entity.master.User;
+import com.example.sales_system.entity.tenant.Employee;
+import com.example.sales_system.entity.tenant.Permission;
 import com.example.sales_system.enums.AppRole;
+import com.example.sales_system.enums.TenantPermission;
 import com.example.sales_system.repository.master.MasterRoleRepository;
 import com.example.sales_system.repository.master.TenantRepository;
 import com.example.sales_system.repository.master.UserRepository;
@@ -16,8 +19,11 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Configuration
@@ -31,6 +37,8 @@ public class ApplicationInitialConfig {
     private final RoleRepository roleRepository;
     private final PermissionRepository permissionRepository;
 
+    private final PasswordEncoder passwordEncoder;
+
     @Value("${master.admin.email}")
     private String adminEmail;
     @Value("${master.admin.password}")
@@ -42,13 +50,14 @@ public class ApplicationInitialConfig {
             UserRepository userRepository,
             EmployeeRepository employeeRepository,
             RoleRepository roleRepository,
-            PermissionRepository permissionRepository) {
+            PermissionRepository permissionRepository, PasswordEncoder passwordEncoder) {
         this.tenantRepository = tenantRepository;
         this.masterRoleRepository = masterRoleRepository;
         this.userRepository = userRepository;
         this.employeeRepository = employeeRepository;
         this.roleRepository = roleRepository;
         this.permissionRepository = permissionRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Bean
@@ -74,7 +83,7 @@ public class ApplicationInitialConfig {
                     User user = User.builder()
                             .fullName("admin")
                             .email(adminEmail)
-                            .password(adminPassword)
+                            .password(passwordEncoder.encode(adminPassword))
                             .roles(adminRoles)
                             .build();
                     userRepository.save(user);
@@ -89,15 +98,15 @@ public class ApplicationInitialConfig {
                     User user = User.builder()
                             .fullName("test")
                             .email("test@test.com")
-                            .password("test")
+                            .password(passwordEncoder.encode("test"))
                             .roles(userRoles)
                             .build();
                     userRepository.save(user);
 
                     Tenant tenant = Tenant.builder().name(DEFAULT_TENANT)
                             .initStatus(false)
-                            .active(false)
-                            .initStatus(false)
+                            .active(true)
+                            .initStatus(true)
                             .user(user)
                             .build();
                     tenantRepository.save(tenant);
@@ -105,25 +114,25 @@ public class ApplicationInitialConfig {
             }
 
             // Init Default Tenant Database
-//            if (!employeeRepository.existsByEmail("test@test.com")) {
-//                // Create default permissions
-//                Arrays.stream(TenantPermission.values()).forEach(permission -> permissionRepository.save(new Permission(permission.getName(), permission.getDescription())));
-//                // Create tenant admin role
-//                var role = roleRepository.save(com.example.sales_system.entity.tenant.Role.builder()
-//                        .name(AppRole.TENANT_ADMIN.name())
-//                        .build());
-//                // Create tenant admin
-//
-//                Employee employee = Employee.builder()
-//                        .fullName("test")
-//                        .email("test@test.com")
-//                        .password("test")
-//                        .roles(new HashSet<>(List.of(role)))
-//                        .active(true)
-//                        .build();
-//
-//                employeeRepository.save(employee);
-//            }
+            if (!employeeRepository.existsByEmail("test@test.com")) {
+                // Create default permissions
+                Arrays.stream(TenantPermission.values()).forEach(permission -> permissionRepository.save(new Permission(permission.getName(), permission.getDescription())));
+                // Create tenant admin role
+                var role = roleRepository.save(com.example.sales_system.entity.tenant.Role.builder()
+                        .name(AppRole.TENANT_ADMIN.name())
+                        .build());
+                // Create tenant admin
+
+                Employee employee = Employee.builder()
+                        .fullName("test")
+                        .email("test@test.com")
+                        .password(passwordEncoder.encode("test"))
+                        .roles(new HashSet<>(List.of(role)))
+                        .active(true)
+                        .build();
+
+                employeeRepository.save(employee);
+            }
 
             // More actions ...
 
