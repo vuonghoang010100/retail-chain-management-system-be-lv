@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin("*")
 @RestController
 @RequestMapping("/tenants")
 @RequiredArgsConstructor
@@ -45,8 +46,12 @@ public class TenantController {
         // Without @Tranactional, throw TransactionRequiredException
         Tenant tenant = tenantService.getTenant(tenantId);
         if (!tenant.getInitStatus()) {
+            // force drop chema
+            // DROP SCHEMA IF EXISTS %name% CASCADE
+
             tenantService.createSchema(tenant.getName());
             // exception : SQLGrammarException : JDBC exception executing SQL [CREATE SCHEMA t_test] [ERROR: schema "t_test" already exists]
+            // timeout -> delete schema
 
             tenantService.initTenantTables(tenant);
             // exception: ScriptStatementFailedException : Failed to execute SQL script

@@ -19,6 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+@CrossOrigin("*")
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
@@ -41,10 +42,13 @@ public class AuthenticationController {
     @ResponseStatus(HttpStatus.OK)
     public AppResponse<AuthenticationRespone> login(@RequestBody @Valid AuthenticationRequest resquest) {
         AuthenticationRespone authenticationRespone;
+        // case admin app
         if (resquest.getTenant().equalsIgnoreCase("admin")) {
             // authenticate
             authenticationRespone = authenticationService.authenticateAdminApp(resquest);
-        } else {
+        }
+        // case tenant app
+        else {
             var tenant = tenantService.getTenantByName(resquest.getTenant());
             if (!tenant.getActive())
                 throw new AppException(AppStatusCode.TENANT_INACTIVE);

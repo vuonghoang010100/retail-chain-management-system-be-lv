@@ -82,6 +82,7 @@ public class TenantService {
         try {
             connection = tenantDataSource.getConnection();
             connection.setSchema("t_" + tenant.getName());
+            connection.close();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

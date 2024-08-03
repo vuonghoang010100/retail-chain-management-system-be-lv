@@ -39,10 +39,10 @@ public class AuthenticationService {
 
     public AuthenticationRespone authenticateAdminApp(AuthenticationRequest request) {
         var user = userRepository.findByEmail(request.getEmail())
-                .orElseThrow(() -> new AppException(AppStatusCode.EMAIL_NOT_FOUND)); // maybe UNAUTHENTICATED
+                .orElseThrow(() -> new AppException(AppStatusCode.EMAIL_PASSWORD_INCORRECT));
 
         if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
-            throw new AppException(AppStatusCode.UNAUTHENTICATED);
+            throw new AppException(AppStatusCode.EMAIL_PASSWORD_INCORRECT);
         }
 
         var token = generateToken(user);
@@ -54,10 +54,10 @@ public class AuthenticationService {
     @Transactional(transactionManager = "tenantTransactionManager", readOnly = true)
     public AuthenticationRespone authenticateTenantApp(AuthenticationRequest request) {
         var employee = employeeRepository.findByEmail(request.getEmail())
-                .orElseThrow(() -> new AppException(AppStatusCode.EMAIL_NOT_FOUND)); // maybe UNAUTHENTICATED
+                .orElseThrow(() -> new AppException(AppStatusCode.EMAIL_PASSWORD_INCORRECT));
 
         if (!passwordEncoder.matches(request.getPassword(), employee.getPassword())) {
-            throw new AppException(AppStatusCode.UNAUTHENTICATED);
+            throw new AppException(AppStatusCode.EMAIL_PASSWORD_INCORRECT);
         }
 
         var token = generateToken(employee, request.getTenant());

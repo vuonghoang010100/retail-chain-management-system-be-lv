@@ -51,7 +51,7 @@ public class TenantFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
         } finally {
             TenantContext.clear();
-            log.debug("TenantContext clear");
+//            log.debug("TenantContext clear");
         }
     }
 }
