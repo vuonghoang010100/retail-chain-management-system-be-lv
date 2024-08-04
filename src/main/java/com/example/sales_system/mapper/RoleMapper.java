@@ -10,7 +10,7 @@ import org.mapstruct.MappingTarget;
 import org.mapstruct.ReportingPolicy;
 
 @Mapper(componentModel = "spring",
-        uses = DateMapper.class,
+        uses = ConfigMapper.class,
         unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface RoleMapper {
     @Mapping(target = "permissions", ignore = true)

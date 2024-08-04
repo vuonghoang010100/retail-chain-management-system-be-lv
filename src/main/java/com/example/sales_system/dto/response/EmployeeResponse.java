@@ -1,5 +1,6 @@
 package com.example.sales_system.dto.response;
 
+import com.example.sales_system.enums.Gender;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -18,7 +19,7 @@ public class EmployeeResponse {
     Long id;
     String fullName;
     LocalDate dob;
-    String gender;
+    Gender gender;
     String email;
     String phone;
     String address;

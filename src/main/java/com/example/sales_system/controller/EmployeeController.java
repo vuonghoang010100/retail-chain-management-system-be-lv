@@ -4,17 +4,25 @@ import com.example.sales_system.dto.request.EmployeeCreateRequest;
 import com.example.sales_system.dto.request.EmployeeUpdateRequest;
 import com.example.sales_system.dto.response.AppResponse;
 import com.example.sales_system.dto.response.EmployeeResponse;
+import com.example.sales_system.dto.response.ListResponse;
+import com.example.sales_system.entity.tenant.Employee;
+import com.example.sales_system.enums.Gender;
 import com.example.sales_system.service.EmployeeService;
+import com.example.sales_system.specification.FilterOperator;
+import com.example.sales_system.specification.FilterSpecificationBuilder;
+import com.example.sales_system.util.SortBuilder;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.time.LocalDate;
 
 @CrossOrigin("*")
 @RestController
@@ -28,10 +36,54 @@ public class EmployeeController {
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasRole('TENANT_ADMIN') or hasAuthority('EMPLOYEE_READ')")
-    public AppResponse<List<EmployeeResponse>> getAllEmployees() {
-        log.debug("getAllEmployees called");
-        return AppResponse.<List<EmployeeResponse>>builder()
-                .result(employeeService.getAllEmployeeResponses())
+    public AppResponse<ListResponse<EmployeeResponse>> getAllEmployees(
+            @RequestParam(required = false, defaultValue = "0") int page,
+            @RequestParam(required = false, defaultValue = "10") int size,
+            @RequestParam(required = false, defaultValue = "") String sort,
+            @RequestParam(required = false) String search,
+            @RequestParam(required = false) Long id,
+            @RequestParam(required = false) String fullName,
+            @RequestParam(required = false) LocalDate dob,
+            @RequestParam(required = false) Gender gender,
+            @RequestParam(required = false) String email,
+            @RequestParam(required = false) String phone,
+            @RequestParam(required = false) String address,
+            @RequestParam(required = false) String province,
+            @RequestParam(required = false) String district,
+            @RequestParam(required = false) Boolean active,
+            @RequestParam(required = false) String note
+    ) {
+        log.debug("getAllEmployees called with: page={}, size={}, sort={}, filter={}", page, size, sort, id);
+
+        // Page
+        Pageable pageable = PageRequest.of(page, size, SortBuilder.buildSort(sort, Employee.class));
+
+        // Search
+        var searchSpec = new FilterSpecificationBuilder<Employee>()
+                .or("fullName", FilterOperator.LIKE, search)
+                .or("email", FilterOperator.LIKE, search)
+                .or("phone", FilterOperator.LIKE, search)
+                .build();
+
+        // Filter
+        var spec = new FilterSpecificationBuilder<Employee>()
+                .and(searchSpec)
+                .and("id", FilterOperator.ID_LIKE, id)
+                .and("fullName", FilterOperator.LIKE, fullName)
+                .and("dob", FilterOperator.EQUAL, dob)
+                .and("gender", FilterOperator.EQUAL, gender)
+                .and("email", FilterOperator.LIKE, email)
+                .and("phone", FilterOperator.LIKE, phone)
+                .and("address", FilterOperator.LIKE, address)
+                .and("province", FilterOperator.LIKE, province)
+                .and("district", FilterOperator.LIKE, district)
+                .and("active", FilterOperator.EQUAL, active)
+                .and("note", FilterOperator.LIKE, note)
+                .build();
+
+
+        return AppResponse.<ListResponse<EmployeeResponse>>builder()
+                .result(employeeService.getAllEmployeeResponses(spec, pageable))
                 .build();
     }
 

@@ -1,5 +1,6 @@
 package com.example.sales_system.dto.request;
 
+import com.example.sales_system.enums.Gender;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AccessLevel;
@@ -22,7 +23,7 @@ public class EmployeeUpdateRequest {
     @NotEmpty(message = "FULLNAME_IS_REQUIRED")
     String fullName;
     LocalDate dob;
-    String gender;
+    Gender gender;
 
     @NotEmpty(message = "EMAIL_IS_REQUIRED")
     @Email(message = "INVALID_EMAIL")

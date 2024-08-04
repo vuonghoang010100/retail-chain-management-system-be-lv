@@ -26,6 +26,8 @@ public enum AppStatusCode {
     INVALID_DATE(-202, "Invalid date", HttpStatus.BAD_REQUEST),
     INVALID_TIME(-203, "Invalid time", HttpStatus.BAD_REQUEST),
     INVALID_EMAIL(-204, "Invalid email", HttpStatus.BAD_REQUEST),
+    INVALID_PASSWORD(-205, "Invalid password", HttpStatus.BAD_REQUEST),
+    INVALID_GENDER(-206, "Invalid gender", HttpStatus.BAD_REQUEST),
 
     // Unique Contraits
     EMAIL_ALREADY_EXISTED(-300, "Email already existed", HttpStatus.BAD_REQUEST),

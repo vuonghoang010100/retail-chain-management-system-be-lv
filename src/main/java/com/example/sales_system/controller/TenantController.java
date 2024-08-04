@@ -26,8 +26,6 @@ public class TenantController {
     TenantService tenantService;
     private final UserSevice userSevice;
 
-    /* System admin functions */
-
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasRole('SYSTEM_ADMIN')")
@@ -40,7 +38,7 @@ public class TenantController {
     @GetMapping("/active")
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasRole('SYSTEM_ADMIN')")
-    public AppResponse<?> activeTenants(@RequestParam(required = true) Long tenantId) {
+    public AppResponse<?> activeTenants(@RequestParam Long tenantId) {
         // Note: business logic here
         // because @Tranactional with diffence TransactionManager not working together in @Service class
         // Without @Tranactional, throw TransactionRequiredException
@@ -68,9 +66,6 @@ public class TenantController {
 
         return AppResponse.builder().build();
     }
-
-
-    /* Tenant user functions */
 
 
 }

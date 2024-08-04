@@ -6,7 +6,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 
 @Mapper(componentModel = "spring",
-        uses = DateMapper.class,
+        uses = ConfigMapper.class,
         unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface PermissionMapper {
 

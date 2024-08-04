@@ -10,12 +10,15 @@ import org.mapstruct.MappingTarget;
 import org.mapstruct.ReportingPolicy;
 
 @Mapper(componentModel = "spring",
-        uses = DateMapper.class,
+        uses = ConfigMapper.class,
         unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface EmployeeMapper {
     @Mapping(target = "roles", ignore = true)
     Employee toEmployee(EmployeeCreateRequest employeeCreateRequest);
 
+    //    @Mapping(target = "gender",
+//            expression = "java(employee.getGender() != null ? employee.getGender().toString() : null)"
+//    )
     EmployeeResponse toEmployeeResponse(Employee employee);
 
     @Mapping(target = "roles", ignore = true)

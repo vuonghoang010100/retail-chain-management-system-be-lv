@@ -3,6 +3,7 @@ package com.example.sales_system.service;
 import com.example.sales_system.dto.request.EmployeeCreateRequest;
 import com.example.sales_system.dto.request.EmployeeUpdateRequest;
 import com.example.sales_system.dto.response.EmployeeResponse;
+import com.example.sales_system.dto.response.ListResponse;
 import com.example.sales_system.entity.tenant.Employee;
 import com.example.sales_system.exception.AppException;
 import com.example.sales_system.exception.AppStatusCode;
@@ -15,12 +16,15 @@ import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
-import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -30,16 +34,27 @@ public class EmployeeService {
     EmployeeRepository employeeRepository;
     RoleRepository roleRepository;
     EmployeeMapper employeeMapper;
-
     PasswordEncoder passwordEncoder;
 
     @Transactional(transactionManager = "tenantTransactionManager", readOnly = true)
-    public List<EmployeeResponse> getAllEmployeeResponses() {
-        log.debug("getAllEmployees called");
-        return employeeRepository.findAll()
-                .stream()
-                .map(employeeMapper::toEmployeeResponse)
-                .toList();
+    public ListResponse<EmployeeResponse> getAllEmployeeResponses(Specification<Employee> spec, Pageable pageable) {
+        log.debug("getAllEmployees called with pageable {}", pageable);
+
+        //test
+//        Specification<Employee> spec1 = Specification.where(
+//                ((root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("dob"), LocalDate.of(2000, 1, 24)))
+//        );
+
+        Page<Employee> employeePage = employeeRepository.findAll(spec, pageable);
+
+        return ListResponse.<EmployeeResponse>builder()
+                .size(employeePage.getSize())
+                .page(employeePage.getNumber())
+                .total(employeePage.getTotalElements())
+                .numOfElements(employeePage.getNumberOfElements())
+                .totalPages(employeePage.getTotalPages())
+                .data(employeePage.getContent().stream().map(employeeMapper::toEmployeeResponse).collect(Collectors.toList()))
+                .build();
     }
 
     @Transactional(transactionManager = "tenantTransactionManager", readOnly = true)

@@ -46,9 +46,17 @@ public class GlobalExceptionHandler {
                 "JSON parse error: Cannot deserialize value of type `java.time.LocalDate` from String")) {
             statusCode = AppStatusCode.INVALID_DATE;
         }
+        if (StringUtils.containsIgnoreCase(
+                exception.getMessage(),
+                "JSON parse error: Cannot deserialize value of type `com.example.sales_system.enums.Gender` from String"
+        )) {
+            statusCode = AppStatusCode.INVALID_GENDER;
+        }
 
         if (statusCode == AppStatusCode.UNCATEGORIZED_ERROR) {
-            log.error(exception.getMessage());
+            log.error(exception.getClass().getName(), exception);
+            log.error(exception.getMessage(), exception);
+            log.warn("Need process error at handleHttpMessageNotReadableException");
         }
 
         return generateResponseEntity(statusCode);
@@ -66,7 +74,9 @@ public class GlobalExceptionHandler {
         }
 
         if (statusCode == AppStatusCode.INVALID_KEY) {
+            log.error(exception.getClass().getName(), exception);
             log.error(exception.getMessage(), exception);
+            log.warn("Need process error at handleMethodArgumentNotValidException");
         }
 
         return generateResponseEntity(statusCode);

@@ -4,6 +4,7 @@ import com.example.sales_system.dto.response.TenantResponse;
 import com.example.sales_system.entity.master.Tenant;
 import com.example.sales_system.entity.master.User;
 import com.example.sales_system.entity.tenant.Employee;
+import com.example.sales_system.enums.Gender;
 import com.example.sales_system.exception.AppException;
 import com.example.sales_system.exception.AppStatusCode;
 import com.example.sales_system.mapper.TenantMapper;
@@ -102,7 +103,7 @@ public class TenantService {
         Employee employee = Employee.builder()
                 .fullName(user.getFullName())
                 .dob(user.getDob())
-                .gender(user.getGender())
+                .gender(Gender.valueOf(user.getGender()))
                 .email(user.getEmail())
                 .phone(user.getPhone())
                 .password(user.getPassword())
