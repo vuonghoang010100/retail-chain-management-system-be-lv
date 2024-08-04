@@ -44,3 +44,6 @@ src/main/resources/scripts/create.sql
 
 ### error file ###
 error.txt
+
+### test controller ###
+src/main/java/com/example/sales_system/controller/TestController.java

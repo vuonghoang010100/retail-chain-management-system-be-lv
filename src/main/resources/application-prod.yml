@@ -1,15 +1,48 @@
-#servlet
-server:
-  port: 8080
-
 spring:
   datasource:
-    url: jdbc:postgresql://${DATABASE_HOST}:${DATABASE_PORT}/${DATABASE_NAME}
-    username: ${DATABASE_USERNAME}
-    password: ${DATABASE_PASSWORD}
-    driver-class-name: org.postgresql.Driver
+    master:
+      url: jdbc:postgresql://${DATABASE_HOST}:${DATABASE_PORT}/${DATABASE_NAME}
+      username: ${DATABASE_USERNAME}
+      password: ${DATABASE_PASSWORD}
+      driver-class-name: org.postgresql.Driver
+
+    tenant:
+      url: jdbc:postgresql://${DATABASE_HOST}:${DATABASE_PORT}/${DATABASE_NAME}
+      username: ${DATABASE_USERNAME}
+      password: ${DATABASE_PASSWORD}
+      driver-class-name: org.postgresql.Driver
 
   jpa:
-    hibernate:
-      ddl-auto: none
-    show-sql: false
+    # Master Jpa's properties
+    master:
+      show-sql: true
+      properties:
+        hibernate:
+          # Default schema for master
+          default_schema: master
+          hbm2ddl:
+            auto: none
+          dialect: org.hibernate.dialect.PostgreSQLDialect
+    tenant:
+      show-sql: true
+      properties:
+        hibernate:
+          hbm2ddl:
+            auto: none
+          # log
+          dialect: org.hibernate.dialect.PostgreSQLDialect
+
+springdoc:
+  api-docs:
+    path: /api-docs
+    enabled: true
+  swagger-ui:
+    enabled: true
+
+master:
+  admin:
+    email: admin@test.com
+    password: admin
+
+jwt:
+  signer-key: ${SIGNER_KEY}

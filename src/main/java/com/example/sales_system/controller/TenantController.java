@@ -1,29 +1,22 @@
 package com.example.sales_system.controller;
 
-
-import com.example.sales_system.dto.request.TenantCreateRequest;
-import com.example.sales_system.dto.response.TenantCreateResponse;
+import com.example.sales_system.configuration.TenantContext;
+import com.example.sales_system.dto.response.AppResponse;
+import com.example.sales_system.dto.response.TenantResponse;
 import com.example.sales_system.entity.master.Tenant;
-import com.example.sales_system.entity.tenant.Employee;
-import com.example.sales_system.service.EmployeeService;
 import com.example.sales_system.service.TenantService;
+import com.example.sales_system.service.UserSevice;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
-import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.http.ResponseEntity;
-import org.springframework.jdbc.datasource.init.DatabasePopulator;
-import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.SQLException;
+import java.util.List;
 
+@CrossOrigin("*")
 @RestController
 @RequestMapping("/tenants")
 @RequiredArgsConstructor
@@ -31,64 +24,47 @@ import java.sql.SQLException;
 @Slf4j
 public class TenantController {
     TenantService tenantService;
-    EmployeeService employeeService;
-    DataSource tenantDataSource;
+    private final UserSevice userSevice;
 
-
-    @GetMapping("/create")
-//    @Transactional(transactionManager = "tenantTransactionManager")
-//    @Modifying
-    public ResponseEntity<Boolean> createTenant(@RequestParam String tenantId) {
-//        TenantContext.setTenantId(tenantId);
-
-        // TODO: move to DatabaseService
-        tenantService.createSchema(tenantId);
-
-        Resource initSchemaScript = new ClassPathResource("scripts/schema.sql");
-        DatabasePopulator databasePopulator = new ResourceDatabasePopulator(initSchemaScript);
-        try {
-            Connection connection = tenantDataSource.getConnection();
-            connection.setSchema(tenantId);
-            databasePopulator.populate(connection);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-
-        // DatabasePopulatorUtils.execute(databasePopulator, dataSource);
-
-        // PSQLException: ERROR: schema "ttest1" already exists
-        // PSQLException: ERROR: relation "employee" already exists
-        // PSQLException: ERROR: no schema has been selected to create in
-
-        // TransactionRequiredException: Executing an update/delete query
-
-        return ResponseEntity.ok(true);
+    @GetMapping
+    @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasRole('SYSTEM_ADMIN')")
+    public AppResponse<List<TenantResponse>> getAllTenants() {
+        return AppResponse.<List<TenantResponse>>builder()
+                .result(tenantService.getAllTenants())
+                .build();
     }
 
+    @GetMapping("/active")
+    @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasRole('SYSTEM_ADMIN')")
+    public AppResponse<?> activeTenants(@RequestParam Long tenantId) {
+        // Note: business logic here
+        // because @Tranactional with diffence TransactionManager not working together in @Service class
+        // Without @Tranactional, throw TransactionRequiredException
+        Tenant tenant = tenantService.getTenant(tenantId);
+        if (!tenant.getInitStatus()) {
+            // force drop chema
+            // DROP SCHEMA IF EXISTS %name% CASCADE
 
-    @PostMapping("/regis")
-    @Transactional
-    @Modifying
-    public ResponseEntity<TenantCreateResponse> createTenantWithAdminUser(@RequestBody TenantCreateRequest request) {
+            tenantService.createSchema(tenant.getName());
+            // exception : SQLGrammarException : JDBC exception executing SQL [CREATE SCHEMA t_test] [ERROR: schema "t_test" already exists]
+            // timeout -> delete schema
 
-        Tenant tenant;
+            tenantService.initTenantTables(tenant);
+            // exception: ScriptStatementFailedException : Failed to execute SQL script
 
-        try {
-            tenant = tenantService.createTenantAndSchema(request.getTenantId());
-        } catch (RuntimeException ignored) {
-            log.error(ignored.getMessage());
-            return ResponseEntity.badRequest().build();
+            // PSQLException: ERROR: schema "ttest1" already exists
+            // PSQLException: ERROR: relation "employee" already exists
+
+            TenantContext.setTenantId(tenant.getName());
+
+            tenantService.initTenantDatas(tenant);
+
+            tenantService.active(tenant);
         }
 
-        // create user
-        Employee employee = employeeService.createAdminEmployee(request.getUsername(), request.getPassword());
-
-        return ResponseEntity.ok().body(
-                TenantCreateResponse.builder()
-                        .tenantId(tenant.getTenantId())
-                        .username(employee.getUsername())
-                        .build()
-        );
+        return AppResponse.builder().build();
     }
 
 

@@ -1,28 +1,71 @@
-#servlet
-server:
-  port: 8080
-  servlet:
-    context-path: /v2
+#debug: true
+logging:
+  level:
+    ROOT: ERROR
+    com.example.sales_system: DEBUG
 
 spring:
   datasource:
-    url: jdbc:postgresql://192.168.216.191:5432/salesystem
-    username: postgres
-    password: 1234
-    driver-class-name: org.postgresql.Driver
+    master:
+      url: jdbc:postgresql://36.50.176.131:5432/chainretaildb
+      username: postgres
+      password:
+      driver-class-name: org.postgresql.Driver
+
+    tenant:
+      url: jdbc:postgresql://36.50.176.131:5432/chainretaildb
+      username: postgres
+      password:
+      driver-class-name: org.postgresql.Driver
 
   jpa:
-    open-in-view: false
-#    properties:
-#      jakarta:
-#        persistence:
-#          schema-generation:
-#            create-source: metadata
-#            scripts:
-#              action: create
-#              create-target: src/main/resources/scripts/create.sql
-#      hibernate:
-#        default_schema: tenant_shema_default
-    show-sql: true
-    hibernate:
-      ddl-auto: none
+    # Master Jpa's properties
+    master:
+      show-sql: true
+      properties:
+        hibernate:
+          # Default schema for master
+          default_schema: master
+          hbm2ddl:
+            auto: none
+          # log
+          dialect: org.hibernate.dialect.PostgreSQLDialect
+#          show_sql: true
+#          format_sql: true
+          # end log
+    # Tenant Jpa's properties
+    tenant:
+      show-sql: true
+      properties:
+        hibernate:
+#          enable_lazy_load_no_trans: true
+          hbm2ddl:
+            auto: none
+          # log
+          dialect: org.hibernate.dialect.PostgreSQLDialect
+#          show_sql: true
+#          format_sql: true
+          # end log
+        # Create schema ddl file
+#        jakarta:
+#          persistence:
+#            schema-generation:
+#              create-source: metadata
+#              scripts:
+#                action: create
+#                create-target: src/main/resources/scripts/create.sql
+
+springdoc:
+  api-docs:
+    path: /api-docs
+    enabled: true
+  swagger-ui:
+    enabled: true
+
+master:
+  admin:
+    email: admin@test.com
+    password: admin
+
+jwt:
+  signer-key: ""
