@@ -20,6 +20,6 @@ public @interface StringPrefixedIdentifier {
     String formatNumber() default "%d";
 
     /*
-    * Require: sequenceName exited in database
-    * */
+     * Require: sequenceName exited in database
+     * */
 }

@@ -11,6 +11,8 @@ import com.example.sales_system.service.EmployeeService;
 import com.example.sales_system.specification.FilterOperator;
 import com.example.sales_system.specification.FilterSpecificationBuilder;
 import com.example.sales_system.util.SortBuilder;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +32,8 @@ import java.time.LocalDate;
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @Slf4j
+@SecurityRequirement(name = "Bearer Authentication")
+@Tag(name = "Employee", description = "The Employee API.")
 public class EmployeeController {
     EmployeeService employeeService;
 

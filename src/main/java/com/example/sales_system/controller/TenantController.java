@@ -5,7 +5,8 @@ import com.example.sales_system.dto.response.AppResponse;
 import com.example.sales_system.dto.response.TenantResponse;
 import com.example.sales_system.entity.master.Tenant;
 import com.example.sales_system.service.TenantService;
-import com.example.sales_system.service.UserSevice;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -22,9 +23,10 @@ import java.util.List;
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @Slf4j
+@SecurityRequirement(name = "Bearer Authentication")
+@Tag(name = "Tenant", description = "The Tenant API.")
 public class TenantController {
     TenantService tenantService;
-    private final UserSevice userSevice;
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)

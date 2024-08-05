@@ -5,6 +5,8 @@ import com.example.sales_system.dto.request.RoleUpdateRequest;
 import com.example.sales_system.dto.response.AppResponse;
 import com.example.sales_system.dto.response.RoleResponse;
 import com.example.sales_system.service.RoleService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +24,8 @@ import java.util.List;
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @Slf4j
+@SecurityRequirement(name = "Bearer Authentication")
+@Tag(name = "Role", description = "The Role API.")
 public class RoleController {
     RoleService roleService;
 

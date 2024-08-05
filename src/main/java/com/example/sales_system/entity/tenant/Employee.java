@@ -2,7 +2,6 @@ package com.example.sales_system.entity.tenant;
 
 import com.example.sales_system.entity.AbstractTimestampEntity;
 import com.example.sales_system.enums.Gender;
-
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
