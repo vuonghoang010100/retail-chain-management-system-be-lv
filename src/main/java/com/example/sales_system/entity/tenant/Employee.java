@@ -21,6 +21,15 @@ public class Employee extends AbstractTimestampEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
+    /* Template for Custom
+    @Id
+    @StringPrefixedIdentifier(
+            name = "employee_id_seq",
+            prefix = "NV_",
+            formatNumber = "%06d"
+    )
+    String id;
+    */
 
     @Column(name = "full_name", nullable = false)
     String fullName;

@@ -3,6 +3,8 @@ package com.example.sales_system.controller;
 import com.example.sales_system.dto.response.AppResponse;
 import com.example.sales_system.dto.response.PermissionResponse;
 import com.example.sales_system.service.PermissionService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -21,6 +23,8 @@ import java.util.List;
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @Slf4j
+@SecurityRequirement(name = "Bearer Authentication")
+@Tag(name = "Permission", description = "The Permission API.")
 public class PermissionController {
     PermissionService permissionService;
 

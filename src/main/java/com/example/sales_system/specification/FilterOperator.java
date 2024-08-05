@@ -6,8 +6,8 @@ import lombok.Getter;
 public enum FilterOperator {
     LIKE,
     EQUAL,
-    ID_LIKE,
-    DATE_BETWEEN,
-
-
+    TO_STRING_LIKE,
+    BETWEEN_DATE,
+    GTE_DATE,
+    LTE_DATE,
 }

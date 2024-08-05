@@ -11,6 +11,7 @@ import com.example.sales_system.exception.AppStatusCode;
 import com.example.sales_system.service.AuthenticationService;
 import com.example.sales_system.service.TenantService;
 import com.example.sales_system.service.UserSevice;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +26,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @Slf4j
+@Tag(name = "Authentication", description = "The Authentication API.")
 public class AuthenticationController {
     AuthenticationService authenticationService;
     TenantService tenantService;

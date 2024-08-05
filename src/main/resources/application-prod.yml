@@ -46,3 +46,8 @@ master:
 
 jwt:
   signer-key: ${SIGNER_KEY}
+
+api:
+  server:
+    url: ${SERVER_URL}
+    desc: Production
