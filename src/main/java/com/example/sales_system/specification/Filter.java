@@ -7,8 +7,8 @@ import lombok.experimental.FieldDefaults;
 
 @Data
 @Builder
-@AllArgsConstructor(access = AccessLevel.PUBLIC)
-@NoArgsConstructor(access = AccessLevel.PUBLIC)
+@AllArgsConstructor
+@NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Filter {
     String fieldName;

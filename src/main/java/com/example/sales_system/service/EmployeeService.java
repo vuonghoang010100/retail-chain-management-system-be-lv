@@ -40,11 +40,6 @@ public class EmployeeService {
     public ListResponse<EmployeeResponse> getAllEmployeeResponses(Specification<Employee> spec, Pageable pageable) {
         log.debug("getAllEmployees called with pageable {}", pageable);
 
-        //test
-//        Specification<Employee> spec1 = Specification.where(
-//                ((root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("dob"), LocalDate.of(2000, 1, 24)))
-//        );
-
         Page<Employee> employeePage = employeeRepository.findAll(spec, pageable);
 
         return ListResponse.<EmployeeResponse>builder()

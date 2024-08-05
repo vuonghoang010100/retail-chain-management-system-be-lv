@@ -39,11 +39,13 @@ public class EmployeeController {
     public AppResponse<ListResponse<EmployeeResponse>> getAllEmployees(
             @RequestParam(required = false, defaultValue = "0") int page,
             @RequestParam(required = false, defaultValue = "10") int size,
-            @RequestParam(required = false, defaultValue = "") String sort,
+            @RequestParam(required = false) String sort,
             @RequestParam(required = false) String search,
             @RequestParam(required = false) Long id,
             @RequestParam(required = false) String fullName,
             @RequestParam(required = false) LocalDate dob,
+            @RequestParam(required = false) LocalDate fromDob,
+            @RequestParam(required = false) LocalDate toDob,
             @RequestParam(required = false) Gender gender,
             @RequestParam(required = false) String email,
             @RequestParam(required = false) String phone,
@@ -53,7 +55,7 @@ public class EmployeeController {
             @RequestParam(required = false) Boolean active,
             @RequestParam(required = false) String note
     ) {
-        log.debug("getAllEmployees called with: page={}, size={}, sort={}, filter={}", page, size, sort, id);
+        log.debug("getAllEmployees called");
 
         // Page
         Pageable pageable = PageRequest.of(page, size, SortBuilder.buildSort(sort, Employee.class));
@@ -68,9 +70,11 @@ public class EmployeeController {
         // Filter
         var spec = new FilterSpecificationBuilder<Employee>()
                 .and(searchSpec)
-                .and("id", FilterOperator.ID_LIKE, id)
+                .and("id", FilterOperator.TO_STRING_LIKE, id)
                 .and("fullName", FilterOperator.LIKE, fullName)
                 .and("dob", FilterOperator.EQUAL, dob)
+                .and("dob", FilterOperator.GTE_DATE, fromDob)
+                .and("dob", FilterOperator.LTE_DATE, toDob)
                 .and("gender", FilterOperator.EQUAL, gender)
                 .and("email", FilterOperator.LIKE, email)
                 .and("phone", FilterOperator.LIKE, phone)
