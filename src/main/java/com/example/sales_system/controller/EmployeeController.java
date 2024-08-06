@@ -41,7 +41,7 @@ public class EmployeeController {
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasRole('TENANT_ADMIN') or hasAuthority('EMPLOYEE_READ')")
     public AppResponse<ListResponse<EmployeeResponse>> getAllEmployees(
-            @RequestParam(required = false, defaultValue = "0") int page,
+            @RequestParam(required = false, defaultValue = "1") int page,
             @RequestParam(required = false, defaultValue = "10") int size,
             @RequestParam(required = false) String sort,
             @RequestParam(required = false) String search,
@@ -60,6 +60,9 @@ public class EmployeeController {
             @RequestParam(required = false) String note
     ) {
         log.debug("getAllEmployees called");
+
+        // Conert for fe
+        page = page - 1;
 
         // Page
         Pageable pageable = PageRequest.of(page, size, SortBuilder.buildSort(sort, Employee.class));

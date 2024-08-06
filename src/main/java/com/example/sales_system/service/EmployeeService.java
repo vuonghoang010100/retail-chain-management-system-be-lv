@@ -44,7 +44,7 @@ public class EmployeeService {
 
         return ListResponse.<EmployeeResponse>builder()
                 .size(employeePage.getSize())
-                .page(employeePage.getNumber())
+                .page(employeePage.getNumber() + 1)
                 .total(employeePage.getTotalElements())
                 .numOfElements(employeePage.getNumberOfElements())
                 .totalPages(employeePage.getTotalPages())

@@ -14,6 +14,7 @@ public enum AppStatusCode {
     // General server error
     UNCATEGORIZED_ERROR(-1, "Uncategorized error", HttpStatus.INTERNAL_SERVER_ERROR),
     INVALID_KEY(-2, "Invalid argument", HttpStatus.INTERNAL_SERVER_ERROR),
+    ILLEGAL_ARGUMENT(-3, "Illegal argument", HttpStatus.INTERNAL_SERVER_ERROR),
 
     // Authenticated + Authorized error
     UNAUTHENTICATED(-100, "Unauthenticated", HttpStatus.UNAUTHORIZED), // for request doesn't have valid JWT
@@ -28,6 +29,8 @@ public enum AppStatusCode {
     INVALID_EMAIL(-204, "Invalid email", HttpStatus.BAD_REQUEST),
     INVALID_PASSWORD(-205, "Invalid password", HttpStatus.BAD_REQUEST),
     INVALID_GENDER(-206, "Invalid gender", HttpStatus.BAD_REQUEST),
+    INVALID_PAGE(-207, "Invalid page", HttpStatus.BAD_REQUEST),
+    INVALID_PAGE_SIZE(-208, "Invalid page size", HttpStatus.BAD_REQUEST),
 
     // Unique Contraits
     EMAIL_ALREADY_EXISTED(-300, "Email already existed", HttpStatus.BAD_REQUEST),

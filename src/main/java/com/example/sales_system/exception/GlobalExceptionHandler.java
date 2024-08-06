@@ -82,6 +82,22 @@ public class GlobalExceptionHandler {
         return generateResponseEntity(statusCode);
     }
 
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<AppResponse<?>> handleIllegalArgumentException(IllegalArgumentException exception) {
+        AppStatusCode statusCode = AppStatusCode.ILLEGAL_ARGUMENT;
+
+        if (StringUtils.containsIgnoreCase(exception.getMessage(),
+                "Page index must not be less than zero")) {
+            return generateResponseEntity(AppStatusCode.INVALID_PAGE);
+        }
+        else if (StringUtils.containsIgnoreCase(exception.getMessage(),
+                "Page size must not be less than zero")) {
+            return generateResponseEntity(AppStatusCode.INVALID_PAGE_SIZE);
+        }
+
+        return generateResponseEntity(statusCode, exception.getMessage());
+    }
+
     @ExceptionHandler(AuthorizationDeniedException.class)
     ResponseEntity<AppResponse<?>> handleAuthorizationDeniedException(AuthorizationDeniedException exception) {
         AppStatusCode statusCode = AppStatusCode.UNAUTHORIZED;
