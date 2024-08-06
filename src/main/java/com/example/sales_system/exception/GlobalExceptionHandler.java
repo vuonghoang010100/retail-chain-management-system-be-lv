@@ -91,7 +91,7 @@ public class GlobalExceptionHandler {
             return generateResponseEntity(AppStatusCode.INVALID_PAGE);
         }
         else if (StringUtils.containsIgnoreCase(exception.getMessage(),
-                "Page size must not be less than zero")) {
+                "Page size must not be less than one")) {
             return generateResponseEntity(AppStatusCode.INVALID_PAGE_SIZE);
         }
 
