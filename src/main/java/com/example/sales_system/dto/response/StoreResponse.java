@@ -4,8 +4,6 @@ import com.example.sales_system.enums.StoreStatus;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-import java.util.Date;
-
 /**
  * DTO for {@link com.example.sales_system.entity.tenant.Store}
  */
@@ -25,6 +23,6 @@ public class StoreResponse {
     String phone;
     StoreStatus status;
     String note;
-    Date createTime;
-    Date updateTime;
+    String createTime;
+    String updateTime;
 }

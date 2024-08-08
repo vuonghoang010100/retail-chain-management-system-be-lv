@@ -65,11 +65,13 @@ public enum AppStatusCode {
 
     // Roles API error
     ROLE_NOT_FOUND(-800, "Role not found", HttpStatus.NOT_FOUND),
-
     // Permissions API error
 
     // Store API error
     STORE_NOT_FOUND(-900, "Store not found", HttpStatus.NOT_FOUND),
+
+    // Category API error
+    CATEGORY_NOT_FOUND(-1000, "Category not found", HttpStatus.NOT_FOUND),
 
     // Invoices API error
 

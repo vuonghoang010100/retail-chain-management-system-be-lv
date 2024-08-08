@@ -41,7 +41,9 @@ public class Product extends AbstractTimestampEntity {
     @Enumerated(EnumType.STRING)
     ProductStatus status;
     String note;
-    String image;
+
+    @Column(name = "image_url")
+    String imageUrl;
 
     @ManyToOne
     @JoinColumn(

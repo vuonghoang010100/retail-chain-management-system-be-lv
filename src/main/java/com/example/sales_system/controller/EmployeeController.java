@@ -131,7 +131,6 @@ public class EmployeeController {
                 .build();
     }
 
-
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PreAuthorize("hasRole('TENANT_ADMIN') or hasAuthority('EMPLOYEE_DELETE')")

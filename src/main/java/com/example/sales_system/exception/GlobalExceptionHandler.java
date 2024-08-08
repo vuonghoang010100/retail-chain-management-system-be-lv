@@ -90,8 +90,7 @@ public class GlobalExceptionHandler {
         if (StringUtils.containsIgnoreCase(exception.getMessage(),
                 "Page index must not be less than zero")) {
             return generateResponseEntity(AppStatusCode.INVALID_PAGE);
-        }
-        else if (StringUtils.containsIgnoreCase(exception.getMessage(),
+        } else if (StringUtils.containsIgnoreCase(exception.getMessage(),
                 "Page size must not be less than one")) {
             return generateResponseEntity(AppStatusCode.INVALID_PAGE_SIZE);
         }
@@ -104,7 +103,7 @@ public class GlobalExceptionHandler {
         AppStatusCode statusCode = AppStatusCode.INVALID_ARGUMENT;
 
         if (exception.getCause().getCause() instanceof AppException) {
-            statusCode = ((AppException)  exception.getCause().getCause()).getAppStatusCode();
+            statusCode = ((AppException) exception.getCause().getCause()).getAppStatusCode();
         }
 
         return generateResponseEntity(statusCode);

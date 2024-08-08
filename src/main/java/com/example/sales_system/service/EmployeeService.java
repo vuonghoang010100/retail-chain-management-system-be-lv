@@ -107,12 +107,12 @@ public class EmployeeService {
         try {
             employee = employeeRepository.save(employee);
         } catch (DataIntegrityViolationException exception) {
-            log.debug(exception.getMessage());
             if (StringUtils.containsIgnoreCase(exception.getMessage(), "Key (email)")) {
                 throw new AppException(AppStatusCode.EMAIL_ALREADY_EXISTED);
             } else if (StringUtils.containsIgnoreCase(exception.getMessage(), "Key (phone)")) {
                 throw new AppException(AppStatusCode.PHONE_ALREADY_EXISTED);
             }
+            log.debug(exception.getMessage());
             throw exception;
         }
         return employee;
