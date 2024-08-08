@@ -62,6 +62,9 @@ public class Employee extends AbstractTimestampEntity {
             foreignKey = @ForeignKey(name = "fk_employee_roles_on_employee"),
             inverseForeignKey = @ForeignKey(name = "fk_employee_roles_on_role")
     )
-    private Set<Role> roles;
+    Set<Role> roles;
+
     // store
+    Boolean allStore;
+
 }

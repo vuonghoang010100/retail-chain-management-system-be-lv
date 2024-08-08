@@ -130,6 +130,7 @@ public class ApplicationInitialConfig {
                         .password(passwordEncoder.encode("test"))
                         .roles(new HashSet<>(List.of(role)))
                         .status(EmployeeStatus.ACTIVE)
+                        .allStore(true)
                         .build();
 
                 employeeRepository.save(employee);

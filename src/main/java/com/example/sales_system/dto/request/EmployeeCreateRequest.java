@@ -37,4 +37,6 @@ public class EmployeeCreateRequest {
     String district;
     String note;
     List<Long> roles;
+
+    Boolean allStore;
 }

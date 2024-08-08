@@ -113,6 +113,7 @@ public class TenantService {
                 .district(user.getDistrict())
                 .status(EmployeeStatus.ACTIVE)
                 .roles(new HashSet<>(Collections.singleton(role)))
+                .allStore(true)
                 .build();
 
         employeeService.saveEmployee(employee);

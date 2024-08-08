@@ -29,6 +29,7 @@ public class EmployeeResponse {
     EmployeeStatus status;
     String note;
     Set<RoleResponse> roles;
+    Boolean allStore;
     String createTime;
     String updateTime;
 }

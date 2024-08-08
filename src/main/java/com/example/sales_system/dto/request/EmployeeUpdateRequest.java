@@ -36,4 +36,6 @@ public class EmployeeUpdateRequest {
     EmployeeStatus status;
     String note;
     List<Long> roles;
+
+    Boolean allStore;
 }
