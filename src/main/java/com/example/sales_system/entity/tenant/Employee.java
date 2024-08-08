@@ -52,6 +52,8 @@ public class Employee extends AbstractTimestampEntity {
     String address;
     String province;
     String district;
+
+    @Enumerated(EnumType.STRING)
     EmployeeStatus status;
     String note;
 
@@ -66,5 +68,8 @@ public class Employee extends AbstractTimestampEntity {
 
     // store
     Boolean allStore;
+
+    @ManyToMany(mappedBy = "employees")
+    Set<Store> stores;
 
 }

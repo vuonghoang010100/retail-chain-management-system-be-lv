@@ -32,6 +32,8 @@ public enum AppStatusCode {
     INVALID_PAGE(-207, "Invalid page", HttpStatus.BAD_REQUEST),
     INVALID_PAGE_SIZE(-208, "Invalid page size", HttpStatus.BAD_REQUEST),
     INVALID_EMPLOYEE_STATUS(-209, "Invalid employee status", HttpStatus.BAD_REQUEST),
+    INVALID_STORE_STATUS(-210, "Invalid store status", HttpStatus.BAD_REQUEST),
+    INVALID_PRODUCT_STATUS(-211, "Invalid product status", HttpStatus.BAD_REQUEST),
 
     // Unique Contraits
     EMAIL_ALREADY_EXISTED(-300, "Email already existed", HttpStatus.BAD_REQUEST),

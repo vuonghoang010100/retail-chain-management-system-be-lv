@@ -1,6 +1,6 @@
 package com.example.sales_system.enums.converter;
 
-import com.example.sales_system.enums.EmployeeStatus;
+import com.example.sales_system.enums.ProductStatus;
 import com.example.sales_system.exception.AppException;
 import com.example.sales_system.exception.AppStatusCode;
 import jakarta.annotation.Nonnull;
@@ -8,11 +8,11 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
 @Component
-public class EmployeeStatusConverter implements Converter<String, EmployeeStatus> {
+public class ProductStatusConverter implements Converter<String, ProductStatus> {
     @Override
-    public EmployeeStatus convert(@Nonnull String source) {
-        for (EmployeeStatus status : EmployeeStatus.values()) {
-            if (status.getStatus().equals(source)) {
+    public ProductStatus convert(@Nonnull String source) {
+        for (ProductStatus status : ProductStatus.values()) {
+            if (status.getStatus().equalsIgnoreCase(source)) {
                 return status;
             }
         }

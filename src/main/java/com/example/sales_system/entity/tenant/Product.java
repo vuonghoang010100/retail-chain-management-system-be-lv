@@ -1,10 +1,8 @@
 package com.example.sales_system.entity.tenant;
 
 import com.example.sales_system.entity.AbstractTimestampEntity;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.example.sales_system.enums.ProductStatus;
+import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -19,4 +17,27 @@ public class Product extends AbstractTimestampEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
+
+    @Column(nullable = false, unique = true)
+    String sku;
+
+    @Column(nullable = false, unique = true)
+    String name;
+
+    String description;
+
+    @Column(nullable = false)
+    String brand;
+    @Column(nullable = false)
+    String unit;
+    @Column(nullable = false)
+    String price;
+
+    @Enumerated(EnumType.STRING)
+    ProductStatus status;
+    String note;
+    String image;
+
+    @ManyToOne
+    Category category;
 }
