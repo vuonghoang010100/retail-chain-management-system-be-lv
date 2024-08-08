@@ -1,6 +1,7 @@
 package com.example.sales_system.entity.tenant;
 
 import com.example.sales_system.entity.AbstractTimestampEntity;
+import com.example.sales_system.enums.EmployeeStatus;
 import com.example.sales_system.enums.Gender;
 import jakarta.persistence.*;
 import lombok.*;
@@ -51,7 +52,7 @@ public class Employee extends AbstractTimestampEntity {
     String address;
     String province;
     String district;
-    Boolean active;
+    EmployeeStatus status;
     String note;
 
     @ManyToMany

@@ -4,6 +4,7 @@ import com.example.sales_system.dto.response.TenantResponse;
 import com.example.sales_system.entity.master.Tenant;
 import com.example.sales_system.entity.master.User;
 import com.example.sales_system.entity.tenant.Employee;
+import com.example.sales_system.enums.EmployeeStatus;
 import com.example.sales_system.enums.Gender;
 import com.example.sales_system.exception.AppException;
 import com.example.sales_system.exception.AppStatusCode;
@@ -110,7 +111,7 @@ public class TenantService {
                 .address(user.getAddress())
                 .province(user.getProvince())
                 .district(user.getDistrict())
-                .active(true)
+                .status(EmployeeStatus.ACTIVE)
                 .roles(new HashSet<>(Collections.singleton(role)))
                 .build();
 

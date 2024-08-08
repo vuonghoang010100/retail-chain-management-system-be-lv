@@ -9,7 +9,10 @@ public enum Gender {
     MALE("Nam"),
 
     @JsonProperty("Nữ")
-    FEMALE("Nữ");
+    FEMALE("Nữ")
+
+    ;
+
     private final String gender;
 
     Gender(String gender) {

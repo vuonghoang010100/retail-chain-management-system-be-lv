@@ -5,6 +5,7 @@ import com.example.sales_system.dto.request.EmployeeUpdateRequest;
 import com.example.sales_system.dto.response.EmployeeResponse;
 import com.example.sales_system.dto.response.ListResponse;
 import com.example.sales_system.entity.tenant.Employee;
+import com.example.sales_system.enums.EmployeeStatus;
 import com.example.sales_system.exception.AppException;
 import com.example.sales_system.exception.AppStatusCode;
 import com.example.sales_system.mapper.EmployeeMapper;
@@ -67,7 +68,7 @@ public class EmployeeService {
         employee.setPassword(passwordEncoder.encode(request.getPassword()));
         employee.setRoles(new HashSet<>(roles));
         // update active
-        employee.setActive(true);
+        employee.setStatus(EmployeeStatus.ACTIVE);
         // save
         employee = saveEmployee(employee);
 

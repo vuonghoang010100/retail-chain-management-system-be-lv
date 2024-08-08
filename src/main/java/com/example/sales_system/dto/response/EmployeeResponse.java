@@ -1,5 +1,6 @@
 package com.example.sales_system.dto.response;
 
+import com.example.sales_system.enums.EmployeeStatus;
 import com.example.sales_system.enums.Gender;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -25,7 +26,7 @@ public class EmployeeResponse {
     String address;
     String province;
     String district;
-    Boolean active;
+    EmployeeStatus status;
     String note;
     Set<RoleResponse> roles;
     String createTime;

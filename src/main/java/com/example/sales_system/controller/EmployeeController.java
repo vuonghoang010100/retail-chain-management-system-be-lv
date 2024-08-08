@@ -6,6 +6,7 @@ import com.example.sales_system.dto.response.AppResponse;
 import com.example.sales_system.dto.response.EmployeeResponse;
 import com.example.sales_system.dto.response.ListResponse;
 import com.example.sales_system.entity.tenant.Employee;
+import com.example.sales_system.enums.EmployeeStatus;
 import com.example.sales_system.enums.Gender;
 import com.example.sales_system.service.EmployeeService;
 import com.example.sales_system.specification.FilterOperator;
@@ -56,7 +57,7 @@ public class EmployeeController {
             @RequestParam(required = false) String address,
             @RequestParam(required = false) String province,
             @RequestParam(required = false) String district,
-            @RequestParam(required = false) Boolean active,
+            @RequestParam(required = false) EmployeeStatus status,
             @RequestParam(required = false) String note
     ) {
         log.debug("getAllEmployees called");
@@ -88,7 +89,7 @@ public class EmployeeController {
                 .and("address", FilterOperator.LIKE, address)
                 .and("province", FilterOperator.LIKE, province)
                 .and("district", FilterOperator.LIKE, district)
-                .and("active", FilterOperator.EQUAL, active)
+                .and("status", FilterOperator.EQUAL, status)
                 .and("note", FilterOperator.LIKE, note)
                 .build();
 

@@ -8,3 +8,5 @@ docker push vuonghoang010100/retail-system:be-2.0-java
 
 docker rmi retail-system-be-java
 docker rmi vuonghoang010100/retail-system:be-2.0-java
+
+Write-Output "Build complete!"

@@ -11,6 +11,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import java.util.Objects;
 
@@ -96,6 +97,17 @@ public class GlobalExceptionHandler {
         }
 
         return generateResponseEntity(statusCode, exception.getMessage());
+    }
+
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public ResponseEntity<AppResponse<?>> handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException exception) {
+        AppStatusCode statusCode = AppStatusCode.INVALID_ARGUMENT;
+
+        if (exception.getCause().getCause() instanceof AppException) {
+            statusCode = ((AppException)  exception.getCause().getCause()).getAppStatusCode();
+        }
+
+        return generateResponseEntity(statusCode);
     }
 
     @ExceptionHandler(AuthorizationDeniedException.class)

@@ -6,6 +6,7 @@ import com.example.sales_system.entity.master.User;
 import com.example.sales_system.entity.tenant.Employee;
 import com.example.sales_system.entity.tenant.Permission;
 import com.example.sales_system.enums.AppRole;
+import com.example.sales_system.enums.EmployeeStatus;
 import com.example.sales_system.enums.TenantPermission;
 import com.example.sales_system.repository.master.MasterRoleRepository;
 import com.example.sales_system.repository.master.TenantRepository;
@@ -128,7 +129,7 @@ public class ApplicationInitialConfig {
                         .email("test@test.com")
                         .password(passwordEncoder.encode("test"))
                         .roles(new HashSet<>(List.of(role)))
-                        .active(true)
+                        .status(EmployeeStatus.ACTIVE)
                         .build();
 
                 employeeRepository.save(employee);

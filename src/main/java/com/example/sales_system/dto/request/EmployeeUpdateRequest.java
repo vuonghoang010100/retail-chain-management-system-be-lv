@@ -1,5 +1,6 @@
 package com.example.sales_system.dto.request;
 
+import com.example.sales_system.enums.EmployeeStatus;
 import com.example.sales_system.enums.Gender;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
@@ -32,7 +33,7 @@ public class EmployeeUpdateRequest {
     String address;
     String province;
     String district;
-    Boolean active;
+    EmployeeStatus status;
     String note;
     List<Long> roles;
 }
