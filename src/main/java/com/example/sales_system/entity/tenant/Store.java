@@ -49,10 +49,11 @@ public class Store extends AbstractTimestampEntity {
 
     @ManyToMany
     @JoinTable(
-            name = "store_employees",
+            name = "store_employee",
             joinColumns = @JoinColumn(name = "store_id"),
             inverseJoinColumns = @JoinColumn(name = "employee_id"),
-            inverseForeignKey = @ForeignKey(name = "fk_store_employees_on_employee")
+            foreignKey = @ForeignKey(name = "fk_store_employee_on_store"),
+            inverseForeignKey = @ForeignKey(name = "fk_store_employee_on_employee")
     )
     Set<Employee> employees;
 }

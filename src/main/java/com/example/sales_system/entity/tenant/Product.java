@@ -6,7 +6,10 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.util.Set;
+
 @Entity
+@Table(name = "product")
 @Getter
 @Setter
 @Builder
@@ -28,8 +31,10 @@ public class Product extends AbstractTimestampEntity {
 
     @Column(nullable = false)
     String brand;
+
     @Column(nullable = false)
     String unit;
+
     @Column(nullable = false)
     String price;
 
@@ -39,5 +44,12 @@ public class Product extends AbstractTimestampEntity {
     String image;
 
     @ManyToOne
+    @JoinColumn(
+            name = "category_id",
+            foreignKey = @ForeignKey(name = "fk_product_category")
+    )
     Category category;
+
+    @OneToMany(mappedBy = "product")
+    Set<Batch> batchs;
 }

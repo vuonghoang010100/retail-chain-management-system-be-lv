@@ -38,12 +38,19 @@ public enum AppStatusCode {
     // Unique Contraits
     EMAIL_ALREADY_EXISTED(-300, "Email already existed", HttpStatus.BAD_REQUEST),
     PHONE_ALREADY_EXISTED(-301, "Phone already existed", HttpStatus.BAD_REQUEST),
+    NAME_ALREADY_EXISTED(-302, "Name already existed", HttpStatus.BAD_REQUEST),
+    FULLNAME_ALREADY_EXISTED(-303, "Fullname already existed", HttpStatus.BAD_REQUEST),
 
     // Validate contraits
     FULLNAME_IS_REQUIRED(-400, "Fullname is required", HttpStatus.BAD_REQUEST),
     EMAIL_IS_REQUIRED(-401, "Email is required", HttpStatus.BAD_REQUEST),
     PHONE_IS_REQUIRED(-402, "Phone is required", HttpStatus.BAD_REQUEST),
     PASSWORD_IS_REQUIRED(-403, "Password is required", HttpStatus.BAD_REQUEST),
+    NAME_IS_REQUIRED(-404, "Name is required", HttpStatus.BAD_REQUEST),
+    PROVINCE_IS_REQUIRED(-405, "Province is required", HttpStatus.BAD_REQUEST),
+    DISTRICT_IS_REQUIRED(-406, "District is required", HttpStatus.BAD_REQUEST),
+    ADDRESS_IS_REQUIRED(-407, "Address is required", HttpStatus.BAD_REQUEST),
+
 
     // Multitenant API error
     TENANT_NOT_FOUND(-500, "Tenant not found", HttpStatus.NOT_FOUND),
@@ -60,6 +67,9 @@ public enum AppStatusCode {
     ROLE_NOT_FOUND(-800, "Role not found", HttpStatus.NOT_FOUND),
 
     // Permissions API error
+
+    // Store API error
+    STORE_NOT_FOUND(-900, "Store not found", HttpStatus.NOT_FOUND),
 
     // Invoices API error
 

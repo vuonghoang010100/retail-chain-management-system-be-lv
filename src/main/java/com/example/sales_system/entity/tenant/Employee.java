@@ -58,11 +58,11 @@ public class Employee extends AbstractTimestampEntity {
     String note;
 
     @ManyToMany
-    @JoinTable(name = "employee_roles",
+    @JoinTable(name = "employee_role",
             joinColumns = @JoinColumn(name = "employee_id"),
             inverseJoinColumns = @JoinColumn(name = "roles_id"),
-            foreignKey = @ForeignKey(name = "fk_employee_roles_on_employee"),
-            inverseForeignKey = @ForeignKey(name = "fk_employee_roles_on_role")
+            foreignKey = @ForeignKey(name = "fk_employee_role_on_employee"),
+            inverseForeignKey = @ForeignKey(name = "fk_employee_role_on_role")
     )
     Set<Role> roles;
 

@@ -63,9 +63,10 @@ public class EmployeeService {
     public EmployeeResponse createEmployee(EmployeeCreateRequest request) {
         log.debug("createEmployee called");
         Employee employee = employeeMapper.toEmployee(request);
+        // udpate password
+        employee.setPassword(passwordEncoder.encode(request.getPassword()));
         // update roles
         var roles = roleRepository.findAllById(request.getRoles());
-        employee.setPassword(passwordEncoder.encode(request.getPassword()));
         employee.setRoles(new HashSet<>(roles));
         // update active
         employee.setStatus(EmployeeStatus.ACTIVE);
@@ -107,13 +108,9 @@ public class EmployeeService {
             employee = employeeRepository.save(employee);
         } catch (DataIntegrityViolationException exception) {
             log.debug(exception.getMessage());
-            if (StringUtils.containsIgnoreCase(
-                    exception.getMessage(),
-                    String.format("Key (email)=(%s) already exists.", employee.getEmail()))) {
+            if (StringUtils.containsIgnoreCase(exception.getMessage(), "Key (email)")) {
                 throw new AppException(AppStatusCode.EMAIL_ALREADY_EXISTED);
-            } else if (StringUtils.containsIgnoreCase(
-                    exception.getMessage(),
-                    String.format("Key (phone)=(%s) already exists.", employee.getPhone()))) {
+            } else if (StringUtils.containsIgnoreCase(exception.getMessage(), "Key (phone)")) {
                 throw new AppException(AppStatusCode.PHONE_ALREADY_EXISTED);
             }
             throw exception;
