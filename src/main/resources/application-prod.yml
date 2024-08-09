@@ -50,4 +50,12 @@ jwt:
 api:
   server:
     url: ${SERVER_URL}
-    desc: Production
+    desc: "Production"
+
+aws:
+  s3:
+    bucket: ${S3_BUCKET_NAME}
+    region: ${S3_REGION_NAME}
+    accessKey: ${S3_ACCESS_KEY}
+    secretKey: ${S3_SECRET_ACCESS_KEY}
+    namePrefix: "PROD"

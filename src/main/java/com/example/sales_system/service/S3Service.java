@@ -19,6 +19,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Objects;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -26,12 +27,18 @@ import java.util.Objects;
 @Slf4j
 public class S3Service {
     S3Client s3Client;
+
     @NonFinal
     @Value("${aws.s3.bucket}")
     private String bucket;
+
     @NonFinal
     @Value("${aws.s3.region}")
     private String region;
+
+    @NonFinal
+    @Value("${aws.s3.namePrefix}")
+    private String namePrefix;
 
     public String uploadFile(String fileName, MultipartFile multipartFile) {
         PutObjectRequest objectRequest = PutObjectRequest.builder()
@@ -62,6 +69,10 @@ public class S3Service {
 
     public String getFileUrl(String fileName) {
         return String.format("https://%s.s3.%s.amazonaws.com/%s", bucket, region, fileName);
+    }
+
+    public String generateFileName(String tenant, String table, String fileNameExtension) {
+        return namePrefix + "_" + tenant + "_" + table + "_" + System.currentTimeMillis() + "_" + UUID.randomUUID() + "." + fileNameExtension;
     }
 
     private File convertMultiPartToFile(MultipartFile file) throws IOException {
