@@ -9,6 +9,7 @@ import com.example.sales_system.enums.StoreStatus;
 import com.example.sales_system.exception.AppException;
 import com.example.sales_system.exception.AppStatusCode;
 import com.example.sales_system.mapper.StoreMapper;
+import com.example.sales_system.repository.tenant.EmployeeRepository;
 import com.example.sales_system.repository.tenant.StoreRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +32,7 @@ import java.util.stream.Collectors;
 public class StoreService {
     private final StoreMapper storeMapper;
     StoreRepository storeRepository;
+    EmployeeRepository employeeRepository;
 
     @Transactional(transactionManager = "tenantTransactionManager", readOnly = true)
     public ListResponse<StoreResponse> getAllStoreResponses(Specification<Store> spec, Pageable pageable) {
@@ -60,7 +62,19 @@ public class StoreService {
         Store store = storeMapper.toStore(request);
         // init status
         store.setStatus(StoreStatus.ACTIVE);
-        return storeMapper.toStoreResponse(saveStore(store));
+        // save
+        store = saveStore(store);
+        // update employee work on all store
+        var employees = employeeRepository.findAllByAllStore(true);
+        Store finalStore = store;
+        employees.forEach(employee -> {
+            var empStores = employee.getStores();
+            empStores.add(finalStore);
+            employee.setStores(empStores);
+            employeeRepository.save(employee);
+        });
+
+        return storeMapper.toStoreResponse(store);
     }
 
     @Transactional(transactionManager = "tenantTransactionManager")

@@ -28,7 +28,7 @@ public class ProductCreateRequest {
     @NotEmpty(message = "UNIT_IS_REQUIRED")
     String unit;
 
-//    @NotEmpty(message = "PRICE_IS_REQUIRED")
+    //    @NotEmpty(message = "PRICE_IS_REQUIRED")
     Integer price;
 
     String description;

@@ -71,9 +71,8 @@ public class EmployeeService {
         employee.setRoles(new HashSet<>(roleRepository.findAllById(request.getRoles())));
         // update store
         if (employee.getAllStore()) {
-            employee.setStores(new HashSet<>());
-        }
-        else {
+            employee.setStores(new HashSet<>(storeRepository.findAll()));
+        } else {
             employee.setStores(new HashSet<>(storeRepository.findAllById(request.getStores())));
         }
         // update active
@@ -92,9 +91,8 @@ public class EmployeeService {
         employee.setRoles(new HashSet<>(roleRepository.findAllById(request.getRoles())));
         // update stores
         if (employee.getAllStore()) {
-            employee.setStores(new HashSet<>());
-        }
-        else {
+            employee.setStores(new HashSet<>(storeRepository.findAll()));
+        } else {
             employee.setStores(new HashSet<>(storeRepository.findAllById(request.getStores())));
         }
         employee = saveEmployee(employee);
