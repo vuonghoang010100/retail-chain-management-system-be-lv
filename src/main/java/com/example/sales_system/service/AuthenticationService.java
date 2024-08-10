@@ -2,8 +2,10 @@ package com.example.sales_system.service;
 
 import com.example.sales_system.dto.request.AuthenticationRequest;
 import com.example.sales_system.dto.response.AuthenticationRespone;
+import com.example.sales_system.entity.master.Role;
 import com.example.sales_system.entity.master.User;
 import com.example.sales_system.entity.tenant.Employee;
+import com.example.sales_system.entity.tenant.Permission;
 import com.example.sales_system.enums.AppRole;
 import com.example.sales_system.exception.AppException;
 import com.example.sales_system.exception.AppStatusCode;
@@ -122,9 +124,9 @@ public class AuthenticationService {
             return stringJoiner.toString();
         }
 
-        user.getRoles().forEach(role -> {
+        for (Role role : user.getRoles()) {
             stringJoiner.add("ROLE_" + role.getName());
-        });
+        }
 
         return stringJoiner.toString();
     }
@@ -135,12 +137,12 @@ public class AuthenticationService {
             return stringJoiner.toString();
         }
         employee.getRoles().forEach(role -> {
-            if (role.getName().equals(AppRole.TENANT_ADMIN.name())) {
+            if (role.getName().equals(AppRole.ADMIN.name())) {
                 stringJoiner.add("ROLE_" + role.getName());
             }
-            role.getPermissions().forEach(permission -> {
+            for (Permission permission : role.getPermissions()) {
                 stringJoiner.add(permission.getName());
-            });
+            }
         });
         return stringJoiner.toString();
     }

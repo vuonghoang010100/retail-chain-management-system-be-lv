@@ -87,7 +87,7 @@ public class RoleService {
 
     public Role createAdminRole() {
         Role role = Role.builder()
-                .name(AppRole.TENANT_ADMIN.name())
+                .name(AppRole.ADMIN.name())
                 .description("Admin")
                 .build();
         return roleRepository.save(role);

@@ -34,7 +34,7 @@ public class UserSevice {
     public UserWithTenantResponse createUser(UserCreateResquest resquest) {
         User user = userMapper.toUser(resquest);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        var role = masterRoleRepository.findById(AppRole.TENANT_ADMIN.name());
+        var role = masterRoleRepository.findById(AppRole.ADMIN.name());
         if (role.isPresent()) {
             user.setRoles(new HashSet<>(Collections.singleton(role.get())));
         }

@@ -40,7 +40,7 @@ public class EmployeeController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    @PreAuthorize("hasRole('TENANT_ADMIN') or hasAuthority('EMPLOYEE_READ')")
+    @PreAuthorize("hasRole('ADMIN') or hasAuthority('EMPLOYEE_READ')")
     public AppResponse<ListResponse<EmployeeResponse>> getAllEmployees(
             @RequestParam(required = false, defaultValue = "1") int page,
             @RequestParam(required = false, defaultValue = "10") int size,
@@ -101,7 +101,7 @@ public class EmployeeController {
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    @PreAuthorize("hasRole('TENANT_ADMIN') or hasAuthority('EMPLOYEE_READ')")
+    @PreAuthorize("hasRole('ADMIN') or hasAuthority('EMPLOYEE_READ')")
     public AppResponse<EmployeeResponse> getEmployeeById(@PathVariable Long id) {
         log.debug("getEmployeeById called");
         return AppResponse.<EmployeeResponse>builder()
@@ -111,7 +111,7 @@ public class EmployeeController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    @PreAuthorize("hasRole('TENANT_ADMIN') or hasAuthority('EMPLOYEE_CREATE')")
+    @PreAuthorize("hasRole('ADMIN') or hasAuthority('EMPLOYEE_CREATE')")
     public AppResponse<EmployeeResponse> createEmployee(@RequestBody @Valid EmployeeCreateRequest request) {
         log.debug("createEmployee called");
         return AppResponse.<EmployeeResponse>builder()
@@ -121,7 +121,7 @@ public class EmployeeController {
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    @PreAuthorize("hasRole('TENANT_ADMIN') or hasAuthority('EMPLOYEE_UPDATE')")
+    @PreAuthorize("hasRole('ADMIN') or hasAuthority('EMPLOYEE_UPDATE')")
     public AppResponse<EmployeeResponse> updateEmployee(
             @PathVariable Long id,
             @RequestBody @Valid EmployeeUpdateRequest request) {
@@ -133,7 +133,7 @@ public class EmployeeController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @PreAuthorize("hasRole('TENANT_ADMIN') or hasAuthority('EMPLOYEE_DELETE')")
+    @PreAuthorize("hasRole('ADMIN') or hasAuthority('EMPLOYEE_DELETE')")
     public void deleteEmployee(@PathVariable Long id) {
         log.debug("deleteEmployee called");
         employeeService.deleteEmployeeById(id);

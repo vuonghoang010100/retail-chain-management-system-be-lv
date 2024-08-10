@@ -72,7 +72,7 @@ public class ApplicationInitialConfig {
                         AppRole.SYSTEM_ADMIN.name(),
                         "Master admin role");
                 Role tenant_admin = new Role(
-                        AppRole.TENANT_ADMIN.name(),
+                        AppRole.ADMIN.name(),
                         "Tenant admin role");
                 masterRoleRepository.save(master_admin);
                 masterRoleRepository.save(tenant_admin);
@@ -120,7 +120,7 @@ public class ApplicationInitialConfig {
                 Arrays.stream(TenantPermission.values()).forEach(permission -> permissionRepository.save(new Permission(permission.getName(), permission.getDescription())));
                 // Create tenant admin role
                 var role = roleRepository.save(com.example.sales_system.entity.tenant.Role.builder()
-                        .name(AppRole.TENANT_ADMIN.name())
+                        .name(AppRole.ADMIN.name())
                         .build());
                 // Create tenant admin
 

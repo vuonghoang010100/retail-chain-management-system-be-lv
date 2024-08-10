@@ -29,7 +29,7 @@ public class PermissionController {
     PermissionService permissionService;
 
     @GetMapping
-    @PreAuthorize("hasRole('TENANT_ADMIN') or hasAnyAuthority('ROLE_CREATE', 'ROLE_UPDATE')")
+    @PreAuthorize("hasRole('ADMIN') or hasAnyAuthority('ROLE_CREATE', 'ROLE_UPDATE')")
     public AppResponse<List<PermissionResponse>> getAllPermissions() {
         return AppResponse.<List<PermissionResponse>>builder()
                 .result(permissionService.getAllPermissions())
