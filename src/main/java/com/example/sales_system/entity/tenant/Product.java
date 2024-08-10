@@ -27,8 +27,6 @@ public class Product extends AbstractTimestampEntity {
     @Column(nullable = false, unique = true)
     String name;
 
-    String description;
-
     @Column(nullable = false)
     String brand;
 
@@ -36,7 +34,9 @@ public class Product extends AbstractTimestampEntity {
     String unit;
 
     @Column(nullable = false)
-    String price;
+    Integer price;
+
+    String description;
 
     @Enumerated(EnumType.STRING)
     ProductStatus status;

@@ -11,6 +11,7 @@ import com.example.sales_system.exception.AppStatusCode;
 import com.example.sales_system.mapper.EmployeeMapper;
 import com.example.sales_system.repository.tenant.EmployeeRepository;
 import com.example.sales_system.repository.tenant.RoleRepository;
+import com.example.sales_system.repository.tenant.StoreRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -34,6 +35,7 @@ import java.util.stream.Collectors;
 public class EmployeeService {
     EmployeeRepository employeeRepository;
     RoleRepository roleRepository;
+    StoreRepository storeRepository;
     EmployeeMapper employeeMapper;
     PasswordEncoder passwordEncoder;
 
@@ -66,8 +68,14 @@ public class EmployeeService {
         // udpate password
         employee.setPassword(passwordEncoder.encode(request.getPassword()));
         // update roles
-        var roles = roleRepository.findAllById(request.getRoles());
-        employee.setRoles(new HashSet<>(roles));
+        employee.setRoles(new HashSet<>(roleRepository.findAllById(request.getRoles())));
+        // update store
+        if (employee.getAllStore()) {
+            employee.setStores(new HashSet<>());
+        }
+        else {
+            employee.setStores(new HashSet<>(storeRepository.findAllById(request.getStores())));
+        }
         // update active
         employee.setStatus(EmployeeStatus.ACTIVE);
         // save
@@ -81,8 +89,14 @@ public class EmployeeService {
         var employee = this.getEmployeeById(id);
         employeeMapper.updateEmployee(employee, request);
         // update roles
-        var roles = roleRepository.findAllById(request.getRoles());
-        employee.setRoles(new HashSet<>(roles));
+        employee.setRoles(new HashSet<>(roleRepository.findAllById(request.getRoles())));
+        // update stores
+        if (employee.getAllStore()) {
+            employee.setStores(new HashSet<>());
+        }
+        else {
+            employee.setStores(new HashSet<>(storeRepository.findAllById(request.getStores())));
+        }
         employee = saveEmployee(employee);
         return employeeMapper.toEmployeeResponse(employee);
     }

@@ -2,6 +2,7 @@ package com.example.sales_system.service;
 
 import com.example.sales_system.dto.request.RoleCreateRequest;
 import com.example.sales_system.dto.request.RoleUpdateRequest;
+import com.example.sales_system.dto.response.ListResponse;
 import com.example.sales_system.dto.response.RoleResponse;
 import com.example.sales_system.entity.tenant.Permission;
 import com.example.sales_system.entity.tenant.Role;
@@ -15,11 +16,15 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -31,11 +36,17 @@ public class RoleService {
     RoleMapper roleMapper;
 
     @Transactional(transactionManager = "tenantTransactionManager", readOnly = true)
-    public List<RoleResponse> getAllRoles() {
-        return roleRepository.findAll()
-                .stream()
-                .map(roleMapper::toRoleResponse)
-                .toList();
+    public ListResponse<RoleResponse> getAllRoles(Specification<Role> specification, Pageable pageable) {
+        Page<Role> page = roleRepository.findAll(specification, pageable);
+
+        return ListResponse.<RoleResponse>builder()
+                .size(page.getSize())
+                .page(page.getNumber() + 1)
+                .total(page.getTotalElements())
+                .numOfElements(page.getNumberOfElements())
+                .totalPages(page.getTotalPages())
+                .data(page.getContent().stream().map(roleMapper::toRoleResponse).collect(Collectors.toList()))
+                .build();
     }
 
     @Transactional(transactionManager = "tenantTransactionManager", readOnly = true)

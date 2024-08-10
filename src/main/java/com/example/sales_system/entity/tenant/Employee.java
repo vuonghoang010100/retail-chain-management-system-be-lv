@@ -58,18 +58,24 @@ public class Employee extends AbstractTimestampEntity {
     String note;
 
     @ManyToMany
-    @JoinTable(name = "employee_role",
+    @JoinTable(name = "employee_has_role", // employee_has_role
             joinColumns = @JoinColumn(name = "employee_id"),
             inverseJoinColumns = @JoinColumn(name = "roles_id"),
-            foreignKey = @ForeignKey(name = "fk_employee_role_on_employee"),
-            inverseForeignKey = @ForeignKey(name = "fk_employee_role_on_role")
+            foreignKey = @ForeignKey(name = "fk_employee_has_role_on_employee"),
+            inverseForeignKey = @ForeignKey(name = "fk_employee_has_role_on_role")
     )
     Set<Role> roles;
 
     // store
     Boolean allStore;
 
-    @ManyToMany(mappedBy = "employees")
+    @ManyToMany
+    @JoinTable(name = "employee_work_in_store",
+            joinColumns = @JoinColumn(name = "employee_id"),
+            inverseJoinColumns = @JoinColumn(name = "store_id"),
+            foreignKey = @ForeignKey(name = "fk_employee_work_in_store_on_employee"),
+            inverseForeignKey = @ForeignKey(name = "fk_employee_work_in_store_on_store")
+    )
     Set<Store> stores;
 
 }

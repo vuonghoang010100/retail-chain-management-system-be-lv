@@ -62,7 +62,7 @@ public class StoreController {
         // Search
         var searchSpec = new FilterSpecificationBuilder<Store>()
                 .or("name", FilterOperator.LIKE, search)
-                .or("fullName", FilterOperator.LIKE, fullName)
+                .or("fullName", FilterOperator.LIKE, search)
                 .build();
 
         var spec = new FilterSpecificationBuilder<Store>()

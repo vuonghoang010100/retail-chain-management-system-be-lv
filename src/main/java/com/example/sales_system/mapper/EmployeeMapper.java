@@ -14,6 +14,7 @@ import org.mapstruct.ReportingPolicy;
         unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface EmployeeMapper {
     @Mapping(target = "roles", ignore = true)
+    @Mapping(target = "stores", ignore = true)
     Employee toEmployee(EmployeeCreateRequest employeeCreateRequest);
 
     //    @Mapping(target = "gender",
@@ -22,5 +23,6 @@ public interface EmployeeMapper {
     EmployeeResponse toEmployeeResponse(Employee employee);
 
     @Mapping(target = "roles", ignore = true)
+    @Mapping(target = "stores", ignore = true)
     void updateEmployee(@MappingTarget Employee employee, EmployeeUpdateRequest employeeUpdateRequest);
 }

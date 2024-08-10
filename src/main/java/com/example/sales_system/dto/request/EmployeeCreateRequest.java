@@ -39,4 +39,5 @@ public class EmployeeCreateRequest {
     List<Long> roles;
 
     Boolean allStore;
+    List<Long> stores;
 }

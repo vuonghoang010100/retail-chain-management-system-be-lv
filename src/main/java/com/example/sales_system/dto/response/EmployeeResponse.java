@@ -30,6 +30,7 @@ public class EmployeeResponse {
     String note;
     Set<RoleResponse> roles;
     Boolean allStore;
+    Set<StoreResponse> stores;
     String createTime;
     String updateTime;
 }

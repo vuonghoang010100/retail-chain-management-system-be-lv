@@ -3,8 +3,13 @@ package com.example.sales_system.controller;
 import com.example.sales_system.dto.request.RoleCreateRequest;
 import com.example.sales_system.dto.request.RoleUpdateRequest;
 import com.example.sales_system.dto.response.AppResponse;
+import com.example.sales_system.dto.response.ListResponse;
 import com.example.sales_system.dto.response.RoleResponse;
+import com.example.sales_system.entity.tenant.Role;
 import com.example.sales_system.service.RoleService;
+import com.example.sales_system.specification.FilterOperator;
+import com.example.sales_system.specification.FilterSpecificationBuilder;
+import com.example.sales_system.util.SortBuilder;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -12,11 +17,11 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @CrossOrigin("*")
 @RestController
@@ -31,9 +36,25 @@ public class RoleController {
 
     @GetMapping
     @PreAuthorize("hasRole('TENANT_ADMIN') or hasAuthority('ROLE_READ')")
-    public AppResponse<List<RoleResponse>> getAllRoles() {
-        return AppResponse.<List<RoleResponse>>builder()
-                .result(roleService.getAllRoles())
+    public AppResponse<ListResponse<RoleResponse>> getAllRoles(
+            @RequestParam(required = false, defaultValue = "1") int page,
+            @RequestParam(required = false, defaultValue = "10") int size,
+            @RequestParam(required = false) String sort,
+            @RequestParam(required = false) String search
+    ) {
+        // Convert for fe
+        page = page - 1;
+
+        // Page
+        Pageable pageable = PageRequest.of(page, size, SortBuilder.buildSort(sort, Role.class));
+
+        // Search
+        var spec = new FilterSpecificationBuilder<Role>()
+                .or("name", FilterOperator.LIKE, search)
+                .build();
+
+        return AppResponse.<ListResponse<RoleResponse>>builder()
+                .result(roleService.getAllRoles(spec, pageable))
                 .build();
     }
 

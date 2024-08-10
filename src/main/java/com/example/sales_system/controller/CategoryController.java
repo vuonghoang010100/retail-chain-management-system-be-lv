@@ -50,7 +50,6 @@ public class CategoryController {
         // Search
         var searchSpec = new FilterSpecificationBuilder<Category>()
                 .or("name", FilterOperator.LIKE, search)
-                .or("description", FilterOperator.LIKE, search)
                 .build();
 
         return AppResponse.<ListResponse<CategoryResponse>>builder()

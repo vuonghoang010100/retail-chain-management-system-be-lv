@@ -40,6 +40,7 @@ public enum AppStatusCode {
     PHONE_ALREADY_EXISTED(-301, "Phone already existed", HttpStatus.BAD_REQUEST),
     NAME_ALREADY_EXISTED(-302, "Name already existed", HttpStatus.BAD_REQUEST),
     FULLNAME_ALREADY_EXISTED(-303, "Fullname already existed", HttpStatus.BAD_REQUEST),
+    SKU_ALREADY_EXISTED(-304, "Sku already existed", HttpStatus.BAD_REQUEST),
 
     // Validate contraits
     FULLNAME_IS_REQUIRED(-400, "Fullname is required", HttpStatus.BAD_REQUEST),
@@ -50,7 +51,10 @@ public enum AppStatusCode {
     PROVINCE_IS_REQUIRED(-405, "Province is required", HttpStatus.BAD_REQUEST),
     DISTRICT_IS_REQUIRED(-406, "District is required", HttpStatus.BAD_REQUEST),
     ADDRESS_IS_REQUIRED(-407, "Address is required", HttpStatus.BAD_REQUEST),
-
+    SKU_IS_REQUIRED(-408, "Sku is required", HttpStatus.BAD_REQUEST),
+    BRAND_IS_REQUIRED(-409, "Brand is required", HttpStatus.BAD_REQUEST),
+    PRICE_IS_REQUIRED(-410, "Price is required", HttpStatus.BAD_REQUEST),
+    UNIT_IS_REQUIRED(-411, "Unit is required", HttpStatus.BAD_REQUEST),
 
     // Multitenant API error
     TENANT_NOT_FOUND(-500, "Tenant not found", HttpStatus.NOT_FOUND),
@@ -72,6 +76,9 @@ public enum AppStatusCode {
 
     // Category API error
     CATEGORY_NOT_FOUND(-1000, "Category not found", HttpStatus.NOT_FOUND),
+
+    // Product API error
+    PRODUCT_NOT_FOUND(-1100, "Product not found", HttpStatus.NOT_FOUND),
 
     // Invoices API error
 

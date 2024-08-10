@@ -47,13 +47,6 @@ public class Store extends AbstractTimestampEntity {
 
     String note;
 
-    @ManyToMany
-    @JoinTable(
-            name = "store_employee",
-            joinColumns = @JoinColumn(name = "store_id"),
-            inverseJoinColumns = @JoinColumn(name = "employee_id"),
-            foreignKey = @ForeignKey(name = "fk_store_employee_on_store"),
-            inverseForeignKey = @ForeignKey(name = "fk_store_employee_on_employee")
-    )
+    @ManyToMany(mappedBy = "stores")
     Set<Employee> employees;
 }

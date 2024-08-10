@@ -38,4 +38,5 @@ public class EmployeeUpdateRequest {
     List<Long> roles;
 
     Boolean allStore;
+    List<Long> stores;
 }
