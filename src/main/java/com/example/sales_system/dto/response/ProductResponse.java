@@ -27,4 +27,7 @@ public class ProductResponse {
 
     String createTime;
     String updateTime;
+
+    @Builder.Default
+    Integer stock = 0;
 }

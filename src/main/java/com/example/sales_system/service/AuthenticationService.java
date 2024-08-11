@@ -75,7 +75,7 @@ public class AuthenticationService {
                 .subject(user.getEmail())
                 .issueTime(new Date())
                 .expirationTime(new Date(
-                        Instant.now().plus(1, ChronoUnit.HOURS).toEpochMilli()
+                        Instant.now().plus(12, ChronoUnit.HOURS).toEpochMilli()
                 ))
                 .claim("tenant", "admin")
                 .claim("scope", buildScope(user))

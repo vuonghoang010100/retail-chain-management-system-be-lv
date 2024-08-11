@@ -55,6 +55,7 @@ public enum AppStatusCode {
     BRAND_IS_REQUIRED(-409, "Brand is required", HttpStatus.BAD_REQUEST),
     PRICE_IS_REQUIRED(-410, "Price is required", HttpStatus.BAD_REQUEST),
     UNIT_IS_REQUIRED(-411, "Unit is required", HttpStatus.BAD_REQUEST),
+    PRICE_MUST_BE_POSITIVE(-412, "Price must be positive", HttpStatus.BAD_REQUEST),
 
     // Multitenant API error
     TENANT_NOT_FOUND(-500, "Tenant not found", HttpStatus.NOT_FOUND),

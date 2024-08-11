@@ -101,6 +101,7 @@ public class StoreService {
     }
 
     private Store saveStore(Store store) {
+        // TODO: remove, also product, category, employee service
         try {
             store = storeRepository.save(store);
         } catch (DataIntegrityViolationException exception) {
@@ -114,7 +115,6 @@ public class StoreService {
             } else if (StringUtils.containsIgnoreCase(exception.getMessage(), "Key (full_name)")) {
                 throw new AppException(AppStatusCode.FULLNAME_ALREADY_EXISTED);
             }
-
             throw exception;
         }
 

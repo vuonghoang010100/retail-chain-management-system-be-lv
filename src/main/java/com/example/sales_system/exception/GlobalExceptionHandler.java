@@ -3,6 +3,7 @@ package com.example.sales_system.exception;
 import com.example.sales_system.dto.response.AppResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -60,6 +61,28 @@ public class GlobalExceptionHandler {
             log.warn("Need process error at handleHttpMessageNotReadableException");
         }
 
+        return generateResponseEntity(statusCode);
+    }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<AppResponse<?>> handleDataIntegrityViolationException(DataIntegrityViolationException exception) {
+        AppStatusCode statusCode = AppStatusCode.UNCATEGORIZED_ERROR;
+
+        if (StringUtils.containsIgnoreCase(exception.getMessage(), "Key (email)")) {
+            statusCode = AppStatusCode.EMAIL_ALREADY_EXISTED;
+        } else if (StringUtils.containsIgnoreCase(exception.getMessage(), "Key (phone)")) {
+            statusCode = AppStatusCode.PHONE_ALREADY_EXISTED;
+        } else if (StringUtils.containsIgnoreCase(exception.getMessage(), "Key (name)")) {
+            statusCode = AppStatusCode.NAME_ALREADY_EXISTED;
+        } else if (StringUtils.containsIgnoreCase(exception.getMessage(), "Key (full_name)")) {
+            statusCode = AppStatusCode.FULLNAME_ALREADY_EXISTED;
+        } else if (StringUtils.containsIgnoreCase(exception.getMessage(), "Key (sku)")) {
+            statusCode = AppStatusCode.SKU_ALREADY_EXISTED;
+        }
+
+        if (statusCode == AppStatusCode.UNCATEGORIZED_ERROR) {
+            return generateResponseEntity(statusCode, exception.getMessage());
+        }
         return generateResponseEntity(statusCode);
     }
 

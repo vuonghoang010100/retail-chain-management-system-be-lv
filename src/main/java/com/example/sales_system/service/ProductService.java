@@ -15,14 +15,13 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -33,9 +32,11 @@ public class ProductService {
     ProductRepository productRepository;
     CategoryRepository categoryRepository;
     ProductMapper productMapper;
+    S3Service s3Service;
 
     @Transactional(transactionManager = "tenantTransactionManager", readOnly = true)
     public ListResponse<ProductResponse> getAllProducts(Specification<Product> specification, Pageable pageable) {
+        log.info("getAllProducts with pageable {}", pageable);
 
         Page<Product> page = productRepository.findAll(specification, pageable);
 
@@ -60,16 +61,17 @@ public class ProductService {
         // update status
         product.setStatus(ProductStatus.ACTIVE);
         // update category
-        var category = categoryRepository.findById(request.getCategoryId()).orElse(null);
-        product.setCategory(category);
+        if (Objects.nonNull(request.getCategoryId())) {
+            var category = categoryRepository.findById(request.getCategoryId()).orElse(null);
+            product.setCategory(category);
+        }
         // save to check unique contraits
-        product = saveProduct(product);
+        product = productRepository.save(product);
 
         // update image
-        // TODO: convert base64 to File
-        product.setImageUrl("https://retail-chain-sale-ms.s3.ap-southeast-2.amazonaws.com/sample.jpg");
+        product.setImageUrl(s3Service.uploadImageBase64(request.getImageBase64()));
 
-        product = saveProduct(product);
+        product = productRepository.save(product);
 
         return productMapper.toProductResponse(product);
     }
@@ -78,9 +80,18 @@ public class ProductService {
     public ProductResponse updateProduct(Long id, ProductUpdateRequest request) {
         var product = getProductById(id);
         productMapper.updateProduct(product, request);
-        product = saveProduct(product);
+        // update category
+        if (Objects.nonNull(request.getCategoryId())) {
+            var category = categoryRepository.findById(request.getCategoryId()).orElse(null);
+            product.setCategory(category);
+        }
+        // save to check unique contraits
+        product = productRepository.save(product);
 
-        // TODO: check logic here
+        // update image
+        if (request.getImageBase64() != null) {
+            product.setImageUrl(s3Service.uploadImageBase64(request.getImageBase64()));
+        }
 
         return productMapper.toProductResponse(product);
     }
@@ -96,21 +107,6 @@ public class ProductService {
     private Product getProductById(Long id) {
         return productRepository.findById(id)
                 .orElseThrow(() -> new AppException(AppStatusCode.PRODUCT_NOT_FOUND));
-    }
-
-    private Product saveProduct(Product product) {
-        try {
-            product = productRepository.save(product);
-        } catch (DataIntegrityViolationException exception) {
-            if (StringUtils.containsIgnoreCase(exception.getMessage(), "Key (sku)")) {
-                throw new AppException(AppStatusCode.SKU_ALREADY_EXISTED);
-            } else if (StringUtils.containsIgnoreCase(exception.getMessage(), "Key (name)")) {
-                throw new AppException(AppStatusCode.NAME_ALREADY_EXISTED);
-            }
-            log.debug(exception.getMessage());
-            throw exception;
-        }
-        return product;
     }
 
 }
