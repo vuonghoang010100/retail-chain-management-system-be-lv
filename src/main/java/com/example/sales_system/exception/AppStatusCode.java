@@ -89,6 +89,12 @@ public enum AppStatusCode {
     // Customer API error
     CUSTOMER_NOT_FOUND(-1200, "Customer not found", HttpStatus.NOT_FOUND),
 
+    // Vendor API error
+    VENDOR_NOT_FOUND(-1300, "Vendor not found", HttpStatus.NOT_FOUND),
+
+    // Contract API error
+    CONTRACT_NOT_FOUND(-1400, "Contract not found", HttpStatus.NOT_FOUND),
+
     // Invoices API error
 
     // x API error
