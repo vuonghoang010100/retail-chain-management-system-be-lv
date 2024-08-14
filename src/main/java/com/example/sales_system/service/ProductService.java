@@ -15,6 +15,7 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -90,7 +91,12 @@ public class ProductService {
 
         // update image
         if (request.getImageBase64() != null) {
+            String oldFileUrl = product.getImageUrl();
             product.setImageUrl(s3Service.uploadImageBase64(request.getImageBase64()));
+
+            if (!StringUtils.isEmpty(oldFileUrl)) {
+                s3Service.deleteFileUrl(oldFileUrl);
+            }
         }
 
         return productMapper.toProductResponse(product);

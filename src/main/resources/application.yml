@@ -6,3 +6,7 @@ server:
 spring:
   application:
     name: sales-system
+
+  servlet:
+    multipart:
+      max-file-size: 10MB

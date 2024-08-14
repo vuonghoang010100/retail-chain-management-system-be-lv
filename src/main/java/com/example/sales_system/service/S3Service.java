@@ -42,6 +42,7 @@ public class S3Service {
     private String namePrefix;
 
     public String uploadImageBase64(String imageBase64) {
+        // Check is valid Image base 64
         String type = null;
         String extension = "png";
 
@@ -59,6 +60,7 @@ public class S3Service {
         if (!StringUtils.hasText(type))
             return null;
 
+        // Upload Image
         String base64 = imageBase64.substring(imageBase64.indexOf(",") + 1);
         byte[] bI = Base64.getDecoder().decode(base64);
         InputStream fis = new ByteArrayInputStream(bI);
@@ -82,7 +84,6 @@ public class S3Service {
         return getFileUrl(fileName);
     }
 
-
     public String uploadFile(String fileName, MultipartFile multipartFile) {
         PutObjectRequest objectRequest = PutObjectRequest.builder()
                 .bucket(bucket)
@@ -101,14 +102,18 @@ public class S3Service {
         return getFileUrl(fileName);
     }
 
-    public boolean deleteFile(String fileName) {
+    public void deleteFile(String fileName) {
         DeleteObjectRequest deleteObjectRequest = DeleteObjectRequest.builder()
                 .bucket(bucket)
                 .key(fileName)
                 .build();
 
         s3Client.deleteObject(deleteObjectRequest);
-        return true;
+    }
+
+    public void deleteFileUrl(String fileUrl) {
+        String fileName = getFileNameFromUrl(fileUrl);
+        deleteFile(fileName);
     }
 
     public String getFileUrl(String fileName) {
@@ -125,5 +130,31 @@ public class S3Service {
         fos.write(file.getBytes());
         fos.close();
         return convFile;
+    }
+
+    public Boolean isValidFileExtension(MultipartFile file) {
+        String contentType = file.getContentType();
+        if (!StringUtils.hasText(contentType)) {
+            return false;
+        }
+        return contentType.endsWith("pdf") || contentType.endsWith("doc") || contentType.endsWith("docx")
+                || contentType.endsWith("png") || contentType.endsWith("jpeg") || contentType.endsWith("jpg");
+    }
+
+    public Boolean isValidFileSize(MultipartFile file) {
+        long size = file.getSize();
+        return size > 0 && size <= 10000000L;
+    }
+
+    public String getFileExtension(MultipartFile file) {
+        String fileName = file.getOriginalFilename();
+        if (!StringUtils.hasText(fileName)) {
+            return null;
+        }
+        return fileName.substring(fileName.lastIndexOf(".") + 1);
+    }
+
+    public String getFileNameFromUrl(String fileUrl) {
+        return fileUrl.substring(fileUrl.lastIndexOf("/") + 1);
     }
 }

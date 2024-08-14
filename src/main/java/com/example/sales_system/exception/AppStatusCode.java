@@ -34,6 +34,7 @@ public enum AppStatusCode {
     INVALID_EMPLOYEE_STATUS(-209, "Invalid employee status", HttpStatus.BAD_REQUEST),
     INVALID_STORE_STATUS(-210, "Invalid store status", HttpStatus.BAD_REQUEST),
     INVALID_PRODUCT_STATUS(-211, "Invalid product status", HttpStatus.BAD_REQUEST),
+    INVALID_FILE_EXTENSION(-212, "Invalid file extension", HttpStatus.BAD_REQUEST),
 
     // Unique Contraits
     EMAIL_ALREADY_EXISTED(-300, "Email already existed", HttpStatus.BAD_REQUEST),
@@ -56,6 +57,7 @@ public enum AppStatusCode {
     PRICE_IS_REQUIRED(-410, "Price is required", HttpStatus.BAD_REQUEST),
     UNIT_IS_REQUIRED(-411, "Unit is required", HttpStatus.BAD_REQUEST),
     PRICE_MUST_BE_POSITIVE(-412, "Price must be positive", HttpStatus.BAD_REQUEST),
+    FILE_MUST_BE_LESS_THAN_10MB(-413, "File length must be less than 10MB", HttpStatus.BAD_REQUEST),
 
     // Multitenant API error
     TENANT_NOT_FOUND(-500, "Tenant not found", HttpStatus.NOT_FOUND),
