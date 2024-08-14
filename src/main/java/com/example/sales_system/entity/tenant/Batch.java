@@ -23,7 +23,8 @@ public class Batch extends AbstractTimestampEntity {
     @Column(nullable = false)
     int quantity;
 
-//    int purchaseAmount;
+    @Column(name = "purchase_amount")
+    int purchaseAmount;
 
     @Column(name = "purchase_price", nullable = false)
     int purchasePrice;
@@ -35,8 +36,16 @@ public class Batch extends AbstractTimestampEntity {
     LocalDate exp;
 
     @ManyToOne
+    @JoinColumn(
+            name = "store_id",
+            foreignKey = @ForeignKey(name = "fk_batch_on_store")
+    )
     Store store;
 
     @ManyToOne
+    @JoinColumn(
+            name = "product_id",
+            foreignKey = @ForeignKey(name = "fk_batch_on_product")
+    )
     Product product;
 }

@@ -35,6 +35,8 @@ public enum AppStatusCode {
     INVALID_STORE_STATUS(-210, "Invalid store status", HttpStatus.BAD_REQUEST),
     INVALID_PRODUCT_STATUS(-211, "Invalid product status", HttpStatus.BAD_REQUEST),
     INVALID_FILE_EXTENSION(-212, "Invalid file extension", HttpStatus.BAD_REQUEST),
+    INVALID_VENDOR_STATUS(-213, "Invalid vendor status", HttpStatus.BAD_REQUEST),
+    INVALID_CONTRACT_STATUS(-214, "Invalid contract status", HttpStatus.BAD_REQUEST),
 
     // Unique Contraits
     EMAIL_ALREADY_EXISTED(-300, "Email already existed", HttpStatus.BAD_REQUEST),
