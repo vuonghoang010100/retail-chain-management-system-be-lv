@@ -18,7 +18,7 @@ public class ProductResponse {
     String name;
     String brand;
     String unit;
-    Integer price;
+    Long price;
     String description;
     ProductStatus status;
     String note;

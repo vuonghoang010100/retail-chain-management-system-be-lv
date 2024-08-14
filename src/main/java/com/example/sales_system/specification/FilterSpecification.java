@@ -39,10 +39,10 @@ public class FilterSpecification<T> implements Specification<T> {
                 if (Objects.isNull(expr1) || Objects.isNull(expr2)) return null;
                 return criteriaBuilder.between(root.get(filter.getFieldName()).as(LocalDate.class), expr1, expr2);
             }
-            case GTE_INT:
-                return criteriaBuilder.greaterThanOrEqualTo(root.get(filter.getFieldName()), (Integer) filter.getValue());
-            case LTE_INT:
-                return criteriaBuilder.lessThanOrEqualTo(root.get(filter.getFieldName()), (Integer) filter.getValue());
+            case GTE_LONG:
+                return criteriaBuilder.greaterThanOrEqualTo(root.get(filter.getFieldName()), (Long) filter.getValue());
+            case LTE_LONG:
+                return criteriaBuilder.lessThanOrEqualTo(root.get(filter.getFieldName()), (Long) filter.getValue());
         }
         return null;
     }

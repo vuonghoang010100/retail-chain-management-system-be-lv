@@ -12,6 +12,6 @@ public enum FilterOperator {
     GTE_DATE,
     LTE_DATE,
 
-    GTE_INT,
-    LTE_INT,
+    GTE_LONG,
+    LTE_LONG,
 }

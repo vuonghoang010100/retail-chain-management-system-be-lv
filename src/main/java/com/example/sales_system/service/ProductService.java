@@ -104,8 +104,11 @@ public class ProductService {
 
     @Transactional(transactionManager = "tenantTransactionManager")
     public void deleteProduct(Long id) {
-        // TODO: remove image file
+        var product = getProductById(id);
+        var imageUrl = product.getImageUrl();
+
         productRepository.deleteById(id);
+        s3Service.deleteFileUrl(imageUrl);
     }
 
     // ----- Helper functions -----
