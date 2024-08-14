@@ -39,6 +39,6 @@ public class Customer extends AbstractTimestampEntity {
     String province;
     String district;
 
-    Integer rewardPoint;
+    Long rewardPoint;
     String note;
 }

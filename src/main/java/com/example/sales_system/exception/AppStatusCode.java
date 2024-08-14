@@ -60,6 +60,7 @@ public enum AppStatusCode {
     UNIT_IS_REQUIRED(-411, "Unit is required", HttpStatus.BAD_REQUEST),
     PRICE_MUST_BE_POSITIVE(-412, "Price must be positive", HttpStatus.BAD_REQUEST),
     FILE_MUST_BE_LESS_THAN_10MB(-413, "File length must be less than 10MB", HttpStatus.BAD_REQUEST),
+    REWARD_POINT_MUST_BE_GREATER_OR_EQUAL_THAN_ZERO(-414, "Reward point must be greater or equal than zero", HttpStatus.BAD_REQUEST),
 
     // Multitenant API error
     TENANT_NOT_FOUND(-500, "Tenant not found", HttpStatus.NOT_FOUND),
@@ -84,6 +85,9 @@ public enum AppStatusCode {
 
     // Product API error
     PRODUCT_NOT_FOUND(-1100, "Product not found", HttpStatus.NOT_FOUND),
+
+    // Customer API error
+    CUSTOMER_NOT_FOUND(-1200, "Customer not found", HttpStatus.NOT_FOUND),
 
     // Invoices API error
 
