@@ -47,9 +47,9 @@ public class ProductController {
             @RequestParam(required = false) String sku,
             @RequestParam(required = false) String name,
             @RequestParam(required = false) String brand,
-            @RequestParam(required = false) Integer price,
-            @RequestParam(required = false) Integer gtePrice,
-            @RequestParam(required = false) Integer ltePrice,
+            @RequestParam(required = false) Long price,
+            @RequestParam(required = false) Long gtePrice,
+            @RequestParam(required = false) Long ltePrice,
             @RequestParam(required = false) String description,
             @RequestParam(required = false) ProductStatus status,
             @RequestParam(required = false) String note,
@@ -76,8 +76,8 @@ public class ProductController {
                 .and("name", FilterOperator.LIKE, name)
                 .and("brand", FilterOperator.LIKE, brand)
                 .and("price", FilterOperator.EQUAL, price)
-                .and("price", FilterOperator.GTE_INT, gtePrice)
-                .and("price", FilterOperator.LTE_INT, ltePrice)
+                .and("price", FilterOperator.GTE_LONG, gtePrice)
+                .and("price", FilterOperator.LTE_LONG, ltePrice)
                 .and("description", FilterOperator.LIKE, description)
                 .and("status", FilterOperator.EQUAL, status)
                 .and("note", FilterOperator.LIKE, note)

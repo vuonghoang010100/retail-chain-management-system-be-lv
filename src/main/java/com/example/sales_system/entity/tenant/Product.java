@@ -34,7 +34,7 @@ public class Product extends AbstractTimestampEntity {
     String unit;
 
     @Column(nullable = false)
-    Integer price;
+    Long price;
 
     String description;
 

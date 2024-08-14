@@ -33,7 +33,7 @@ public class ProductUpdateRequest {
 
     @NotNull(message = "PRICE_IS_REQUIRED")
     @Positive(message = "PRICE_MUST_BE_POSITIVE")
-    Integer price;
+    Long price;
 
     String description;
     ProductStatus status;
