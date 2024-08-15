@@ -6,6 +6,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.util.Set;
+
 @Entity
 @Getter
 @Setter
@@ -35,4 +37,7 @@ public class Vendor extends AbstractTimestampEntity {
     VendorStatus status;
 
     String note;
+
+    @OneToMany(mappedBy = "vendor")
+    private Set<Contract> contracts;
 }

@@ -61,6 +61,11 @@ public enum AppStatusCode {
     PRICE_MUST_BE_POSITIVE(-412, "Price must be positive", HttpStatus.BAD_REQUEST),
     FILE_MUST_BE_LESS_THAN_10MB(-413, "File length must be less than 10MB", HttpStatus.BAD_REQUEST),
     REWARD_POINT_MUST_BE_GREATER_OR_EQUAL_THAN_ZERO(-414, "Reward point must be greater or equal than zero", HttpStatus.BAD_REQUEST),
+    START_DATE_IS_REQUIRED(-415, "Start date is required", HttpStatus.BAD_REQUEST),
+    END_DATE_IS_REQUIRED(-416, "End date is required", HttpStatus.BAD_REQUEST),
+    PERIOD_IS_REQUIRED(-417, "Period is required", HttpStatus.BAD_REQUEST),
+    PERIOD_MUST_BE_POSITIVE(-418, "Period must be positive", HttpStatus.BAD_REQUEST),
+    VENDORID_ID_REQUIRED(-419, "Vendorid id is required", HttpStatus.BAD_REQUEST),
 
     // Multitenant API error
     TENANT_NOT_FOUND(-500, "Tenant not found", HttpStatus.NOT_FOUND),
