@@ -4,6 +4,7 @@ import com.example.sales_system.dto.request.VendorCreateRequest;
 import com.example.sales_system.dto.request.VendorUpdateRequest;
 import com.example.sales_system.dto.response.ListResponse;
 import com.example.sales_system.dto.response.VendorResponse;
+import com.example.sales_system.dto.response.VendorWithContractResponse;
 import com.example.sales_system.entity.tenant.Vendor;
 import com.example.sales_system.enums.VendorStatus;
 import com.example.sales_system.exception.AppException;
@@ -47,8 +48,8 @@ public class VendorService {
     }
 
     @Transactional(transactionManager = "tenantTransactionManager", readOnly = true)
-    public VendorResponse getVendorResponse(Long id) {
-        return vendorMapper.toVendorResponse(getVendorById(id));
+    public VendorWithContractResponse getVendorResponse(Long id) {
+        return vendorMapper.toVendorWithContractResponse(getVendorById(id));
     }
 
     @Transactional(transactionManager = "tenantTransactionManager")
