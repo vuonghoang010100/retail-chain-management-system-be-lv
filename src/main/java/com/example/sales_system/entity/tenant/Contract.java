@@ -25,7 +25,7 @@ public class Contract extends AbstractTimestampEntity {
     LocalDate startDate;
 
     @Temporal(TemporalType.DATE)
-    @Column(name = "end_date")
+    @Column(name = "end_date", nullable = false)
     LocalDate endDate;
 
     @Column(nullable = false)
@@ -44,6 +44,8 @@ public class Contract extends AbstractTimestampEntity {
 
     @Enumerated(EnumType.STRING)
     ContractStatus status;
+
+    String note;
 
     @ManyToOne
     @JoinColumn(
