@@ -5,6 +5,7 @@ import com.example.sales_system.dto.request.VendorUpdateRequest;
 import com.example.sales_system.dto.response.AppResponse;
 import com.example.sales_system.dto.response.ListResponse;
 import com.example.sales_system.dto.response.VendorResponse;
+import com.example.sales_system.dto.response.VendorWithContractResponse;
 import com.example.sales_system.entity.tenant.Vendor;
 import com.example.sales_system.enums.VendorStatus;
 import com.example.sales_system.service.VendorService;
@@ -88,8 +89,8 @@ public class VendorController {
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
 
-    public AppResponse<VendorResponse> getVendorById(@PathVariable Long id) {
-        return AppResponse.<VendorResponse>builder()
+    public AppResponse<VendorWithContractResponse> getVendorById(@PathVariable Long id) {
+        return AppResponse.<VendorWithContractResponse>builder()
                 .result(vendorService.getVendorResponse(id))
                 .build();
     }
