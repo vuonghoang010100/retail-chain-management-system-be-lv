@@ -78,8 +78,8 @@ public class CustomerController {
                 .and("id", FilterOperator.TO_STRING_LIKE, id)
                 .and("fullName", FilterOperator.LIKE, fullName)
                 .and("dob", FilterOperator.EQUAL, dob)
-                .and("fromDob", FilterOperator.GTE_DATE, fromDob)
-                .and("toDob", FilterOperator.LTE_DATE, toDob)
+                .and("dob", FilterOperator.GTE_DATE, fromDob)
+                .and("dob", FilterOperator.LTE_DATE, toDob)
                 .and("gender", FilterOperator.EQUAL, gender)
                 .and("email", FilterOperator.LIKE, email)
                 .and("phone", FilterOperator.LIKE, phone)
@@ -87,8 +87,8 @@ public class CustomerController {
                 .and("province", FilterOperator.LIKE, province)
                 .and("district", FilterOperator.LIKE, district)
                 .and("rewardPoint", FilterOperator.EQUAL, rewardPoint)
-                .and("gteRewardPoint", FilterOperator.GTE_LONG, gteRewardPoint)
-                .and("lteRewardPoint", FilterOperator.GTE_LONG, lteRewardPoint)
+                .and("rewardPoint", FilterOperator.GTE_LONG, gteRewardPoint)
+                .and("rewardPoint", FilterOperator.LTE_LONG, lteRewardPoint)
                 .and("note", FilterOperator.LIKE, note)
                 .build();
 
