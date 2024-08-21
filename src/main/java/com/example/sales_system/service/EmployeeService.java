@@ -109,7 +109,7 @@ public class EmployeeService {
 
     // ----- Helper functions -----
 
-    private Employee getEmployeeById(Long id) {
+    public Employee getEmployeeById(Long id) {
         log.debug("getEmployeeById called");
         return employeeRepository.findById(id)
                 .orElseThrow(() -> new AppException(AppStatusCode.EMPLOYEE_NOT_FOUND));

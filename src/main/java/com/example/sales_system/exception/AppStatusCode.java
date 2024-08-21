@@ -37,6 +37,10 @@ public enum AppStatusCode {
     INVALID_FILE_EXTENSION(-212, "Invalid file extension", HttpStatus.BAD_REQUEST),
     INVALID_VENDOR_STATUS(-213, "Invalid vendor status", HttpStatus.BAD_REQUEST),
     INVALID_CONTRACT_STATUS(-214, "Invalid contract status", HttpStatus.BAD_REQUEST),
+    INVALID_PURCHASE_STATUS(-215, "Invalid purchase status", HttpStatus.BAD_REQUEST),
+    INVALID_PAYMENT_STATUS(-216, "Invalid payment status", HttpStatus.BAD_REQUEST),
+    INVALID_RECEIVE_STATUS(-217, "Invalid receive status", HttpStatus.BAD_REQUEST),
+    INVALID_PURCHASE_DETAILS(-218, "Invalid purchase details", HttpStatus.BAD_REQUEST),
 
     // Unique Contraits
     EMAIL_ALREADY_EXISTED(-300, "Email already existed", HttpStatus.BAD_REQUEST),
@@ -65,7 +69,18 @@ public enum AppStatusCode {
     END_DATE_IS_REQUIRED(-416, "End date is required", HttpStatus.BAD_REQUEST),
     PERIOD_IS_REQUIRED(-417, "Period is required", HttpStatus.BAD_REQUEST),
     PERIOD_MUST_BE_POSITIVE(-418, "Period must be positive", HttpStatus.BAD_REQUEST),
-    VENDORID_ID_REQUIRED(-419, "Vendorid id is required", HttpStatus.BAD_REQUEST),
+    VENDOR_ID_REQUIRED(-419, "Vendor id is required", HttpStatus.BAD_REQUEST),
+    USE_CONTRACT_IS_REQUIRED(-420, "Use contract is required", HttpStatus.BAD_REQUEST),
+    CONTRACT_ID_IS_REQUIRED(-421, "Contract is required", HttpStatus.BAD_REQUEST),
+    STORE_ID_REQUIRED(-422, "Store id is required", HttpStatus.BAD_REQUEST),
+    EMPLOYEE_ID_REQUIRED(-423, "Employee id is required", HttpStatus.BAD_REQUEST),
+    PURCHASE_DETAILS_REQUIRED(-424, "Purchase details is required", HttpStatus.BAD_REQUEST),
+    PRODUCT_ID_IS_REQUIRED(-425, "Product id is required", HttpStatus.BAD_REQUEST),
+    PURCHASE_PRICE_IS_REQUIRED(-426, "Purchase price is required", HttpStatus.BAD_REQUEST),
+    PURCHASE_PRICE_MUST_BE_POSITIVE(-427, "Purchase price must be positive", HttpStatus.BAD_REQUEST),
+    PURCHASE_AMOUNT_IS_REQUIRED(-428, "Purchase amount is required", HttpStatus.BAD_REQUEST),
+    PURCHASE_AMOUNT_MUST_BE_POSITIVE(-429, "Purchase amount must be positive", HttpStatus.BAD_REQUEST),
+
 
     // Multitenant API error
     TENANT_NOT_FOUND(-500, "Tenant not found", HttpStatus.NOT_FOUND),

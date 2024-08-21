@@ -95,7 +95,7 @@ public class StoreService {
 
 
     // ----- Helper functions -----
-    private Store getStoreById(Long id) {
+    public Store getStoreById(Long id) {
         return storeRepository.findById(id)
                 .orElseThrow(() -> new AppException(AppStatusCode.STORE_NOT_FOUND));
     }

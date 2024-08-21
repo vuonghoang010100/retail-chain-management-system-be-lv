@@ -69,7 +69,7 @@ public class FilterSpecificationBuilder<T> {
         Specification<T> specification = list.getFirst().getSpecification();
 
         for (int i = 1; i < list.size(); i++) {
-            var spec_ = (Specification_<T>) list.get(i);
+            var spec_ = list.get(i);
             specification = spec_.isOr()
                     ? Specification.where(specification).or(spec_.getSpecification())
                     : Specification.where(specification).and(spec_.getSpecification());

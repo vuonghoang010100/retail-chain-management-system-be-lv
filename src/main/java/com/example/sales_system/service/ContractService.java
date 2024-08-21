@@ -90,7 +90,7 @@ public class ContractService {
 
     // ----- Helper functions -----
 
-    private Contract getContractById(Long id) {
+    public Contract getContractById(Long id) {
         return contractRepository.findById(id)
                 .orElseThrow(() -> new AppException(AppStatusCode.CONTRACT_NOT_FOUND));
     }

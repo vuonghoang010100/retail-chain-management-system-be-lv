@@ -113,7 +113,7 @@ public class ProductService {
 
     // ----- Helper functions -----
 
-    private Product getProductById(Long id) {
+    public Product getProductById(Long id) {
         return productRepository.findById(id)
                 .orElseThrow(() -> new AppException(AppStatusCode.PRODUCT_NOT_FOUND));
     }

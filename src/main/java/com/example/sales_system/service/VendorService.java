@@ -75,7 +75,7 @@ public class VendorService {
 
     // ----- Helper functions -----
 
-    private Vendor getVendorById(Long id) {
+    public Vendor getVendorById(Long id) {
         return vendorRepository.findById(id)
                 .orElseThrow(() -> new AppException(AppStatusCode.VENDOR_NOT_FOUND));
     }
