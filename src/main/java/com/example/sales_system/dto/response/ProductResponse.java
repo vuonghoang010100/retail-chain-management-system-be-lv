@@ -28,6 +28,5 @@ public class ProductResponse {
     String createTime;
     String updateTime;
 
-    @Builder.Default
-    Long stock = 0L;
+    Long stock;
 }

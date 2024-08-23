@@ -41,6 +41,11 @@ public enum AppStatusCode {
     INVALID_PAYMENT_STATUS(-216, "Invalid payment status", HttpStatus.BAD_REQUEST),
     INVALID_RECEIVE_STATUS(-217, "Invalid receive status", HttpStatus.BAD_REQUEST),
     INVALID_PURCHASE_DETAILS(-218, "Invalid purchase details", HttpStatus.BAD_REQUEST),
+    CANT_NOT_UPDATE_PURCHASE(-219, "Can't update purchase", HttpStatus.BAD_REQUEST),
+    ONLY_RECEIVE_PURCHASE_WITH_STATUS_PENDING(-220, "Only receive purchase with status pending", HttpStatus.BAD_REQUEST),
+    PURCHASE_RECEIVE_AMOUNT_IS_REQUIRED(-221, "Purchase receiveAmount is required", HttpStatus.BAD_REQUEST),
+    PURCHASE_RECEIVE_AMOUNT_MUST_BE_POSITIVE(-222, "Purchase receiveAmount must be positive", HttpStatus.BAD_REQUEST),
+
 
     // Unique Contraits
     EMAIL_ALREADY_EXISTED(-300, "Email already existed", HttpStatus.BAD_REQUEST),
@@ -80,6 +85,7 @@ public enum AppStatusCode {
     PURCHASE_PRICE_MUST_BE_POSITIVE(-427, "Purchase price must be positive", HttpStatus.BAD_REQUEST),
     PURCHASE_AMOUNT_IS_REQUIRED(-428, "Purchase amount is required", HttpStatus.BAD_REQUEST),
     PURCHASE_AMOUNT_MUST_BE_POSITIVE(-429, "Purchase amount must be positive", HttpStatus.BAD_REQUEST),
+    PURCHASE_RECEIVE_MUST_NOT_BE_NOT_RECEIVED(-430, "Purchase receive must be not be not received", HttpStatus.BAD_REQUEST),
 
 
     // Multitenant API error
@@ -122,6 +128,7 @@ public enum AppStatusCode {
     PURCHASE_ON_STORE_MUST_BE_ACTIVE(-1503, "Purchase's store must be active", HttpStatus.BAD_REQUEST),
     PURCHASE_ON_EMPLOYEE_MUST_BE_ACTIVE(-1504, "Purchase's employee must be active", HttpStatus.BAD_REQUEST),
     PURCHASE_ON_PRODUCT_MUST_BE_ACTIVE(-1505, "Purchase's product must be active", HttpStatus.BAD_REQUEST),
+    INVALID_UPDATE_PURCHASE_STATUS(-1506, "Invalid update purchase status: PENDING, COMPLETE", HttpStatus.BAD_REQUEST),
 
     // Invoices API error
 

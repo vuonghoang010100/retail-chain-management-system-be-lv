@@ -54,4 +54,8 @@ public class Product extends AbstractTimestampEntity {
 
     @OneToMany(mappedBy = "product")
     Set<Batch> batchs;
+
+    @Transient
+    @Builder.Default
+    Long stock = 0L;
 }
