@@ -30,7 +30,7 @@ public class PurchaseResponse {
     Long total;
 
     VendorResponse vendor;
-    ContractResponse contract;
+    ContractWoVendorResponse contract;
     StoreResponse store;
     EmployeeResponseSimple employee;
 

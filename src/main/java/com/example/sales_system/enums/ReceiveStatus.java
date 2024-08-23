@@ -6,7 +6,7 @@ import lombok.Getter;
 @Getter
 public enum ReceiveStatus {
     @JsonProperty("Chưa nhận")
-    RECEIVE("Chưa nhận"),
+    NOT_RECEIVED("Chưa nhận"),
 
     @JsonProperty("Đã nhận một phần")
     PART_RECEIVED("Đã nhận một phần"),

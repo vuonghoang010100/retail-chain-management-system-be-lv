@@ -86,10 +86,10 @@ public enum AppStatusCode {
     TENANT_NOT_FOUND(-500, "Tenant not found", HttpStatus.NOT_FOUND),
     TENANT_INACTIVE(-501, "Tenant inactived", HttpStatus.BAD_REQUEST),
 
-    // Master Managerment API error
+    // Master Management API error
 
 
-    // Empoloyees API error
+    // Employees API error
     EMPLOYEE_NOT_FOUND(-700, "Employee not found", HttpStatus.NOT_FOUND),
 
 
@@ -114,6 +114,14 @@ public enum AppStatusCode {
 
     // Contract API error
     CONTRACT_NOT_FOUND(-1400, "Contract not found", HttpStatus.NOT_FOUND),
+
+    // Purchase API error
+    PURCHASE_NOT_FOUND(-1500, "Purchase not found", HttpStatus.NOT_FOUND),
+    PURCHASE_ON_VENDOR_MUST_BE_ACTIVE(-1501, "Purchase's vendor must be active", HttpStatus.BAD_REQUEST),
+    PURCHASE_ON_CONTRACT_MUST_BE_ACTIVE(-1502, "Purchase's contract must be active", HttpStatus.BAD_REQUEST),
+    PURCHASE_ON_STORE_MUST_BE_ACTIVE(-1503, "Purchase's store must be active", HttpStatus.BAD_REQUEST),
+    PURCHASE_ON_EMPLOYEE_MUST_BE_ACTIVE(-1504, "Purchase's employee must be active", HttpStatus.BAD_REQUEST),
+    PURCHASE_ON_PRODUCT_MUST_BE_ACTIVE(-1505, "Purchase's product must be active", HttpStatus.BAD_REQUEST),
 
     // Invoices API error
 
