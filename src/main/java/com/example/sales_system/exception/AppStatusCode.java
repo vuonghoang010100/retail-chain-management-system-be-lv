@@ -86,6 +86,8 @@ public enum AppStatusCode {
     PURCHASE_AMOUNT_IS_REQUIRED(-428, "Purchase amount is required", HttpStatus.BAD_REQUEST),
     PURCHASE_AMOUNT_MUST_BE_POSITIVE(-429, "Purchase amount must be positive", HttpStatus.BAD_REQUEST),
     PURCHASE_RECEIVE_MUST_NOT_BE_NOT_RECEIVED(-430, "Purchase receive must be not be not received", HttpStatus.BAD_REQUEST),
+    PURCHASE_LIST_ID_IS_REQUIRED(-431, "Purchase list id is required", HttpStatus.BAD_REQUEST),
+    PAYMENT_STATUS_IS_REQUIRED(-432, "Payment status is required", HttpStatus.BAD_REQUEST),
 
 
     // Multitenant API error
@@ -129,6 +131,13 @@ public enum AppStatusCode {
     PURCHASE_ON_EMPLOYEE_MUST_BE_ACTIVE(-1504, "Purchase's employee must be active", HttpStatus.BAD_REQUEST),
     PURCHASE_ON_PRODUCT_MUST_BE_ACTIVE(-1505, "Purchase's product must be active", HttpStatus.BAD_REQUEST),
     INVALID_UPDATE_PURCHASE_STATUS(-1506, "Invalid update purchase status: PENDING, COMPLETE", HttpStatus.BAD_REQUEST),
+
+    // Bill API error
+    BILL_EMPLOYEE_MUST_BE_ACTIVE(-1600, "Bill's employee must be active", HttpStatus.BAD_REQUEST),
+    BILL_PURCHASE_MUST_BE_UNPAID(-1601, "Bill's purchase must be unpaid", HttpStatus.BAD_REQUEST),
+    BILL_NOT_FOUND(-1602, "Bill not found", HttpStatus.BAD_REQUEST),
+    BILL_PAYMENT_STATUS_CAN_NOT_REVERT(-1603, "Bill's payment status can not revert", HttpStatus.BAD_REQUEST),
+    UNABLE_TO_DELETE_PAID_BILL(-1604, "Unable to delete paid bill", HttpStatus.BAD_REQUEST)
 
     // Invoices API error
 

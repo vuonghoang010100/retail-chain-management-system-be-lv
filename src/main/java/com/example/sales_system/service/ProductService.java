@@ -41,16 +41,16 @@ public class ProductService {
 
         Page<Product> page = productRepository.findAll(specification, pageable);
 
-//        var products = page.getContent().stream()
-//                .map(product -> {
-//                    Long totalProduct = product.getBatchs()
-//                            .stream()
-//                            .reduce(0L, (acc, ele) -> acc + ele.getQuantity(), Long::sum);
-//                    product.setStock(totalProduct);
-//                    return product;
-//                })
-//                .map(productMapper::toProductResponse)
-//                .toList();
+        var products = page.getContent().stream()
+                .map(product -> {
+                    Long totalProduct = product.getBatchs()
+                            .stream()
+                            .reduce(0L, (acc, ele) -> acc + ele.getQuantity(), Long::sum);
+                    product.setStock(totalProduct);
+                    return product;
+                })
+                .map(productMapper::toProductResponse)
+                .toList();
 
         return ListResponse.<ProductResponse>builder()
                 .size(page.getSize())
@@ -59,7 +59,7 @@ public class ProductService {
                 .numOfElements(page.getNumberOfElements())
                 .totalPages(page.getTotalPages())
                 .data(page.getContent().stream().map(productMapper::toProductResponse).collect(Collectors.toList()))
-//                .data(products)
+                .data(products)
                 .build();
     }
 

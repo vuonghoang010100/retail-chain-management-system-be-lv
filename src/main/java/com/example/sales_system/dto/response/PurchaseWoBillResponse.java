@@ -17,7 +17,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class PurchaseResponse {
+public class PurchaseWoBillResponse {
     Long id;
     boolean useContract;
 
@@ -35,8 +35,6 @@ public class PurchaseResponse {
     ContractWoVendorResponse contract;
     StoreResponse store;
     EmployeeResponseSimple employee;
-
-    BillSimpleResponse bill;
 
     Set<PurchaseDetailResponse> details;
 

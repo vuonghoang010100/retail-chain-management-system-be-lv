@@ -5,7 +5,10 @@ import com.example.sales_system.dto.request.ProductUpdateRequest;
 import com.example.sales_system.dto.response.ProductResponse;
 import com.example.sales_system.entity.tenant.Batch;
 import com.example.sales_system.entity.tenant.Product;
-import org.mapstruct.*;
+import org.mapstruct.Mapper;
+import org.mapstruct.MappingTarget;
+import org.mapstruct.Named;
+import org.mapstruct.ReportingPolicy;
 
 import java.util.Set;
 
@@ -16,7 +19,7 @@ public interface ProductMapper {
 
     Product toProduct(ProductCreateRequest request);
 
-    @Mapping(source = "batchs", target = "stock", qualifiedByName = "calculateStock")
+    //    @Mapping(source = "batchs", target = "stock", qualifiedByName = "calculateStock")
     ProductResponse toProductResponse(Product product);
 
     void updateProduct(@MappingTarget Product product, ProductUpdateRequest request);

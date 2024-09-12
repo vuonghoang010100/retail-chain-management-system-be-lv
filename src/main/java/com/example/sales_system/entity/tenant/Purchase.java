@@ -45,6 +45,8 @@ public class Purchase extends AbstractTimestampEntity {
 
     Long total;
 
+    String note;
+
     @ManyToOne
     @JoinColumn(
             name = "vendor_id",
@@ -73,8 +75,13 @@ public class Purchase extends AbstractTimestampEntity {
     )
     Employee employee;
 
+    @ManyToOne
+    @JoinColumn(
+            name = "bill_id",
+            foreignKey = @ForeignKey(name = "fk_purchase_on_bill")
+    )
+    Bill bill;
 
     @OneToMany(mappedBy = "purchase")
-    private Set<PurchaseDetail> details;
-
+    Set<PurchaseDetail> details;
 }

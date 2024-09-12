@@ -32,6 +32,8 @@ public class PurchaseCreateRequest {
     @NotNull(message = "EMPLOYEE_ID_REQUIRED")
     Long employeeId;
 
+    String note;
+
     @NotEmpty(message = "PURCHASE_DETAILS_REQUIRED")
     List<PurchaseDetailCreateRequest> details;
 }

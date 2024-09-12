@@ -253,7 +253,7 @@ public class PurchaseService {
         details.forEach(detail -> {
             Batch batch = Batch.builder()
                     .quantity(detail.getReceivedAmount())
-                    .purchaseAmount(detail.getSubTotal())
+                    .purchaseAmount(detail.getReceivedAmount())
                     .purchasePrice(detail.getPurchasePrice())
                     .mfg(detail.getMfg())
                     .exp(detail.getExp())
