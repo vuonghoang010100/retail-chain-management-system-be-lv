@@ -45,6 +45,8 @@ public enum AppStatusCode {
     ONLY_RECEIVE_PURCHASE_WITH_STATUS_PENDING(-220, "Only receive purchase with status pending", HttpStatus.BAD_REQUEST),
     PURCHASE_RECEIVE_AMOUNT_IS_REQUIRED(-221, "Purchase receiveAmount is required", HttpStatus.BAD_REQUEST),
     PURCHASE_RECEIVE_AMOUNT_MUST_BE_POSITIVE(-222, "Purchase receiveAmount must be positive", HttpStatus.BAD_REQUEST),
+    INVALID_PROMOTE_TYPE(-223, "Invalid promote type", HttpStatus.BAD_REQUEST),
+    INVALID_PROMOTE_STATUS(-224, "Invalid promote status", HttpStatus.BAD_REQUEST),
 
 
     // Unique Contraits
@@ -149,6 +151,11 @@ public enum AppStatusCode {
     BATCH_NOT_FOUND(-1800, "Batch not found", HttpStatus.BAD_REQUEST),
     INVENTORY_DETAIL_MUST_NOT_BE_EMPTY(-1801, "Inventory's details must not be empty", HttpStatus.BAD_REQUEST),
     BATCH_MUST_BE_IN_THE_SAME_STORE(-1802, "Batch's store must be in same store", HttpStatus.BAD_REQUEST),
+
+    // Promote API error
+    PROMOTE_NOT_FOUND(-1900, "Promote not found", HttpStatus.BAD_REQUEST),
+    PRODUCT_LIST_MUST_NOT_BE_EMPTY(-1901, "Product list must not be empty", HttpStatus.BAD_REQUEST),
+    STORE_LIST_MUST_NOT_BE_EMPTY(-1902, "Store list must not be empty", HttpStatus.BAD_REQUEST),
 
     // Invoices API error
 

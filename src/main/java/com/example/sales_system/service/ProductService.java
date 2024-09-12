@@ -11,6 +11,7 @@ import com.example.sales_system.exception.AppStatusCode;
 import com.example.sales_system.mapper.ProductMapper;
 import com.example.sales_system.repository.tenant.CategoryRepository;
 import com.example.sales_system.repository.tenant.ProductRepository;
+import com.example.sales_system.repository.tenant.PromoteRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -32,6 +33,7 @@ import java.util.stream.Collectors;
 public class ProductService {
     ProductRepository productRepository;
     CategoryRepository categoryRepository;
+    PromoteRepository promoteRepository;
     ProductMapper productMapper;
     S3Service s3Service;
 
@@ -85,6 +87,16 @@ public class ProductService {
         product.setImageUrl(s3Service.uploadImageBase64(request.getImageBase64()));
 
         product = productRepository.save(product);
+
+        // update promote on all product
+        var promotes = promoteRepository.findAllByAllProduct(true);
+        Product finalProduct = product;
+        promotes.forEach(promote -> {
+            var promoteProducts = promote.getProducts();
+            promoteProducts.add(finalProduct);
+            promote.setProducts(promoteProducts);
+            promoteRepository.save(promote);
+        });
 
         return productMapper.toProductResponse(product);
     }

@@ -10,6 +10,7 @@ import com.example.sales_system.exception.AppException;
 import com.example.sales_system.exception.AppStatusCode;
 import com.example.sales_system.mapper.StoreMapper;
 import com.example.sales_system.repository.tenant.EmployeeRepository;
+import com.example.sales_system.repository.tenant.PromoteRepository;
 import com.example.sales_system.repository.tenant.StoreRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -33,6 +34,7 @@ public class StoreService {
     private final StoreMapper storeMapper;
     StoreRepository storeRepository;
     EmployeeRepository employeeRepository;
+    PromoteRepository promoteRepository;
 
     @Transactional(transactionManager = "tenantTransactionManager", readOnly = true)
     public ListResponse<StoreResponse> getAllStoreResponses(Specification<Store> spec, Pageable pageable) {
@@ -64,6 +66,7 @@ public class StoreService {
         store.setStatus(StoreStatus.ACTIVE);
         // save
         store = saveStore(store);
+
         // update employee work on all store
         var employees = employeeRepository.findAllByAllStore(true);
         Store finalStore = store;
@@ -72,6 +75,15 @@ public class StoreService {
             empStores.add(finalStore);
             employee.setStores(empStores);
             employeeRepository.save(employee);
+        });
+
+        // update promote on all store
+        var promotes = promoteRepository.findAllByAllStore(true);
+        promotes.forEach(promote -> {
+            var promoteStores = promote.getStores();
+            promoteStores.add(finalStore);
+            promote.setStores(promoteStores);
+            promoteRepository.save(promote);
         });
 
         return storeMapper.toStoreResponse(store);
