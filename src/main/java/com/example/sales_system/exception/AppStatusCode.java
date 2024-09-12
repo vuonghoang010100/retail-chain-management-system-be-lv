@@ -88,6 +88,9 @@ public enum AppStatusCode {
     PURCHASE_RECEIVE_MUST_NOT_BE_NOT_RECEIVED(-430, "Purchase receive must be not be not received", HttpStatus.BAD_REQUEST),
     PURCHASE_LIST_ID_IS_REQUIRED(-431, "Purchase list id is required", HttpStatus.BAD_REQUEST),
     PAYMENT_STATUS_IS_REQUIRED(-432, "Payment status is required", HttpStatus.BAD_REQUEST),
+    BATCH_ID_IS_REQUIRED(-433, "Batch id is required", HttpStatus.BAD_REQUEST),
+    REAL_QUANTITY_IS_REQUIRED(-434, "Real quantity is required", HttpStatus.BAD_REQUEST),
+    INVENTORY_DETAILS_REQUIRED(-434, "Inventory's details is required", HttpStatus.BAD_REQUEST),
 
 
     // Multitenant API error
@@ -137,7 +140,15 @@ public enum AppStatusCode {
     BILL_PURCHASE_MUST_BE_UNPAID(-1601, "Bill's purchase must be unpaid", HttpStatus.BAD_REQUEST),
     BILL_NOT_FOUND(-1602, "Bill not found", HttpStatus.BAD_REQUEST),
     BILL_PAYMENT_STATUS_CAN_NOT_REVERT(-1603, "Bill's payment status can not revert", HttpStatus.BAD_REQUEST),
-    UNABLE_TO_DELETE_PAID_BILL(-1604, "Unable to delete paid bill", HttpStatus.BAD_REQUEST)
+    UNABLE_TO_DELETE_PAID_BILL(-1604, "Unable to delete paid bill", HttpStatus.BAD_REQUEST),
+
+    // Inventory API error
+    INVENTORY_NOT_FOUND(-1700, "Inventory not found", HttpStatus.BAD_REQUEST),
+
+    // Batch API error
+    BATCH_NOT_FOUND(-1800, "Batch not found", HttpStatus.BAD_REQUEST),
+    INVENTORY_DETAIL_MUST_NOT_BE_EMPTY(-1801, "Inventory's details must not be empty", HttpStatus.BAD_REQUEST),
+    BATCH_MUST_BE_IN_THE_SAME_STORE(-1802, "Batch's store must be in same store", HttpStatus.BAD_REQUEST),
 
     // Invoices API error
 
