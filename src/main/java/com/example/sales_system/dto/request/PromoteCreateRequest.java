@@ -22,21 +22,24 @@ public class PromoteCreateRequest {
     // REQUIRED
     String name;
     PromoteType type;
+
     Long percentage;
     Long maxDiscount;
+
     Long amount;
+
+    Long discountPrice;
+    Long productId;
+
     LocalDate startDate;
     LocalDate endDate;
-
     PromoteStatus status;
     Long quantity;
+
     Long minQuantityRequired;
     Long minAmountRequired;
 
     Long employeeId;
-
-    Boolean allProduct;
-    List<Long> productIds;
 
     Boolean allStore;
     List<Long> storeIds;

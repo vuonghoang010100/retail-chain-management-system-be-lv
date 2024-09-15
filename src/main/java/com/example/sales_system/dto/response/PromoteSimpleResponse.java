@@ -6,7 +6,6 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
-import java.util.Set;
 
 /**
  * DTO for {@link com.example.sales_system.entity.tenant.Promote}
@@ -16,7 +15,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class PromoteResponse {
+public class PromoteSimpleResponse {
     Long id;
     String name;
 
@@ -36,11 +35,6 @@ public class PromoteResponse {
 
     Long minQuantityRequired;
     Long minAmountRequired;
-
-    EmployeeResponseSimple employee;
-
-    Boolean allStore;
-    Set<StoreResponse> stores;
 
     String createTime;
     String updateTime;

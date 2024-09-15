@@ -19,12 +19,21 @@ import java.util.List;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class PromoteUpdateRequest {
     String name;
+
+    Long percentage;
+    Long maxDiscount;
+
+    Long amount;
+
+    Long discountPrice;
+
+    Long minQuantityRequired;
+    Long minAmountRequired;
+
+    LocalDate startDate;
     LocalDate endDate;
     Long quantity;
     PromoteStatus status;
-
-    Boolean allProduct;
-    List<Long> productIds;
 
     Boolean allStore;
     List<Long> storeIds;

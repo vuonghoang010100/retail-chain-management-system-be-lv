@@ -6,10 +6,10 @@ import com.example.sales_system.dto.response.ListResponse;
 import com.example.sales_system.dto.response.PromoteResponse;
 import com.example.sales_system.entity.tenant.Promote;
 import com.example.sales_system.enums.PromoteStatus;
+import com.example.sales_system.enums.PromoteType;
 import com.example.sales_system.exception.AppException;
 import com.example.sales_system.exception.AppStatusCode;
 import com.example.sales_system.mapper.PromoteMapper;
-import com.example.sales_system.repository.tenant.ProductRepository;
 import com.example.sales_system.repository.tenant.PromoteRepository;
 import com.example.sales_system.repository.tenant.StoreRepository;
 import lombok.AccessLevel;
@@ -22,7 +22,9 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -32,10 +34,11 @@ import java.util.stream.Collectors;
 @Slf4j
 public class PromoteService {
     PromoteRepository promoteRepository;
-    ProductRepository productRepository;
     StoreRepository storeRepository;
 
     PromoteMapper promoteMapper;
+
+    ProductService productService;
 
     @Transactional(transactionManager = "tenantTransactionManager", readOnly = true)
     public ListResponse<PromoteResponse> getAllPromotes(Specification<Promote> specification, Pageable pageable) {
@@ -64,28 +67,13 @@ public class PromoteService {
         if (Objects.isNull(promote.getStatus()))
             promote.setStatus(PromoteStatus.ACTIVE);
 
-        // product
-        if (!promote.getAllProduct()) {
-            var products = productRepository.findAllById(request.getProductIds());
-
-            if (products.isEmpty())
-                throw new AppException(AppStatusCode.PRODUCT_LIST_MUST_NOT_BE_EMPTY);
-
-            promote.setProducts(new HashSet<>(products));
-        } else {
-            promote.setProducts(new HashSet<>(productRepository.findAll()));
-        }
-
         // store
-        if (!promote.getAllStore()) {
-            var stores = storeRepository.findAllById(request.getStoreIds());
+        updateStores(promote, request.getStoreIds());
 
-            if (stores.isEmpty())
-                throw new AppException(AppStatusCode.STORE_LIST_MUST_NOT_BE_EMPTY);
-
-            promote.setStores(new HashSet<>(stores));
-        } else {
-            promote.setStores(new HashSet<>(storeRepository.findAll()));
+        // type 3: discountProduct
+        if (promote.getType().equals(PromoteType.DISCOUNTPRODUCT)) {
+            var product = productService.getProductById(request.getProductId());
+            promote.setProduct(product);
         }
 
         promote = promoteRepository.save(promote);
@@ -98,29 +86,8 @@ public class PromoteService {
         var promote = getPromoteById(id);
         promoteMapper.updatePromote(promote, request);
 
-        // product
-        if (!promote.getAllProduct()) {
-            var products = productRepository.findAllById(request.getProductIds());
-
-            if (products.isEmpty())
-                throw new AppException(AppStatusCode.PRODUCT_LIST_MUST_NOT_BE_EMPTY);
-
-            promote.setProducts(new HashSet<>(products));
-        } else {
-            promote.setProducts(new HashSet<>(productRepository.findAll()));
-        }
-
         // store
-        if (!promote.getAllStore()) {
-            var stores = storeRepository.findAllById(request.getStoreIds());
-
-            if (stores.isEmpty())
-                throw new AppException(AppStatusCode.STORE_LIST_MUST_NOT_BE_EMPTY);
-
-            promote.setStores(new HashSet<>(stores));
-        } else {
-            promote.setStores(new HashSet<>(storeRepository.findAll()));
-        }
+        updateStores(promote, request.getStoreIds());
 
         promote = promoteRepository.save(promote);
         return promoteMapper.toPromoteResponse(promote);
@@ -135,5 +102,38 @@ public class PromoteService {
     public Promote getPromoteById(Long id) {
         return promoteRepository.findById(id)
                 .orElseThrow(() -> new AppException(AppStatusCode.PROMOTE_NOT_FOUND));
+    }
+
+    public boolean isActive(Promote promote) {
+        if (promote.getStatus().equals(PromoteStatus.INACTIVE))
+            return false;
+
+        if (promote.getQuantity() <= 0) {
+            promote.setStatus(PromoteStatus.INACTIVE);
+            promoteRepository.save(promote);
+            return false;
+        }
+
+        LocalDate today = LocalDate.now();
+        if (today.isBefore(promote.getStartDate()))
+            return false;
+        if (today.isAfter(promote.getEndDate())) {
+            promote.setStatus(PromoteStatus.INACTIVE);
+            promoteRepository.save(promote);
+            return false;
+        }
+
+        return true;
+    }
+
+    private void updateStores(Promote promote, List<Long> storeIds) {
+        if (!promote.getAllStore()) {
+            var stores = storeRepository.findAllById(storeIds);
+            if (stores.isEmpty())
+                throw new AppException(AppStatusCode.STORE_LIST_MUST_NOT_BE_EMPTY);
+            promote.setStores(new HashSet<>(stores));
+        } else {
+            promote.setStores(new HashSet<>(storeRepository.findAll()));
+        }
     }
 }

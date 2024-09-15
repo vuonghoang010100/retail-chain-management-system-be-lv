@@ -1,5 +1,6 @@
 package com.example.sales_system.entity.tenant;
 
+import com.example.sales_system.entity.AbstractTimestampEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -14,7 +15,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class PurchaseDetail {
+public class PurchaseDetail extends AbstractTimestampEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
@@ -34,6 +35,9 @@ public class PurchaseDetail {
     Long subTotal;
 
     // Receive info
+//    @Temporal(TemporalType.DATE)
+//    @Column(name = "received_date")
+//    LocalDate receivedDate;
 
     @Temporal(TemporalType.DATE)
     LocalDate mfg;

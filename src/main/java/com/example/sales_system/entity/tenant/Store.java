@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -49,4 +50,11 @@ public class Store extends AbstractTimestampEntity {
 
     @ManyToMany(mappedBy = "stores")
     Set<Employee> employees;
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) return false;
+        if (!(obj instanceof Store)) return false;
+        return Objects.equals(this.id, ((Store) obj).id);
+    }
 }

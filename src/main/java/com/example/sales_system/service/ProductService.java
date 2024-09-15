@@ -88,16 +88,6 @@ public class ProductService {
 
         product = productRepository.save(product);
 
-        // update promote on all product
-        var promotes = promoteRepository.findAllByAllProduct(true);
-        Product finalProduct = product;
-        promotes.forEach(promote -> {
-            var promoteProducts = promote.getProducts();
-            promoteProducts.add(finalProduct);
-            promote.setProducts(promoteProducts);
-            promoteRepository.save(promote);
-        });
-
         return productMapper.toProductResponse(product);
     }
 
