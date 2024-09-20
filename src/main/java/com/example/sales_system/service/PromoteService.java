@@ -39,6 +39,7 @@ public class PromoteService {
     PromoteMapper promoteMapper;
 
     ProductService productService;
+    EmployeeService employeeService;
 
     @Transactional(transactionManager = "tenantTransactionManager", readOnly = true)
     public ListResponse<PromoteResponse> getAllPromotes(Specification<Promote> specification, Pageable pageable) {
@@ -66,6 +67,10 @@ public class PromoteService {
         // Status
         if (Objects.isNull(promote.getStatus()))
             promote.setStatus(PromoteStatus.ACTIVE);
+
+        // employee
+        var employee = employeeService.getEmployeeById(request.getEmployeeId());
+        promote.setEmployee(employee);
 
         // store
         updateStores(promote, request.getStoreIds());
@@ -124,6 +129,15 @@ public class PromoteService {
         }
 
         return true;
+    }
+
+    public void usePromote(Promote promote) {
+        if (promote.getQuantity() == null) return;
+        promote.setQuantity(promote.getQuantity() - 1);
+        if (promote.getQuantity() <= 0) {
+            promote.setStatus(PromoteStatus.INACTIVE);
+        }
+        promoteRepository.save(promote);
     }
 
     private void updateStores(Promote promote, List<Long> storeIds) {

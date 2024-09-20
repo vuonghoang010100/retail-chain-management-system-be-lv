@@ -47,6 +47,7 @@ public enum AppStatusCode {
     PURCHASE_RECEIVE_AMOUNT_MUST_BE_POSITIVE(-222, "Purchase receiveAmount must be positive", HttpStatus.BAD_REQUEST),
     INVALID_PROMOTE_TYPE(-223, "Invalid promote type", HttpStatus.BAD_REQUEST),
     INVALID_PROMOTE_STATUS(-224, "Invalid promote status", HttpStatus.BAD_REQUEST),
+    INVALID_ORDER_STATUS(-225, "Invalid order status", HttpStatus.BAD_REQUEST),
 
 
     // Unique Contraits
@@ -156,6 +157,15 @@ public enum AppStatusCode {
     PROMOTE_NOT_FOUND(-1900, "Promote not found", HttpStatus.BAD_REQUEST),
     PRODUCT_LIST_MUST_NOT_BE_EMPTY(-1901, "Product list must not be empty", HttpStatus.BAD_REQUEST),
     STORE_LIST_MUST_NOT_BE_EMPTY(-1902, "Store list must not be empty", HttpStatus.BAD_REQUEST),
+
+    // Orders API error
+    ORDER_ON_EMPLOYEE_MUST_BE_ACTIVE(-2000, "order's employee must be active", HttpStatus.BAD_REQUEST),
+    ORDER_ON_STORE_MUST_BE_ACTIVE(-2001, "Order's store must be active", HttpStatus.BAD_REQUEST),
+    PROMOTE_IS_INACTIVE(-2002, "Promote is inactive", HttpStatus.BAD_REQUEST),
+    INVALID_ORDER_CREATION_STATUS(-2003, "Invalid order creation status", HttpStatus.BAD_REQUEST),
+    INVALID_PRODUCT_QUANTITY(-2004, "Invalid product quantity", HttpStatus.BAD_REQUEST),
+    PROMOTE_MIN_QUANTITY_REQUIRED_DOES_NOT_MATCHED(-2005, "Promote's minimum quantity required does not matched", HttpStatus.BAD_REQUEST),
+    PROMOTE_MIN_AMOUNT_REQUIRED_DOES_NOT_MATCHED(-2006, "Promote's minimum amount required does not matched", HttpStatus.BAD_REQUEST),
 
     // Invoices API error
 
