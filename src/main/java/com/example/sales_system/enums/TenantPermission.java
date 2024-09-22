@@ -14,7 +14,59 @@ public enum TenantPermission {
     EMPLOYEE_CREATE("EMPLOYEE_CREATE", ""),
     EMPLOYEE_UPDATE("EMPLOYEE_UPDATE", ""),
     EMPLOYEE_DELETE("EMPLOYEE_DELETE", ""),
-    //
+    // Product
+    PO_READ("PO_READ", ""),
+    PO_CREATE("PO_CREATE", ""),
+    PO_UPDATE("PO_UPDATE", ""),
+    PO_DELETE("PO_DELETE", ""),
+
+    // Category
+    CA_READ("CA_READ", ""),
+    CA_CREATE("CA_CREATE", ""),
+    CA_UPDATE("CA_UPDATE", ""),
+    CA_DELETE("CA_DELETE", ""),
+
+    // Sale
+
+    // customer
+    CU_READ("CU_READ", ""),
+    CU_CREATE("CU_CREATE", ""),
+    CU_UPDATE("CU_UPDATE", ""),
+    CU_DELETE("CU_DELETE", ""),
+
+    // vendor
+    VE_READ("VE_READ", ""),
+    VE_CREATE("VE_CREATE", ""),
+    VE_UPDATE("VE_UPDATE", ""),
+    VE_DELETE("VE_DELETE", ""),
+
+    // contract
+    CO_READ("CO_READ", ""),
+    CO_CREATE("CO_CREATE", ""),
+    CO_UPDATE("CO_UPDATE", ""),
+    CO_DELETE("CO_DELETE", ""),
+
+    // store
+    ST_READ("ST_READ", ""),
+    ST_CREATE("ST_CREATE", ""),
+    ST_UPDATE("ST_UPDATE", ""),
+    ST_DELETE("ST_DELETE", ""),
+
+    // inventory
+    IC_READ("IC_READ", ""),
+    IC_CREATE("IC_CREATE", ""),
+
+    // promote
+    PR_READ("PR_READ", ""),
+    PR_CREATE("PR_CREATE", ""),
+    PR_UPDATE("PR_UPDATE", ""),
+    PR_DELETE("PR_DELETE", ""),
+
+    // dashboard
+    DS_READ("DS_READ", ""),
+
+    // report
+    RP_READ("RP_READ", ""),
 
     ;
     private final String name;

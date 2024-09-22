@@ -79,6 +79,7 @@ public class AuthenticationService {
                 ))
                 .claim("tenant", "admin")
                 .claim("scope", buildScope(user))
+                .claim("userId", user.getId())
                 .build();
 
         Payload payload = new Payload(jwtClaimsSet.toJSONObject());
@@ -104,6 +105,7 @@ public class AuthenticationService {
                 ))
                 .claim("tenant", tenant)
                 .claim("scope", buildScope(employee))
+                .claim("userId", employee.getId())
                 .build();
 
         Payload payload = new Payload(jwtClaimsSet.toJSONObject());
