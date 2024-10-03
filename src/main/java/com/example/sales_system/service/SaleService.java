@@ -65,9 +65,11 @@ public class SaleService {
         order.setStore(store);
 
         // customer
-        var customer = customerService.getCustomerById(request.getCustomerId());
-        if (Objects.nonNull(customer)) {
-            order.setCustomer(customer);
+        if (request.getCustomerId() != null) {
+            var customer = customerService.getCustomerById(request.getCustomerId());
+            if (Objects.nonNull(customer)) {
+                order.setCustomer(customer);
+            }
         }
 
         // details
@@ -150,10 +152,10 @@ public class SaleService {
                             var promote = usePromote.getPromote();
 
                             // check min required
-                            if (promote.getMinQuantityRequired() < quantity)
+                            if (promote.getMinQuantityRequired() != null && promote.getMinQuantityRequired() > quantity)
                                 throw new AppException(AppStatusCode.PROMOTE_MIN_QUANTITY_REQUIRED_DOES_NOT_MATCHED);
 
-                            if (promote.getMinQuantityRequired() < subDiscount)
+                            if (promote.getMinAmountRequired() != null && promote.getMinAmountRequired() > subTotal)
                                 throw new AppException(AppStatusCode.PROMOTE_MIN_AMOUNT_REQUIRED_DOES_NOT_MATCHED);
 
                             if (promote.getType().equals(PromoteType.PERCENTAGE)) {

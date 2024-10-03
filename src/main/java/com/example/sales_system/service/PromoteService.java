@@ -115,7 +115,7 @@ public class PromoteService {
         if (promote.getStatus().equals(PromoteStatus.INACTIVE))
             return false;
 
-        if (promote.getQuantity() <= 0) {
+        if (promote.getQuantity() != null && promote.getQuantity() <= 0) {
             promote.setStatus(PromoteStatus.INACTIVE);
             promoteRepository.save(promote);
             return false;

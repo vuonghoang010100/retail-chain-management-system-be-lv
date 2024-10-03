@@ -6,6 +6,7 @@ import com.example.sales_system.dto.response.AppResponse;
 import com.example.sales_system.dto.response.ListResponse;
 import com.example.sales_system.dto.response.PromoteResponse;
 import com.example.sales_system.entity.tenant.Promote;
+import com.example.sales_system.enums.PromoteStatus;
 import com.example.sales_system.service.PromoteService;
 import com.example.sales_system.specification.FilterOperator;
 import com.example.sales_system.specification.FilterSpecificationBuilder;
@@ -45,7 +46,7 @@ public class PromoteController {
             @RequestParam(required = false) Long id,
             @RequestParam(required = false) String name,
             @RequestParam(required = false) String type,
-            @RequestParam(required = false) String status,
+            @RequestParam(required = false) PromoteStatus status,
             @RequestParam(required = false) Long employeeId,
             @RequestParam(required = false) Long productId,
             @RequestParam(required = false) Long storeId
