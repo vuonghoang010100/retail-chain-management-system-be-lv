@@ -21,6 +21,7 @@ import java.util.List;
 public class PromoteCreateRequest {
     // REQUIRED
     String name;
+    String description;
     PromoteType type;
 
     Long percentage;

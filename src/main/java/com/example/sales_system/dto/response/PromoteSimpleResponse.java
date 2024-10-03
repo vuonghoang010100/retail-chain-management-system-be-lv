@@ -18,6 +18,7 @@ import java.time.LocalDate;
 public class PromoteSimpleResponse {
     Long id;
     String name;
+    String description;
 
     PromoteType type;
     Long percentage;

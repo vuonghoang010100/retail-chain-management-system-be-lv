@@ -10,4 +10,5 @@ import java.util.List;
 @Repository
 public interface PromoteRepository extends JpaRepository<Promote, Long>, JpaSpecificationExecutor<Promote> {
     List<Promote> findAllByAllStore(Boolean allStore);
+    Promote findPromoteByName(String name);
 }

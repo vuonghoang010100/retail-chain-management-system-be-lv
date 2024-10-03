@@ -23,7 +23,10 @@ public class Promote extends AbstractTimestampEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
+    @Column(nullable = false, unique = true)
     String name;
+
+    String description;
 
     @Enumerated(EnumType.STRING)
     PromoteType type;

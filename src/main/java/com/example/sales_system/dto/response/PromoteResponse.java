@@ -19,6 +19,7 @@ import java.util.Set;
 public class PromoteResponse {
     Long id;
     String name;
+    String description;
 
     PromoteType type;
     Long percentage;

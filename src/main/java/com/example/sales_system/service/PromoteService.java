@@ -64,6 +64,8 @@ public class PromoteService {
     public PromoteResponse createPromote(PromoteCreateRequest request) {
         Promote promote = promoteMapper.toPromote(request);
 
+
+
         // Status
         if (Objects.isNull(promote.getStatus()))
             promote.setStatus(PromoteStatus.ACTIVE);

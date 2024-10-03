@@ -19,6 +19,7 @@ import java.util.List;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class PromoteUpdateRequest {
     String name;
+    String description;
 
     Long percentage;
     Long maxDiscount;
