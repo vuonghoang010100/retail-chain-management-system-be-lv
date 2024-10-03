@@ -22,6 +22,10 @@ public class Invoice extends AbstractTimestampEntity {
     Long total;
 
     @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(
+            name = "order_id",
+            foreignKey = @ForeignKey(name = "fk_invoice_on_order")
+    )
     Order order;
 
     @Enumerated(EnumType.STRING)

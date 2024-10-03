@@ -29,7 +29,7 @@ public class BatchSpecifications {
         if (Objects.isNull(productName)) return null;
         return (root, query, cb) -> {
             Join<Batch, Product> join = root.join("product");
-            return cb.equal(join.get("name"), productName);
+            return cb.like(join.get("name"),"%" + productName + "%");
         };
     }
 
@@ -37,7 +37,7 @@ public class BatchSpecifications {
         if (Objects.isNull(sku)) return null;
         return (root, query, cb) -> {
             Join<Batch, Product> join = root.join("product");
-            return cb.equal(join.get("sku"), sku);
+            return cb.like(join.get("sku"), "%" + sku  + "%");
         };
     }
 }

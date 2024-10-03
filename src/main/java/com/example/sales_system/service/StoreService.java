@@ -24,6 +24,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -35,6 +36,8 @@ public class StoreService {
     StoreRepository storeRepository;
     EmployeeRepository employeeRepository;
     PromoteRepository promoteRepository;
+
+    EmployeeService employeeService;
 
     @Transactional(transactionManager = "tenantTransactionManager", readOnly = true)
     public ListResponse<StoreResponse> getAllStoreResponses(Specification<Store> spec, Pageable pageable) {
@@ -51,6 +54,16 @@ public class StoreService {
                 .data(storePage.getContent().stream().map(storeMapper::toStoreResponse).collect(Collectors.toList()))
                 .build();
     }
+    @Transactional(transactionManager = "tenantTransactionManager", readOnly = true)
+    public List<StoreResponse> getAllWorkStore(){
+        var me = employeeService.getMyinfo();
+        var workStores = me.getStores();
+        return workStores.stream()
+                .filter(store -> store.getStatus().equals(StoreStatus.ACTIVE))
+                .map(storeMapper::toStoreResponse)
+                .toList();
+    }
+
 
     @Transactional(transactionManager = "tenantTransactionManager", readOnly = true)
     public StoreResponse getStoreResponse(Long id) {

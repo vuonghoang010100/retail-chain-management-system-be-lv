@@ -21,7 +21,9 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -128,5 +130,12 @@ public class EmployeeService {
             throw exception;
         }
         return employee;
+    }
+
+    public Employee getMyinfo() {
+        log.debug("getMyinfo called");
+        var myId = (Long) ((Jwt) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getClaims().get("userId");
+
+        return getEmployeeById(myId);
     }
 }

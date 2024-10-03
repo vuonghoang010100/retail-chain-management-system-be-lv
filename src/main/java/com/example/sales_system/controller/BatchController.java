@@ -3,9 +3,7 @@ package com.example.sales_system.controller;
 import com.example.sales_system.dto.response.AppResponse;
 import com.example.sales_system.entity.tenant.Batch;
 import com.example.sales_system.service.BatchService;
-import com.example.sales_system.specification.BatchSpecifications;
-import com.example.sales_system.specification.FilterOperator;
-import com.example.sales_system.specification.FilterSpecificationBuilder;
+import com.example.sales_system.specification.*;
 import com.example.sales_system.util.SortBuilder;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -17,6 +15,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Objects;
 
 @CrossOrigin("*")
 @RestController
@@ -41,7 +41,8 @@ public class BatchController {
             @RequestParam(required = false) Long productId,
             @RequestParam(required = false) String productName,
             @RequestParam(required = false) String sku,
-            @RequestParam(required = false) Long storeId
+            @RequestParam(required = false) Long storeId,
+            @RequestParam(required = false) Boolean able
     ) {
         // Convert for fe
         page = page - 1;
@@ -56,6 +57,12 @@ public class BatchController {
                 .or(BatchSpecifications.hasProductCode(search))
                 .build();
 
+        // quantity > 0
+        var quantityFilter = Objects.nonNull(able) && able ?
+                new FilterSpecification<Batch>(new Filter("quantity", FilterOperator.GTE_LONG, 1L)) :
+                new FilterSpecification<Batch>(null);
+
+
         // Filter
         var spec = new FilterSpecificationBuilder<Batch>()
                 .and(searchSpec)
@@ -64,6 +71,7 @@ public class BatchController {
                 .and(BatchSpecifications.hasProductName(productName))
                 .and(BatchSpecifications.hasProductCode(sku))
                 .and(BatchSpecifications.hasStoreId(storeId))
+                // quantitty > 0
                 .build();
 
         return AppResponse.builder()

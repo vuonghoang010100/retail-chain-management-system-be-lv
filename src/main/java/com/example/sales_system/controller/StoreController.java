@@ -7,6 +7,7 @@ import com.example.sales_system.dto.response.ListResponse;
 import com.example.sales_system.dto.response.StoreResponse;
 import com.example.sales_system.entity.tenant.Store;
 import com.example.sales_system.enums.StoreStatus;
+import com.example.sales_system.service.EmployeeService;
 import com.example.sales_system.service.StoreService;
 import com.example.sales_system.specification.FilterOperator;
 import com.example.sales_system.specification.FilterSpecificationBuilder;
@@ -21,7 +22,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @CrossOrigin("*")
 @RestController
@@ -33,6 +38,7 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "Store", description = "The Store API.")
 public class StoreController {
     StoreService storeService;
+    EmployeeService employeeService;
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
@@ -81,6 +87,16 @@ public class StoreController {
 
         return AppResponse.<ListResponse<StoreResponse>>builder()
                 .result(storeService.getAllStoreResponses(spec, pageable))
+                .build();
+    }
+
+    @GetMapping("/work")
+    @ResponseStatus(HttpStatus.OK)
+
+    public AppResponse<List<StoreResponse>> getAllStores2(
+    ) {
+        return AppResponse.<List<StoreResponse>>builder()
+                .result(storeService.getAllWorkStore())
                 .build();
     }
 
