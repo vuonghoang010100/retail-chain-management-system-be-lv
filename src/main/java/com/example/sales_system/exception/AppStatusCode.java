@@ -168,6 +168,8 @@ public enum AppStatusCode {
     PROMOTE_MIN_AMOUNT_REQUIRED_DOES_NOT_MATCHED(-2006, "Promote's minimum amount required does not matched", HttpStatus.BAD_REQUEST),
 
     // Invoices API error
+    ORDER_NOT_FOUND(-2007, "Order not found", HttpStatus.BAD_REQUEST),
+    INVOICE_NOT_FOUND(-2008, "Invoice not found", HttpStatus.BAD_REQUEST),
 
     // x API error
 

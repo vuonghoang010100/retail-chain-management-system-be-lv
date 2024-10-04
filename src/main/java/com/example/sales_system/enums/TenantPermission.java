@@ -27,6 +27,7 @@ public enum TenantPermission {
     CA_DELETE("CA_DELETE", ""),
 
     // Sale
+    SALE_READ("SALE_READ", ""),
 
     // customer
     CU_READ("CU_READ", ""),

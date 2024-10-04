@@ -20,6 +20,7 @@ public class OrderResponse {
     Long tax;
     Long taxPercentage;
     Long subTotal;
+    Long discount;
     Long total;
     OrderStatus status;
 

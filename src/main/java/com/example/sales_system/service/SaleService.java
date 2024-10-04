@@ -1,18 +1,26 @@
 package com.example.sales_system.service;
 
 import com.example.sales_system.dto.request.OrderCreateRequest;
+import com.example.sales_system.dto.request.OrderUpdateRequest;
+import com.example.sales_system.dto.response.InvoiceResponse;
+import com.example.sales_system.dto.response.ListResponse;
 import com.example.sales_system.dto.response.OrderResponse;
 import com.example.sales_system.entity.tenant.*;
 import com.example.sales_system.enums.*;
 import com.example.sales_system.exception.AppException;
 import com.example.sales_system.exception.AppStatusCode;
+import com.example.sales_system.mapper.InvoiceMapper;
 import com.example.sales_system.mapper.OrderMapper;
 import com.example.sales_system.repository.tenant.*;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.HashSet;
@@ -20,12 +28,14 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @Slf4j
 public class SaleService {
+    private final InvoiceMapper invoiceMapper;
     OrderRepository orderRepository;
     OrderDetailRepository orderDetailRepository;
     OrderUsePromoteRepository orderUsePromoteRepository;
@@ -41,7 +51,7 @@ public class SaleService {
     OrderMapper orderMapper;
     private final PromoteService promoteService;
 
-
+    @Transactional(transactionManager = "tenantTransactionManager")
     public OrderResponse createOrder(OrderCreateRequest request) {
         // 1. Save info
         Order order = orderMapper.toOrder(request);
@@ -215,4 +225,56 @@ public class SaleService {
         order = orderRepository.save(order);
         return orderMapper.toOrderResponse(order);
     }
+
+
+    @Transactional(transactionManager = "tenantTransactionManager")
+    public OrderResponse updateOrder(Long orderId, OrderUpdateRequest request) {
+        var order = orderRepository.findById(orderId).orElseThrow(() -> new AppException(AppStatusCode.ORDER_NOT_FOUND));
+
+        var invoice = order.getInvoice();
+        invoice.setPaymentStatus(request.getPaymentStatus());
+        invoiceRepository.save(invoice);
+
+        order.setStatus(request.getStatus());
+        order = orderRepository.save(order);
+
+        return orderMapper.toOrderResponse(order);
+    }
+
+    @Transactional(transactionManager = "tenantTransactionManager", readOnly = true)
+    public ListResponse<OrderResponse> getAllOrders(Specification<Order> specification, Pageable pageable) {
+        Page<Order> page = orderRepository.findAll(specification, pageable);
+
+        return ListResponse.<OrderResponse>builder()
+                .size(page.getSize())
+                .page(page.getNumber() + 1)
+                .total(page.getTotalElements())
+                .numOfElements(page.getNumberOfElements())
+                .totalPages(page.getTotalPages())
+                .data(page.getContent().stream().map(orderMapper::toOrderResponse).collect(Collectors.toList()))
+                .build();
+    }
+
+    @Transactional(transactionManager = "tenantTransactionManager", readOnly = true)
+    public OrderResponse getOrder(Long orderId) {
+        var order = orderRepository.findById(orderId).orElseThrow(() -> new AppException(AppStatusCode.ORDER_NOT_FOUND));
+        return orderMapper.toOrderResponse(order);
+    }
+
+
+    @Transactional(transactionManager = "tenantTransactionManager", readOnly = true)
+    public ListResponse<InvoiceResponse> getAllInvoices(Specification<Invoice> specification, Pageable pageable) {
+        Page<Invoice> page = invoiceRepository.findAll(specification, pageable);
+
+        return ListResponse.<InvoiceResponse>builder()
+                .size(page.getSize())
+                .page(page.getNumber() + 1)
+                .total(page.getTotalElements())
+                .numOfElements(page.getNumberOfElements())
+                .totalPages(page.getTotalPages())
+                .data(page.getContent().stream().map(invoiceMapper::toInvoiceResponse).collect(Collectors.toList()))
+                .build();
+    }
+
+
 }
