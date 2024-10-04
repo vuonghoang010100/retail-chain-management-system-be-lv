@@ -14,6 +14,7 @@ import com.example.sales_system.repository.master.UserRepository;
 import com.example.sales_system.repository.tenant.EmployeeRepository;
 import com.example.sales_system.repository.tenant.PermissionRepository;
 import com.example.sales_system.repository.tenant.RoleRepository;
+import com.example.sales_system.service.LookupService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationRunner;
@@ -37,6 +38,7 @@ public class ApplicationInitialConfig {
     private final EmployeeRepository employeeRepository;
     private final RoleRepository roleRepository;
     private final PermissionRepository permissionRepository;
+    private final LookupService lookupService;
 
     private final PasswordEncoder passwordEncoder;
 
@@ -51,13 +53,14 @@ public class ApplicationInitialConfig {
             UserRepository userRepository,
             EmployeeRepository employeeRepository,
             RoleRepository roleRepository,
-            PermissionRepository permissionRepository, PasswordEncoder passwordEncoder) {
+            PermissionRepository permissionRepository, LookupService lookupService, PasswordEncoder passwordEncoder) {
         this.tenantRepository = tenantRepository;
         this.masterRoleRepository = masterRoleRepository;
         this.userRepository = userRepository;
         this.employeeRepository = employeeRepository;
         this.roleRepository = roleRepository;
         this.permissionRepository = permissionRepository;
+        this.lookupService = lookupService;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -89,6 +92,9 @@ public class ApplicationInitialConfig {
                             .build();
                     userRepository.save(user);
                 }
+
+                // create loopup test
+                lookupService.initTestSchema();
 
                 // Create default tenant
                 final String DEFAULT_TENANT = CurrentTenantIdentifierResolverImpl.DEFAULT_TENANT_ID;

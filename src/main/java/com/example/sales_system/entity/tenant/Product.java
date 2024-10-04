@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -54,4 +55,15 @@ public class Product extends AbstractTimestampEntity {
 
     @OneToMany(mappedBy = "product")
     Set<Batch> batchs;
+
+    @Transient
+    @Builder.Default
+    Long stock = 0L;
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) return false;
+        if (!(obj instanceof Product)) return false;
+        return Objects.equals(id, ((Product) obj).id);
+    }
 }

@@ -22,6 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin("*")
@@ -37,7 +38,7 @@ public class ProductController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-
+    @PreAuthorize("hasRole('ADMIN') or hasAuthority('PRODUCT')")
     public AppResponse<ListResponse<ProductResponse>> getAllProducts(
             @RequestParam(required = false, defaultValue = "1") int page,
             @RequestParam(required = false, defaultValue = "10") int size,
@@ -91,7 +92,7 @@ public class ProductController {
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-
+    @PreAuthorize("hasRole('ADMIN') or hasAuthority('PRODUCT')")
     public AppResponse<ProductResponse> getProduct(@PathVariable Long id) {
         return AppResponse.<ProductResponse>builder()
                 .result(productService.getProduct(id))
@@ -100,7 +101,7 @@ public class ProductController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-
+    @PreAuthorize("hasRole('ADMIN') or hasAuthority('PRODUCT')")
     public AppResponse<ProductResponse> createProduct(@RequestBody @Valid ProductCreateRequest request) {
         return AppResponse.<ProductResponse>builder()
                 .result(productService.createProduct(request))
@@ -109,7 +110,7 @@ public class ProductController {
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-
+    @PreAuthorize("hasRole('ADMIN') or hasAuthority('PRODUCT')")
     public AppResponse<ProductResponse> updateProduct(@PathVariable Long id, @RequestBody @Valid ProductUpdateRequest request) {
         return AppResponse.<ProductResponse>builder()
                 .result(productService.updateProduct(id, request))
@@ -118,7 +119,7 @@ public class ProductController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-
+    @PreAuthorize("hasRole('ADMIN') or hasAuthority('PRODUCT')")
     public void deleteProduct(@PathVariable Long id) {
         productService.deleteProduct(id);
     }

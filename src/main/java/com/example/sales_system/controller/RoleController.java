@@ -35,7 +35,7 @@ public class RoleController {
     RoleService roleService;
 
     @GetMapping
-    @PreAuthorize("hasRole('ADMIN') or hasAuthority('ROLE_READ')")
+    @PreAuthorize("hasRole('ADMIN') or hasAuthority('ROLE')")
     public AppResponse<ListResponse<RoleResponse>> getAllRoles(
             @RequestParam(required = false, defaultValue = "1") int page,
             @RequestParam(required = false, defaultValue = "10") int size,
@@ -59,7 +59,7 @@ public class RoleController {
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN') or hasAuthority('ROLE_READ')")
+    @PreAuthorize("hasRole('ADMIN') or hasAuthority('ROLE')")
     public AppResponse<RoleResponse> getRoleById(@PathVariable Long id) {
         return AppResponse.<RoleResponse>builder()
                 .result(roleService.getRoleResponse(id))
@@ -68,7 +68,7 @@ public class RoleController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    @PreAuthorize("hasRole('ADMIN') or hasAuthority('ROLE_CREATE')")
+    @PreAuthorize("hasRole('ADMIN') or hasAuthority('ROLE')")
     public AppResponse<RoleResponse> createRole(@RequestBody @Valid RoleCreateRequest request) {
         return AppResponse.<RoleResponse>builder()
                 .result(roleService.createRole(request))
@@ -76,7 +76,7 @@ public class RoleController {
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN') or hasAuthority('ROLE_UPDATE')")
+    @PreAuthorize("hasRole('ADMIN') or hasAuthority('ROLE')")
     public AppResponse<RoleResponse> updateRole(@RequestBody @Valid RoleUpdateRequest request, @PathVariable Long id) {
         return AppResponse.<RoleResponse>builder()
                 .result(roleService.updateRole(request, id))
@@ -85,7 +85,7 @@ public class RoleController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @PreAuthorize("hasRole('ADMIN') or hasAuthority('ROLE_DELETE')")
+    @PreAuthorize("hasRole('ADMIN') or hasAuthority('ROLE')")
     public void deleteRole(@PathVariable Long id) {
         roleService.deleteRole(id);
     }

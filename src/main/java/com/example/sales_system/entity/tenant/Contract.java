@@ -9,6 +9,7 @@ import lombok.experimental.FieldDefaults;
 import java.time.LocalDate;
 
 @Entity
+@Table(name = "contract")
 @Getter
 @Setter
 @Builder

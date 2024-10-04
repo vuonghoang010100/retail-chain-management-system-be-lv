@@ -70,7 +70,7 @@ public class CustomerService {
     }
 
     // ----- Helper functions -----
-    private Customer getCustomerById(Long id) {
+    public Customer getCustomerById(Long id) {
         return customerRepository.findById(id)
                 .orElseThrow(() -> new AppException(AppStatusCode.CUSTOMER_NOT_FOUND));
     }

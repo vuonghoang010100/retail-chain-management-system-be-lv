@@ -11,6 +11,7 @@ import com.example.sales_system.exception.AppStatusCode;
 import com.example.sales_system.mapper.ProductMapper;
 import com.example.sales_system.repository.tenant.CategoryRepository;
 import com.example.sales_system.repository.tenant.ProductRepository;
+import com.example.sales_system.repository.tenant.PromoteRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -32,6 +33,7 @@ import java.util.stream.Collectors;
 public class ProductService {
     ProductRepository productRepository;
     CategoryRepository categoryRepository;
+    PromoteRepository promoteRepository;
     ProductMapper productMapper;
     S3Service s3Service;
 
@@ -41,6 +43,17 @@ public class ProductService {
 
         Page<Product> page = productRepository.findAll(specification, pageable);
 
+        var products = page.getContent().stream()
+                .map(product -> {
+                    Long totalProduct = product.getBatchs()
+                            .stream()
+                            .reduce(0L, (acc, ele) -> acc + ele.getQuantity(), Long::sum);
+                    product.setStock(totalProduct);
+                    return product;
+                })
+                .map(productMapper::toProductResponse)
+                .toList();
+
         return ListResponse.<ProductResponse>builder()
                 .size(page.getSize())
                 .page(page.getNumber() + 1)
@@ -48,6 +61,7 @@ public class ProductService {
                 .numOfElements(page.getNumberOfElements())
                 .totalPages(page.getTotalPages())
                 .data(page.getContent().stream().map(productMapper::toProductResponse).collect(Collectors.toList()))
+                .data(products)
                 .build();
     }
 
@@ -113,7 +127,7 @@ public class ProductService {
 
     // ----- Helper functions -----
 
-    private Product getProductById(Long id) {
+    public Product getProductById(Long id) {
         return productRepository.findById(id)
                 .orElseThrow(() -> new AppException(AppStatusCode.PRODUCT_NOT_FOUND));
     }

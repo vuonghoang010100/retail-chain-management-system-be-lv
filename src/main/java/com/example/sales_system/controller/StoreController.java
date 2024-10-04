@@ -7,6 +7,7 @@ import com.example.sales_system.dto.response.ListResponse;
 import com.example.sales_system.dto.response.StoreResponse;
 import com.example.sales_system.entity.tenant.Store;
 import com.example.sales_system.enums.StoreStatus;
+import com.example.sales_system.service.EmployeeService;
 import com.example.sales_system.service.StoreService;
 import com.example.sales_system.specification.FilterOperator;
 import com.example.sales_system.specification.FilterSpecificationBuilder;
@@ -21,7 +22,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @CrossOrigin("*")
 @RestController
@@ -33,10 +39,11 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "Store", description = "The Store API.")
 public class StoreController {
     StoreService storeService;
+    EmployeeService employeeService;
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-
+    @PreAuthorize("hasRole('ADMIN') or hasAuthority('STORE')")
     public AppResponse<ListResponse<StoreResponse>> getAllStores(
             @RequestParam(required = false, defaultValue = "1") int page,
             @RequestParam(required = false, defaultValue = "10") int size,
@@ -84,9 +91,19 @@ public class StoreController {
                 .build();
     }
 
+    @GetMapping("/work")
+    @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasRole('ADMIN') or hasAuthority('STORE')")
+    public AppResponse<List<StoreResponse>> getAllStores2(
+    ) {
+        return AppResponse.<List<StoreResponse>>builder()
+                .result(storeService.getAllWorkStore())
+                .build();
+    }
+
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-
+    @PreAuthorize("hasRole('ADMIN') or hasAuthority('STORE')")
     public AppResponse<StoreResponse> getStoreById(@PathVariable Long id) {
         return AppResponse.<StoreResponse>builder()
                 .result(storeService.getStoreResponse(id))
@@ -95,7 +112,7 @@ public class StoreController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-
+    @PreAuthorize("hasRole('ADMIN') or hasAuthority('STORE')")
     public AppResponse<StoreResponse> createStore(@RequestBody @Valid StoreCreateRequest request) {
         return AppResponse.<StoreResponse>builder()
                 .result(storeService.createStore(request))
@@ -104,7 +121,7 @@ public class StoreController {
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-
+    @PreAuthorize("hasRole('ADMIN') or hasAuthority('STORE')")
     public AppResponse<StoreResponse> updateStore(@PathVariable Long id, @RequestBody @Valid StoreUpdateRequest request) {
         return AppResponse.<StoreResponse>builder()
                 .result(storeService.updateStore(id, request))
@@ -113,7 +130,7 @@ public class StoreController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-
+    @PreAuthorize("hasRole('ADMIN') or hasAuthority('STORE')")
     public void deleteStore(@PathVariable Long id) {
         storeService.deleteStore(id);
     }

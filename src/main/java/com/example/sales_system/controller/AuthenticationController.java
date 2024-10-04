@@ -9,6 +9,7 @@ import com.example.sales_system.dto.response.UserWithTenantResponse;
 import com.example.sales_system.exception.AppException;
 import com.example.sales_system.exception.AppStatusCode;
 import com.example.sales_system.service.AuthenticationService;
+import com.example.sales_system.service.LookupService;
 import com.example.sales_system.service.TenantService;
 import com.example.sales_system.service.UserSevice;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -31,6 +32,7 @@ public class AuthenticationController {
     AuthenticationService authenticationService;
     TenantService tenantService;
     UserSevice userSevice;
+    LookupService lookupService;
 
     @PostMapping("/signup")
     @ResponseStatus(HttpStatus.CREATED)
@@ -54,8 +56,9 @@ public class AuthenticationController {
             var tenant = tenantService.getTenantByName(resquest.getTenant());
             if (!tenant.getActive())
                 throw new AppException(AppStatusCode.TENANT_INACTIVE);
-            // Set tenant context
-            TenantContext.setTenantId(tenant.getName());
+//            // Set tenant context
+            var schema = lookupService.getSchema(tenant.getName());
+            TenantContext.setTenantId(schema);
             // authenticate
             authenticationRespone = authenticationService.authenticateTenantApp(resquest);
         }

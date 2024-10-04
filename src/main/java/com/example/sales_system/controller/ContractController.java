@@ -22,6 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin("*")
@@ -37,7 +38,7 @@ public class ContractController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-
+    @PreAuthorize("hasRole('ADMIN') or hasAuthority('CONTRACT')")
     public AppResponse<ListResponse<ContractResponse>> getAllContracts(
             @RequestParam(required = false, defaultValue = "1") int page,
             @RequestParam(required = false, defaultValue = "10") int size,
@@ -75,7 +76,7 @@ public class ContractController {
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-
+    @PreAuthorize("hasRole('ADMIN') or hasAuthority('CONTRACT')")
     public AppResponse<ContractResponse> getContractById(@PathVariable Long id) {
         return AppResponse.<ContractResponse>builder()
                 .result(contractService.getContract(id))
@@ -85,7 +86,7 @@ public class ContractController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-
+    @PreAuthorize("hasRole('ADMIN') or hasAuthority('CONTRACT')")
     public AppResponse<ContractResponse> createContract(@RequestBody @Valid ContractCreateRequest request) {
         return AppResponse.<ContractResponse>builder()
                 .result(contractService.createContract(request))
@@ -95,7 +96,7 @@ public class ContractController {
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-
+    @PreAuthorize("hasRole('ADMIN') or hasAuthority('CONTRACT')")
     public AppResponse<ContractResponse> updateContract(@PathVariable Long id, @RequestBody @Valid ContractUpdateRequest request) {
         return AppResponse.<ContractResponse>builder()
                 .result(contractService.updateContract(id, request))
@@ -105,7 +106,7 @@ public class ContractController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-
+    @PreAuthorize("hasRole('ADMIN') or hasAuthority('CONTRACT')")
     public void deleteContract(@PathVariable Long id) {
         contractService.deleteContract(id);
     }

@@ -26,6 +26,7 @@ import org.springframework.util.CollectionUtils;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
+import java.util.Objects;
 import java.util.StringJoiner;
 
 @Service
@@ -46,6 +47,9 @@ public class AuthenticationService {
         if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
             throw new AppException(AppStatusCode.EMAIL_PASSWORD_INCORRECT);
         }
+
+        if (user.getRoles().stream().filter(ele -> Objects.equals(ele.getName(), "SYSTEM_ADMIN")).toList().isEmpty())
+            throw new AppException(AppStatusCode.EMAIL_PASSWORD_INCORRECT);
 
         var token = generateToken(user);
         return AuthenticationRespone.builder()
@@ -79,6 +83,7 @@ public class AuthenticationService {
                 ))
                 .claim("tenant", "admin")
                 .claim("scope", buildScope(user))
+                .claim("userId", user.getId())
                 .build();
 
         Payload payload = new Payload(jwtClaimsSet.toJSONObject());
@@ -100,10 +105,11 @@ public class AuthenticationService {
                 .subject(employee.getEmail())
                 .issueTime(new Date())
                 .expirationTime(new Date(
-                        Instant.now().plus(1, ChronoUnit.HOURS).toEpochMilli()
+                        Instant.now().plus(12, ChronoUnit.HOURS).toEpochMilli()
                 ))
                 .claim("tenant", tenant)
                 .claim("scope", buildScope(employee))
+                .claim("userId", employee.getId())
                 .build();
 
         Payload payload = new Payload(jwtClaimsSet.toJSONObject());
@@ -146,5 +152,7 @@ public class AuthenticationService {
         });
         return stringJoiner.toString();
     }
+
+
 
 }

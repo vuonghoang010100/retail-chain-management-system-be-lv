@@ -37,6 +37,18 @@ public enum AppStatusCode {
     INVALID_FILE_EXTENSION(-212, "Invalid file extension", HttpStatus.BAD_REQUEST),
     INVALID_VENDOR_STATUS(-213, "Invalid vendor status", HttpStatus.BAD_REQUEST),
     INVALID_CONTRACT_STATUS(-214, "Invalid contract status", HttpStatus.BAD_REQUEST),
+    INVALID_PURCHASE_STATUS(-215, "Invalid purchase status", HttpStatus.BAD_REQUEST),
+    INVALID_PAYMENT_STATUS(-216, "Invalid payment status", HttpStatus.BAD_REQUEST),
+    INVALID_RECEIVE_STATUS(-217, "Invalid receive status", HttpStatus.BAD_REQUEST),
+    INVALID_PURCHASE_DETAILS(-218, "Invalid purchase details", HttpStatus.BAD_REQUEST),
+    CANT_NOT_UPDATE_PURCHASE(-219, "Can't update purchase", HttpStatus.BAD_REQUEST),
+    ONLY_RECEIVE_PURCHASE_WITH_STATUS_PENDING(-220, "Only receive purchase with status pending", HttpStatus.BAD_REQUEST),
+    PURCHASE_RECEIVE_AMOUNT_IS_REQUIRED(-221, "Purchase receiveAmount is required", HttpStatus.BAD_REQUEST),
+    PURCHASE_RECEIVE_AMOUNT_MUST_BE_POSITIVE(-222, "Purchase receiveAmount must be positive", HttpStatus.BAD_REQUEST),
+    INVALID_PROMOTE_TYPE(-223, "Invalid promote type", HttpStatus.BAD_REQUEST),
+    INVALID_PROMOTE_STATUS(-224, "Invalid promote status", HttpStatus.BAD_REQUEST),
+    INVALID_ORDER_STATUS(-225, "Invalid order status", HttpStatus.BAD_REQUEST),
+
 
     // Unique Contraits
     EMAIL_ALREADY_EXISTED(-300, "Email already existed", HttpStatus.BAD_REQUEST),
@@ -65,16 +77,33 @@ public enum AppStatusCode {
     END_DATE_IS_REQUIRED(-416, "End date is required", HttpStatus.BAD_REQUEST),
     PERIOD_IS_REQUIRED(-417, "Period is required", HttpStatus.BAD_REQUEST),
     PERIOD_MUST_BE_POSITIVE(-418, "Period must be positive", HttpStatus.BAD_REQUEST),
-    VENDORID_ID_REQUIRED(-419, "Vendorid id is required", HttpStatus.BAD_REQUEST),
+    VENDOR_ID_REQUIRED(-419, "Vendor id is required", HttpStatus.BAD_REQUEST),
+    USE_CONTRACT_IS_REQUIRED(-420, "Use contract is required", HttpStatus.BAD_REQUEST),
+    CONTRACT_ID_IS_REQUIRED(-421, "Contract is required", HttpStatus.BAD_REQUEST),
+    STORE_ID_REQUIRED(-422, "Store id is required", HttpStatus.BAD_REQUEST),
+    EMPLOYEE_ID_REQUIRED(-423, "Employee id is required", HttpStatus.BAD_REQUEST),
+    PURCHASE_DETAILS_REQUIRED(-424, "Purchase details is required", HttpStatus.BAD_REQUEST),
+    PRODUCT_ID_IS_REQUIRED(-425, "Product id is required", HttpStatus.BAD_REQUEST),
+    PURCHASE_PRICE_IS_REQUIRED(-426, "Purchase price is required", HttpStatus.BAD_REQUEST),
+    PURCHASE_PRICE_MUST_BE_POSITIVE(-427, "Purchase price must be positive", HttpStatus.BAD_REQUEST),
+    PURCHASE_AMOUNT_IS_REQUIRED(-428, "Purchase amount is required", HttpStatus.BAD_REQUEST),
+    PURCHASE_AMOUNT_MUST_BE_POSITIVE(-429, "Purchase amount must be positive", HttpStatus.BAD_REQUEST),
+    PURCHASE_RECEIVE_MUST_NOT_BE_NOT_RECEIVED(-430, "Purchase receive must be not be not received", HttpStatus.BAD_REQUEST),
+    PURCHASE_LIST_ID_IS_REQUIRED(-431, "Purchase list id is required", HttpStatus.BAD_REQUEST),
+    PAYMENT_STATUS_IS_REQUIRED(-432, "Payment status is required", HttpStatus.BAD_REQUEST),
+    BATCH_ID_IS_REQUIRED(-433, "Batch id is required", HttpStatus.BAD_REQUEST),
+    REAL_QUANTITY_IS_REQUIRED(-434, "Real quantity is required", HttpStatus.BAD_REQUEST),
+    INVENTORY_DETAILS_REQUIRED(-434, "Inventory's details is required", HttpStatus.BAD_REQUEST),
+
 
     // Multitenant API error
     TENANT_NOT_FOUND(-500, "Tenant not found", HttpStatus.NOT_FOUND),
     TENANT_INACTIVE(-501, "Tenant inactived", HttpStatus.BAD_REQUEST),
 
-    // Master Managerment API error
+    // Master Management API error
 
 
-    // Empoloyees API error
+    // Employees API error
     EMPLOYEE_NOT_FOUND(-700, "Employee not found", HttpStatus.NOT_FOUND),
 
 
@@ -100,7 +129,47 @@ public enum AppStatusCode {
     // Contract API error
     CONTRACT_NOT_FOUND(-1400, "Contract not found", HttpStatus.NOT_FOUND),
 
+    // Purchase API error
+    PURCHASE_NOT_FOUND(-1500, "Purchase not found", HttpStatus.NOT_FOUND),
+    PURCHASE_ON_VENDOR_MUST_BE_ACTIVE(-1501, "Purchase's vendor must be active", HttpStatus.BAD_REQUEST),
+    PURCHASE_ON_CONTRACT_MUST_BE_ACTIVE(-1502, "Purchase's contract must be active", HttpStatus.BAD_REQUEST),
+    PURCHASE_ON_STORE_MUST_BE_ACTIVE(-1503, "Purchase's store must be active", HttpStatus.BAD_REQUEST),
+    PURCHASE_ON_EMPLOYEE_MUST_BE_ACTIVE(-1504, "Purchase's employee must be active", HttpStatus.BAD_REQUEST),
+    PURCHASE_ON_PRODUCT_MUST_BE_ACTIVE(-1505, "Purchase's product must be active", HttpStatus.BAD_REQUEST),
+    INVALID_UPDATE_PURCHASE_STATUS(-1506, "Invalid update purchase status: PENDING, COMPLETE", HttpStatus.BAD_REQUEST),
+
+    // Bill API error
+    BILL_EMPLOYEE_MUST_BE_ACTIVE(-1600, "Bill's employee must be active", HttpStatus.BAD_REQUEST),
+    BILL_PURCHASE_MUST_BE_UNPAID(-1601, "Bill's purchase must be unpaid", HttpStatus.BAD_REQUEST),
+    BILL_NOT_FOUND(-1602, "Bill not found", HttpStatus.BAD_REQUEST),
+    BILL_PAYMENT_STATUS_CAN_NOT_REVERT(-1603, "Bill's payment status can not revert", HttpStatus.BAD_REQUEST),
+    UNABLE_TO_DELETE_PAID_BILL(-1604, "Unable to delete paid bill", HttpStatus.BAD_REQUEST),
+
+    // Inventory API error
+    INVENTORY_NOT_FOUND(-1700, "Inventory not found", HttpStatus.BAD_REQUEST),
+
+    // Batch API error
+    BATCH_NOT_FOUND(-1800, "Batch not found", HttpStatus.BAD_REQUEST),
+    INVENTORY_DETAIL_MUST_NOT_BE_EMPTY(-1801, "Inventory's details must not be empty", HttpStatus.BAD_REQUEST),
+    BATCH_MUST_BE_IN_THE_SAME_STORE(-1802, "Batch's store must be in same store", HttpStatus.BAD_REQUEST),
+
+    // Promote API error
+    PROMOTE_NOT_FOUND(-1900, "Promote not found", HttpStatus.BAD_REQUEST),
+    PRODUCT_LIST_MUST_NOT_BE_EMPTY(-1901, "Product list must not be empty", HttpStatus.BAD_REQUEST),
+    STORE_LIST_MUST_NOT_BE_EMPTY(-1902, "Store list must not be empty", HttpStatus.BAD_REQUEST),
+
+    // Orders API error
+    ORDER_ON_EMPLOYEE_MUST_BE_ACTIVE(-2000, "order's employee must be active", HttpStatus.BAD_REQUEST),
+    ORDER_ON_STORE_MUST_BE_ACTIVE(-2001, "Order's store must be active", HttpStatus.BAD_REQUEST),
+    PROMOTE_IS_INACTIVE(-2002, "Promote is inactive", HttpStatus.BAD_REQUEST),
+    INVALID_ORDER_CREATION_STATUS(-2003, "Invalid order creation status", HttpStatus.BAD_REQUEST),
+    INVALID_PRODUCT_QUANTITY(-2004, "Invalid product quantity", HttpStatus.BAD_REQUEST),
+    PROMOTE_MIN_QUANTITY_REQUIRED_DOES_NOT_MATCHED(-2005, "Promote's minimum quantity required does not matched", HttpStatus.BAD_REQUEST),
+    PROMOTE_MIN_AMOUNT_REQUIRED_DOES_NOT_MATCHED(-2006, "Promote's minimum amount required does not matched", HttpStatus.BAD_REQUEST),
+
     // Invoices API error
+    ORDER_NOT_FOUND(-2007, "Order not found", HttpStatus.BAD_REQUEST),
+    INVOICE_NOT_FOUND(-2008, "Invoice not found", HttpStatus.BAD_REQUEST),
 
     // x API error
 

@@ -21,13 +21,13 @@ public class Batch extends AbstractTimestampEntity {
     Long id;
 
     @Column(nullable = false)
-    int quantity;
+    Long quantity;
 
     @Column(name = "purchase_amount")
-    int purchaseAmount;
+    Long purchaseAmount;
 
     @Column(name = "purchase_price", nullable = false)
-    int purchasePrice;
+    Long purchasePrice;
 
     @Temporal(TemporalType.DATE)
     LocalDate mfg;
