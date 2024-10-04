@@ -22,6 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin("*")
@@ -37,7 +38,7 @@ public class PromoteController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-
+    @PreAuthorize("hasRole('ADMIN') or hasAuthority('PROMOTE')")
     public AppResponse<ListResponse<PromoteResponse>> getAllPromotes(
             @RequestParam(required = false, defaultValue = "1") int page,
             @RequestParam(required = false, defaultValue = "10") int size,
@@ -82,7 +83,7 @@ public class PromoteController {
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-
+    @PreAuthorize("hasRole('ADMIN') or hasAuthority('PROMOTE')")
     public AppResponse<PromoteResponse> getPromoteById(@PathVariable Long id) {
         return AppResponse.<PromoteResponse>builder()
                 .result(promoteService.getPromote(id))
@@ -91,7 +92,7 @@ public class PromoteController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-
+    @PreAuthorize("hasRole('ADMIN') or hasAuthority('PROMOTE')")
     public AppResponse<PromoteResponse> createPromote(@RequestBody @Valid PromoteCreateRequest request) {
         return AppResponse.<PromoteResponse>builder()
                 .result(promoteService.createPromote(request))
@@ -100,7 +101,7 @@ public class PromoteController {
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-
+    @PreAuthorize("hasRole('ADMIN') or hasAuthority('PROMOTE')")
     public AppResponse<PromoteResponse> updatePromote(@PathVariable Long id, @RequestBody @Valid PromoteUpdateRequest request) {
         return AppResponse.<PromoteResponse>builder()
                 .result(promoteService.updatePromote(id, request))
@@ -109,7 +110,7 @@ public class PromoteController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-
+    @PreAuthorize("hasRole('ADMIN') or hasAuthority('PROMOTE')")
     public void deletePromote(@PathVariable Long id) {
         promoteService.deletePromote(id);
     }

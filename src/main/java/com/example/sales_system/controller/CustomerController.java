@@ -21,6 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -38,7 +39,7 @@ public class CustomerController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-
+    @PreAuthorize("hasRole('ADMIN') or hasAuthority('CUSTOMER')")
     public AppResponse<ListResponse<CustomerResponse>> getAllCustomers(
             @RequestParam(required = false, defaultValue = "1") int page,
             @RequestParam(required = false, defaultValue = "10") int size,
@@ -100,7 +101,7 @@ public class CustomerController {
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-
+    @PreAuthorize("hasRole('ADMIN') or hasAuthority('CUSTOMER')")
     public AppResponse<CustomerResponse> getCustomerById(@PathVariable Long id) {
         return AppResponse.<CustomerResponse>builder()
                 .result(customerService.getCustomerResponse(id))
@@ -110,7 +111,7 @@ public class CustomerController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-
+    @PreAuthorize("hasRole('ADMIN') or hasAuthority('CUSTOMER')")
     public AppResponse<CustomerResponse> createCustomer(@RequestBody @Valid CustomerCreateRequest request) {
         return AppResponse.<CustomerResponse>builder()
                 .result(customerService.createCustomer(request))
@@ -120,7 +121,7 @@ public class CustomerController {
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-
+    @PreAuthorize("hasRole('ADMIN') or hasAuthority('CUSTOMER')")
     public AppResponse<CustomerResponse> updateCustomer(@PathVariable Long id, @RequestBody @Valid CustomerUpdateRequest request) {
         return AppResponse.<CustomerResponse>builder()
                 .result(customerService.updateCustomer(id, request))
@@ -129,7 +130,7 @@ public class CustomerController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-
+    @PreAuthorize("hasRole('ADMIN') or hasAuthority('CUSTOMER')")
     public void deleteCustomer(@PathVariable Long id) {
         customerService.deleteCustomer(id);
     }

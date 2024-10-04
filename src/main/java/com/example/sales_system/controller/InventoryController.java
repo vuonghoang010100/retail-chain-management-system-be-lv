@@ -20,6 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin("*")
@@ -35,7 +36,7 @@ public class InventoryController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-
+    @PreAuthorize("hasRole('ADMIN') or hasAuthority('INVENTORY_CHECK')")
     public AppResponse<ListResponse<InventoryResponse>> getAllInventory(
             @RequestParam(required = false, defaultValue = "1") int page,
             @RequestParam(required = false, defaultValue = "10") int size,
@@ -73,7 +74,7 @@ public class InventoryController {
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-
+    @PreAuthorize("hasRole('ADMIN') or hasAuthority('INVENTORY_CHECK')")
     public AppResponse<InventoryResponse> getInventory(@PathVariable Long id) {
         return AppResponse.<InventoryResponse>builder()
                 .result(inventoryService.getInventory(id))
@@ -82,7 +83,7 @@ public class InventoryController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-
+    @PreAuthorize("hasRole('ADMIN') or hasAuthority('INVENTORY_CHECK')")
     public AppResponse<InventoryResponse> createInventory(@RequestBody @Valid InventoryCreateRequest request) {
         return AppResponse.<InventoryResponse>builder()
                 .result(inventoryService.createInventory(request))

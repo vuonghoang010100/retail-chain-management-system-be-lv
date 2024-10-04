@@ -25,6 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -42,7 +43,7 @@ public class PurchaseController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-
+    @PreAuthorize("hasRole('ADMIN') or hasAuthority('PURCHASE')")
     public AppResponse<ListResponse<PurchaseResponse>> getAllPurchases(
             @RequestParam(required = false, defaultValue = "1") int page,
             @RequestParam(required = false, defaultValue = "10") int size,
@@ -114,7 +115,7 @@ public class PurchaseController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-
+    @PreAuthorize("hasRole('ADMIN') or hasAuthority('PURCHASE')")
     public AppResponse<PurchaseResponse> createPurchase(@RequestBody @Valid PurchaseCreateRequest request) {
         return AppResponse.<PurchaseResponse>builder()
                 .result(purchaseService.createPurchase(request))
@@ -124,7 +125,7 @@ public class PurchaseController {
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-
+    @PreAuthorize("hasRole('ADMIN') or hasAuthority('PURCHASE')")
     public AppResponse<PurchaseResponse> updatePurchase(@PathVariable Long id, @RequestBody @Valid PurchaseUpdateRequest request) {
         return AppResponse.<PurchaseResponse>builder()
                 .result(purchaseService.updatePurchase(id, request))
@@ -134,7 +135,7 @@ public class PurchaseController {
 
     @PostMapping("/{id}/receive")
     @ResponseStatus(HttpStatus.OK)
-
+    @PreAuthorize("hasRole('ADMIN') or hasAuthority('PURCHASE')")
     public AppResponse<PurchaseResponse> receivePurchase(@PathVariable Long id, @RequestBody @Valid PurchaseReceiveRequest request) {
         return AppResponse.<PurchaseResponse>builder()
                 .result(purchaseService.receivePurchase(id, request))

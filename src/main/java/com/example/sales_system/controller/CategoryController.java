@@ -19,6 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin("*")
@@ -34,7 +35,7 @@ public class CategoryController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-
+    @PreAuthorize("hasRole('ADMIN') or hasAuthority('CATEGORY')")
     public AppResponse<ListResponse<CategoryResponse>> getAllCategories(
             @RequestParam(required = false, defaultValue = "1") int page,
             @RequestParam(required = false, defaultValue = "10") int size,
@@ -59,7 +60,7 @@ public class CategoryController {
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-
+    @PreAuthorize("hasRole('ADMIN') or hasAuthority('CATEGORY')")
     public AppResponse<CategoryResponse> getCategoryById(@PathVariable Long id) {
         return AppResponse.<CategoryResponse>builder()
                 .result(categoryService.getResponseResponseById(id))
@@ -68,7 +69,7 @@ public class CategoryController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-
+    @PreAuthorize("hasRole('ADMIN') or hasAuthority('CATEGORY')")
     public AppResponse<CategoryResponse> createCategory(@RequestBody CategoryCreateRequest request) {
         return AppResponse.<CategoryResponse>builder()
                 .result(categoryService.createCategory(request))
@@ -77,7 +78,7 @@ public class CategoryController {
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-
+    @PreAuthorize("hasRole('ADMIN') or hasAuthority('CATEGORY')")
     public AppResponse<CategoryResponse> updateCategory(@PathVariable Long id, @RequestBody CategoryUpdateRequest request) {
         return AppResponse.<CategoryResponse>builder()
                 .result(categoryService.updateCategory(id, request))
@@ -86,7 +87,7 @@ public class CategoryController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-
+    @PreAuthorize("hasRole('ADMIN') or hasAuthority('CATEGORY')")
     public void deleteCategory(@PathVariable Long id) {
         categoryService.deleteCategory(id);
     }

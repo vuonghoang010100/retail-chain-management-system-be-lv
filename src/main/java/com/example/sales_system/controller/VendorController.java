@@ -22,6 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin("*")
@@ -37,7 +38,7 @@ public class VendorController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-
+    @PreAuthorize("hasRole('ADMIN') or hasAuthority('VENDOR')")
     public AppResponse<ListResponse<VendorResponse>> getAllVendors(
             @RequestParam(required = false, defaultValue = "1") int page,
             @RequestParam(required = false, defaultValue = "10") int size,
@@ -88,7 +89,7 @@ public class VendorController {
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-
+    @PreAuthorize("hasRole('ADMIN') or hasAuthority('VENDOR')")
     public AppResponse<VendorWithContractResponse> getVendorById(@PathVariable Long id) {
         return AppResponse.<VendorWithContractResponse>builder()
                 .result(vendorService.getVendorResponse(id))
@@ -98,7 +99,7 @@ public class VendorController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-
+    @PreAuthorize("hasRole('ADMIN') or hasAuthority('VENDOR')")
     public AppResponse<VendorResponse> createVendor(@RequestBody @Valid VendorCreateRequest request) {
         return AppResponse.<VendorResponse>builder()
                 .result(vendorService.createVendor(request))
@@ -108,7 +109,7 @@ public class VendorController {
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-
+    @PreAuthorize("hasRole('ADMIN') or hasAuthority('VENDOR')")
     public AppResponse<VendorResponse> updateVendor(@PathVariable Long id, @RequestBody @Valid VendorUpdateRequest request) {
         return AppResponse.<VendorResponse>builder()
                 .result(vendorService.updateVendor(id, request))
@@ -118,7 +119,7 @@ public class VendorController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-
+    @PreAuthorize("hasRole('ADMIN') or hasAuthority('VENDOR')")
     public void deleteVendor(@PathVariable Long id) {
         vendorService.deleteVendor(id);
     }

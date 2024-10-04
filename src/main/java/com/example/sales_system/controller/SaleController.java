@@ -23,6 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin("*")
@@ -48,7 +49,7 @@ public class SaleController {
 
     @GetMapping("/orders")
     @ResponseStatus(HttpStatus.OK)
-
+    @PreAuthorize("hasRole('ADMIN') or hasAuthority('SALES')")
     public AppResponse<ListResponse<OrderResponse>> getAllOrders(
             @RequestParam(required = false, defaultValue = "1") int page,
             @RequestParam(required = false, defaultValue = "10") int size,
@@ -82,7 +83,7 @@ public class SaleController {
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-
+    @PreAuthorize("hasRole('ADMIN') or hasAuthority('SALES')")
     public AppResponse<OrderResponse> updateOrder(@PathVariable Long id,@RequestBody @Valid OrderUpdateRequest request) {
         return AppResponse.<OrderResponse>builder()
                 .result(saleService.updateOrder(id, request))
@@ -93,7 +94,7 @@ public class SaleController {
 
     @GetMapping("/orders/{id}")
     @ResponseStatus(HttpStatus.OK)
-
+    @PreAuthorize("hasRole('ADMIN') or hasAuthority('SALES')")
     public AppResponse<OrderResponse> getOrder(@PathVariable Long id) {
         return AppResponse.<OrderResponse>builder()
                 .result(saleService.getOrder(id))
@@ -103,7 +104,7 @@ public class SaleController {
 
     @GetMapping("/invoices")
     @ResponseStatus(HttpStatus.OK)
-
+    @PreAuthorize("hasRole('ADMIN') or hasAuthority('SALES')")
     public AppResponse<ListResponse<InvoiceResponse>> getAllInvoices(
             @RequestParam(required = false, defaultValue = "1") int page,
             @RequestParam(required = false, defaultValue = "10") int size,
