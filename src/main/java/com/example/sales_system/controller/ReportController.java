@@ -112,14 +112,14 @@ public class ReportController {
                         "COALESCE(SUM(od.sub_total), 0) AS TongDoanhThu, " +
                         "COALESCE(SUM(od.sub_total - b.purchase_price * od.quantity), 0) AS LoiNhuan " +
                         "FROM product p " +
-                        "LEFT JOIN order_detail od ON p.id = od.product_id " +
-                        "LEFT JOIN orders o ON od.order_id = o.id AND DATE(o.create_time) BETWEEN ?1 AND ?2 AND o.store_id = ?3 " +
+                        "LEFT JOIN order_detail od ON p.id = od.product_id AND od.store_id = ?1 " +
+                        "LEFT JOIN orders o ON od.order_id = o.id AND DATE(o.create_time) BETWEEN ?2 AND ?3 " +
                         "LEFT JOIN batch b ON od.batch_id = b.id " +
                         "GROUP BY p.id, p.name " +
                         "ORDER BY p.id, p.name";
 
         Query query = entityManager.createNativeQuery(sql);
-        query.setParameter(1, from).setParameter(2, to).setParameter(3, storeId);
+        query.setParameter(1, storeId).setParameter(2, from).setParameter(3, to);
         return query.getResultList();
     }
 
@@ -159,8 +159,8 @@ public class ReportController {
                         "COALESCE(SUM(od.sub_total - b.purchase_price * od.quantity), 0) AS LoiNhuan " +
                         "FROM category c " +
                         "LEFT JOIN product p ON c.id = p.category_id " +
-                        "LEFT JOIN order_detail od ON p.id = od.product_id " +
-                        "LEFT JOIN orders o ON od.order_id = o.id AND DATE(o.create_time) BETWEEN ?1 AND ?2 AND o.store_id = ?3 " +
+                        "LEFT JOIN order_detail od ON p.id = od.product_id AND od.store_id = ?3 " +
+                        "LEFT JOIN orders o ON od.order_id = o.id AND DATE(o.create_time) BETWEEN ?1 AND ?2  " +
                         "LEFT JOIN batch b ON od.batch_id = b.id " +
                         "GROUP BY c.name " +
                         "ORDER BY c.name";
@@ -205,8 +205,8 @@ public class ReportController {
                         "COALESCE(SUM(od.sub_total), 0) AS TongDoanhThu, " +
                         "COALESCE(SUM(od.sub_total - b.purchase_price * od.quantity), 0) AS LoiNhuan " +
                         "FROM employee e " +
-                        "LEFT JOIN orders o ON e.id = o.employee_id AND DATE(o.create_time) BETWEEN ?1 AND ?2 " +
-                        "LEFT JOIN order_detail od ON o.id = od.order_id AND o.store_id = ?3 " +
+                        "LEFT JOIN orders o ON e.id = o.employee_id AND DATE(o.create_time) BETWEEN ?1 AND ?2 AND o.store_id = ?3 " +
+                        "LEFT JOIN order_detail od ON o.id = od.order_id  " +
                         "LEFT JOIN batch b ON od.batch_id = b.id " +
                         "GROUP BY e.id, e.full_name " +
                         "ORDER BY e.id, e.full_name";
@@ -339,10 +339,10 @@ public class ReportController {
     ) {
         String sql =
                 "SELECT " +
-                        "s.id," +
+                        "s.id, " +
                         "s.name AS TenCuaHang, " +
                         "COUNT(p.id) AS TongSoDonNhap, " +
-                        "COALESCE(SUM(pd.sub_total), 0) AS TongGiaTriNhap, " +
+                        "COALESCE(SUM(pd.sub_total), 0) AS TongGiaTriNhap " +
                         "FROM store s " +
                         "LEFT JOIN purchase p ON s.id = p.store_id AND DATE(p.create_time) BETWEEN ?1 AND ?2 " +
                         "LEFT JOIN purchase_detail pd ON p.id = pd.purchase_id " +
