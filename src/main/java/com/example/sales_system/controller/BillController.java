@@ -22,6 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin("*")
@@ -37,7 +38,7 @@ public class BillController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-
+    @PreAuthorize("hasRole('ADMIN') or hasAuthority('PURCHASE')")
     public AppResponse<ListResponse<BillResponse>> getAllBills(
             @RequestParam(required = false, defaultValue = "1") int page,
             @RequestParam(required = false, defaultValue = "10") int size,
@@ -81,7 +82,7 @@ public class BillController {
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-
+    @PreAuthorize("hasRole('ADMIN') or hasAuthority('PURCHASE')")
     public AppResponse<BillResponse> getBill(@PathVariable Long id) {
         return AppResponse.<BillResponse>builder()
                 .result(billService.getBill(id))
@@ -90,7 +91,7 @@ public class BillController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-
+    @PreAuthorize("hasRole('ADMIN') or hasAuthority('PURCHASE')")
     public AppResponse<BillResponse> createBill(@RequestBody @Valid BillCreateRequest request) {
         return AppResponse.<BillResponse>builder()
                 .result(billService.createBill(request))
@@ -99,7 +100,7 @@ public class BillController {
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-
+    @PreAuthorize("hasRole('ADMIN') or hasAuthority('PURCHASE')")
     public AppResponse<BillResponse> updateBill(@PathVariable Long id, @RequestBody @Valid BillUpdateRequest request) {
         return AppResponse.<BillResponse>builder()
                 .result(billService.updateBill(id, request))
@@ -108,7 +109,7 @@ public class BillController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-
+    @PreAuthorize("hasRole('ADMIN') or hasAuthority('PURCHASE')")
     public void deleteBill(@PathVariable Long id) {
         billService.deleteBill(id);
     }

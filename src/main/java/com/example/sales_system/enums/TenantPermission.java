@@ -69,28 +69,28 @@ public enum TenantPermission {
 //    // report
 //    RP_READ("RP_READ", ""),
 
-    DASHBOARD("DASHBOARD", "Dashboard"),
+    DASHBOARD("DASHBOARD", "Xem Dashboard"),
 
-    PRODUCT("PRODUCT", "Product"),
-    CATEGORY("CATEGORY", "Category"),
+    PRODUCT("PRODUCT", "Quản lý sản phẩm"),
+    CATEGORY("CATEGORY", "Quản lý nhóm sản phẩm"),
 
-    SALES("SALES", "Sales"),
+    SALES("SALES", "Bán hàng"),
 
-    PURCHASE("PURCHASE", "Purchase"),
+    PURCHASE("PURCHASE", "Quản lý nhập hàng"),
 
-    CUSTOMER("CUSTOMER", "Customer"),
+    CUSTOMER("CUSTOMER", "Quản lý khách hàng"),
 
-    VENDOR("VENDOR", "Vendor"),
-    CONTRACT("CONTRACT", "Contract"),
+    VENDOR("VENDOR", "Quản lý nhà cung cấp"),
+    CONTRACT("CONTRACT", "Quản lý hợp đồng"),
 
-    STORE("STORE", "Store"),
-    TRANSFER("TRANSFER", "Transfer"),
-    INVENTORY_CHECK("INVENTORY_CHECK", "Inventory Check"),
+    STORE("STORE", "Quản lý cửa hàng"),
+    TRANSFER("TRANSFER", "Quản lý đơn vận chuyển"),
+    INVENTORY_CHECK("INVENTORY_CHECK", "Quản lý kiểm kho"),
 
-    EMPLOYEE("EMPLOYEE", "Employee"),
-    ROLE("ROLE", "Role"),
-    PROMOTE("PROMOTE", "Promote"),
-    REPORT("REPORT", "Report"),
+    EMPLOYEE("EMPLOYEE", "Quản lý nhân viên"),
+    ROLE("ROLE", "Quản lý phân quyền"),
+    PROMOTE("PROMOTE", "Quản lý khuyến mãi"),
+    REPORT("REPORT", "Xem báo cáo"),
 
     ;
     private final String name;

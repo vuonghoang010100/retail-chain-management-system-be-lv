@@ -52,6 +52,11 @@ public class TenantService {
         return tenants.stream().map(tenantMapper::toTenantResponse).toList();
     }
 
+    public TenantResponse getTenantById(Long id) {
+        Tenant tenant = getTenant(id);
+        return tenantMapper.toTenantResponse(tenant);
+    }
+
     public void active(Tenant tenant) {
         tenant.setInitStatus(true);
         tenant.setActive(true);
@@ -104,7 +109,7 @@ public class TenantService {
         Employee employee = Employee.builder()
                 .fullName(user.getFullName())
                 .dob(user.getDob())
-                .gender(Gender.valueOf(user.getGender()))
+//                .gender(Gender.valueOf(user.getGender()))
                 .email(user.getEmail())
                 .phone(user.getPhone())
                 .password(user.getPassword())

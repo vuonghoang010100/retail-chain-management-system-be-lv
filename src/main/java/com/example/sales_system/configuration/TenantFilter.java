@@ -1,5 +1,6 @@
 package com.example.sales_system.configuration;
 
+import com.example.sales_system.service.LookupService;
 import com.nimbusds.jwt.SignedJWT;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -16,6 +17,11 @@ import java.text.ParseException;
 @Component
 @Slf4j
 public class TenantFilter extends OncePerRequestFilter {
+    private final LookupService lookupService;
+
+    public TenantFilter(LookupService lookupService) {
+        this.lookupService = lookupService;
+    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain) throws ServletException, IOException {
@@ -26,7 +32,13 @@ public class TenantFilter extends OncePerRequestFilter {
             try {
                 SignedJWT signedJWT = SignedJWT.parse(bearerToken);
                 Object tenant = signedJWT.getJWTClaimsSet().getClaim("tenant");
-                TenantContext.setTenantId(tenant.toString());
+//                TenantContext.setTenantId(tenant.toString());
+
+                String tenantName = tenant.toString();
+                if (! tenantName.equals("admin")) {
+                    tenantName = lookupService.getSchema(tenantName);
+                }
+                TenantContext.setTenantId(tenantName);
 
             } catch (ParseException e) {
                 throw new RuntimeException(e);

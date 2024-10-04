@@ -36,7 +36,7 @@ public class TranserDetail {
     @ManyToOne
     @JoinColumn(
             name = "to_batch_id",
-            foreignKey = @ForeignKey(name = "fk_transfer_detail_on_from_batch")
+            foreignKey = @ForeignKey(name = "fk_transfer_detail_on_to_batch")
     )
     Batch toBatch;
 

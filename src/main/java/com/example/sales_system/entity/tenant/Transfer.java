@@ -27,7 +27,7 @@ public class Transfer {
     @ManyToOne
     @JoinColumn(
             name = "to_store_id",
-            foreignKey = @ForeignKey(name = "fk_inventory_on_to_store")
+            foreignKey = @ForeignKey(name = "fk_transfer_on_to_store")
     )
     Store toStore;
 
