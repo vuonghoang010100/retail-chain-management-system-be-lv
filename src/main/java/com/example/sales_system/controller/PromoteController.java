@@ -46,6 +46,7 @@ public class PromoteController {
             @RequestParam(required = false) String search,
             @RequestParam(required = false) Long id,
             @RequestParam(required = false) String name,
+            @RequestParam(required = false) String description,
             @RequestParam(required = false) String type,
             @RequestParam(required = false) PromoteStatus status,
             @RequestParam(required = false) Long employeeId,
@@ -69,6 +70,7 @@ public class PromoteController {
                 .and(searchSpec)
                 .and("id", FilterOperator.TO_STRING_LIKE, id)
                 .and("name", FilterOperator.LIKE, name)
+                .and("description", FilterOperator.LIKE, description)
                 .and("type", FilterOperator.EQUAL, type)
                 .and("status", FilterOperator.EQUAL, status)
                 .and(PromoteSpecifications.hasEmployee(employeeId))

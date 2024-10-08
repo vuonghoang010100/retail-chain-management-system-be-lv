@@ -1,5 +1,6 @@
 package com.example.sales_system.entity.tenant;
 
+import com.example.sales_system.entity.AbstractTimestampEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -12,7 +13,7 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class TranserDetail {
+public class TransferDetail  extends AbstractTimestampEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;

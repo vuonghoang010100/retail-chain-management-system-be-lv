@@ -1,8 +1,12 @@
 package com.example.sales_system.entity.tenant;
 
+import com.example.sales_system.entity.AbstractTimestampEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "transfer")
@@ -12,10 +16,13 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Transfer {
+public class Transfer  extends AbstractTimestampEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
+
+    String status;
+    String note;
 
     @ManyToOne
     @JoinColumn(
@@ -38,4 +45,7 @@ public class Transfer {
     )
     Employee employee;
 
+
+    @OneToMany(mappedBy = "transfer")
+    private Set<TransferDetail> details;
 }

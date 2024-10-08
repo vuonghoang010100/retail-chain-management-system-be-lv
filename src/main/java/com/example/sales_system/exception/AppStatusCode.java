@@ -94,6 +94,8 @@ public enum AppStatusCode {
     BATCH_ID_IS_REQUIRED(-433, "Batch id is required", HttpStatus.BAD_REQUEST),
     REAL_QUANTITY_IS_REQUIRED(-434, "Real quantity is required", HttpStatus.BAD_REQUEST),
     INVENTORY_DETAILS_REQUIRED(-434, "Inventory's details is required", HttpStatus.BAD_REQUEST),
+    QUANTITY_IS_REQUIRED(-435, "Quantity is required", HttpStatus.BAD_REQUEST),
+    DETAILS_IS_REQUIRED(-436, "Details is required", HttpStatus.BAD_REQUEST),
 
 
     // Multitenant API error
@@ -172,7 +174,12 @@ public enum AppStatusCode {
     INVOICE_NOT_FOUND(-2008, "Invoice not found", HttpStatus.BAD_REQUEST),
 
     // x API error
-
+    TRANSFER_NOT_FOUND(-2100, "Transfer not found", HttpStatus.BAD_REQUEST),
+    INVALID_TRANSFER_STATUS(-2101, "Invalid transfer status", HttpStatus.BAD_REQUEST),
+    INVALID_QUANTITY(-2102, "Invalid quantity", HttpStatus.BAD_REQUEST),
+    TRANSFER_DETAIL_MUST_NOT_BE_EMPTY(-2103, "Transfer's details must not be empty", HttpStatus.BAD_REQUEST),
+    CANNOT_UPDATE_COMPLETE_TRANSFER(-2104, "Can't update complete transfer", HttpStatus.BAD_REQUEST),
+    CANNOT_UPDATE_CANCEL_TRANSFER(-2105, "Can't update cancel transfer", HttpStatus.BAD_REQUEST),
 
     ;
     private final int code;
