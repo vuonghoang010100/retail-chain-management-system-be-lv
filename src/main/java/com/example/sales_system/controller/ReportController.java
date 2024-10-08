@@ -448,29 +448,32 @@ public class ReportController {
             @RequestParam(required = false) LocalDate to
     ) {
         String sql =
-                "WITH consumption_rate AS ( " +
-                        "SELECT p.id AS product_id, p.name AS product_name, SUM(od.quantity) AS total_quantity_sold " +
+                "WITH RevenuePerProduct AS ( " +
+                        "SELECT p.id AS ProductID, p.name AS TenSanPham, COALESCE(SUM(od.quantity), 0) AS TongDoanhThu " +
                         "FROM product p " +
                         "LEFT JOIN order_detail od ON p.id = od.product_id " +
-                        "LEFT JOIN orders o ON od.order_id = o.id " +
-                        "WHERE DATE(o.create_time) BETWEEN ?1 AND ?2 " +
+                        "LEFT JOIN orders o ON od.order_id = o.id AND DATE(o.create_time) BETWEEN ?1 AND ?2 " +
                         "GROUP BY p.id, p.name), " +
-                        "consumption_ratio AS ( " +
-                        "SELECT product_id, product_name, total_quantity_sold, " +
-                        "total_quantity_sold * 1.0 / SUM(total_quantity_sold) OVER () AS consumption_ratio " +
-                        "FROM consumption_rate), " +
-                        "cumulative_consumption AS ( " +
-                        "SELECT product_id, product_name, total_quantity_sold, consumption_ratio, " +
-                        "SUM(consumption_ratio) OVER (ORDER BY total_quantity_sold DESC) AS cumulative_consumption_ratio " +
-                        "FROM consumption_ratio) " +
-                        "SELECT product_id, product_name, total_quantity_sold, consumption_ratio, cumulative_consumption_ratio, " +
+                        "RankedRevenue AS ( " +
+                        "SELECT ProductID, TenSanPham, TongDoanhThu, " +
+                        "RANK() OVER (ORDER BY TongDoanhThu DESC) AS Rank, " +
+                        "SUM(TongDoanhThu) OVER () AS TotalRevenue " +
+                        "FROM RevenuePerProduct), " +
+                        "CumulativeRevenue AS ( " +
+                        "SELECT ProductID, TenSanPham, TongDoanhThu, Rank, TotalRevenue, " +
+                        "SUM(TongDoanhThu) OVER (ORDER BY Rank) AS CumulativeRevenue, " +
+                        "(SUM(TongDoanhThu) OVER (ORDER BY Rank) / TotalRevenue) * 100 AS CumulativePercentage " +
+                        "FROM RankedRevenue) " +
+                        "SELECT ProductID, TenSanPham, TongDoanhThu, " +
+                        "(TongDoanhThu / TotalRevenue) * 100 AS RevenueRatio, " +
+                        "CumulativePercentage, " +
                         "CASE " +
-                        "WHEN cumulative_consumption_ratio <= 0.75 THEN 'Fast-moving' " +
-                        "WHEN cumulative_consumption_ratio <= 0.95 THEN 'Slow-moving' " +
+                        "WHEN CumulativePercentage <= 75 THEN 'Fast-moving' " +
+                        "WHEN CumulativePercentage <= 95 THEN 'Slow-moving' " +
                         "ELSE 'Non-moving' " +
-                        "END AS fsn_category " +
-                        "FROM cumulative_consumption " +
-                        "ORDER BY total_quantity_sold DESC";
+                        "END AS ABC_Category " +
+                        "FROM CumulativeRevenue " +
+                        "ORDER BY Rank";
 
         Query query = entityManager.createNativeQuery(sql);
         query.setParameter(1, from).setParameter(2, to);

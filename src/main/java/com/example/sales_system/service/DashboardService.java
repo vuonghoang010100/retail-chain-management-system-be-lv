@@ -149,7 +149,7 @@ public class DashboardService {
                 "LEFT JOIN orders o ON od.order_id = o.id AND DATE(o.create_time) BETWEEN ?1 AND ?2 " +
                 "LEFT JOIN batch b ON od.batch_id = b.id " +
                 "GROUP BY p.id, p.name " +
-                "ORDER BY TongDoanhThu DESC " +
+                "ORDER BY TongSoLuongBan DESC " +
                 "LIMIT 10";
 
         Query query = entityManager.createNativeQuery(sql);
